@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.mmtran.turtlesoccer.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_associations"
+        android:name="com.mmtran.turtlesoccer.ui.associations.AssociationsFragment"
+        android:label="@string/title_associations"
+        tools:layout="@layout/fragment_associations" />
 
     <fragment
         android:id="@+id/navigation_notifications"

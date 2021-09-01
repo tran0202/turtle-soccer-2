@@ -1,4 +1,4 @@
-package com.mmtran.turtlesoccer.ui.dashboard;
+package com.mmtran.turtlesoccer.ui.associations;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,24 +12,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.mmtran.turtlesoccer.R;
-import com.mmtran.turtlesoccer.databinding.FragmentDashboardBinding;
+import com.mmtran.turtlesoccer.databinding.FragmentAssociationsBinding;
 
-public class DashboardFragment extends Fragment {
+public class AssociationsFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
-    private FragmentDashboardBinding binding;
+    private AssociationsViewModel associationsViewModel;
+    private FragmentAssociationsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+        associationsViewModel =
+                new ViewModelProvider(this).get(AssociationsViewModel.class);
 
-        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        binding = FragmentAssociationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        associationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

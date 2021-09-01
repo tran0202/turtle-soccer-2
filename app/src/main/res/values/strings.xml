@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Turtle Soccer</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_associations">Associations</string>
     <string name="title_notifications">Notifications</string>
-    <string name="text_home">It\'s known as football for the rest of the world. In America, we call it Soccer!</string>
+    <string name="text_home">It\'s known as football in the world. In America, we call it Soccer!</string>
 </resources>
