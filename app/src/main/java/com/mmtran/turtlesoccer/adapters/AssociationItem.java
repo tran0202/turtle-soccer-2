@@ -1,24 +1,19 @@
 package com.mmtran.turtlesoccer.adapters;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.mmtran.turtlesoccer.R;
 import com.mmtran.turtlesoccer.databinding.RowAssociationBinding;
+import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader;
 import com.mmtran.turtlesoccer.models.Nation;
 
 public class AssociationItem extends ListItem {
 
     private RowAssociationBinding binding;
     private Nation nation;
+    private FirebaseStorageLoader firebaseStorageLoader;
 
     public AssociationItem(Nation nation) {
         this.nation = nation;
@@ -31,7 +26,10 @@ public class AssociationItem extends ListItem {
         binding = RowAssociationBinding.inflate(inflater, parent, false);
         View root = binding.getRoot();
 
-        binding.associationFlag.setImageDrawable(context.getDrawable(R.drawable.turtle_soccer_logo));
+        firebaseStorageLoader = new FirebaseStorageLoader();
+        firebaseStorageLoader.init(context);
+        firebaseStorageLoader.loadImage(context, binding.associationFlag, "flags/640px-Flag_of_the_United_States.svg.png");
+
         binding.associationId.setText(nation.getId());
 
         return root;

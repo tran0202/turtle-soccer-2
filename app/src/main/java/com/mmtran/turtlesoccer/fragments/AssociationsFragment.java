@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.mmtran.turtlesoccer.R;
@@ -44,7 +41,7 @@ public class AssociationsFragment extends Fragment {
         binding = FragmentAssociationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        associationsAdapter = new AssociationsAdapter(getActivity());
+        associationsAdapter = new AssociationsAdapter(getContext());
         binding.associationList.setAdapter(associationsAdapter);
         associationsAdapter.setData(nationList);
 
