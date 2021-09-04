@@ -7,13 +7,13 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/navigation_confederations"
+        android:icon="@drawable/world_50"
+        android:title="@string/title_confederations" />
+
+    <item
         android:id="@+id/navigation_associations"
         android:icon="@drawable/flag_64"
         android:title="@string/title_associations" />
-
-    <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
 
 </menu>

@@ -2,6 +2,8 @@
     <string name="app_name">Turtle Soccer</string>
     <string name="title_home">Home</string>
     <string name="title_associations">Associations</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="text_home">It\'s known as football in the world. In America, we call it Soccer!</string>
+    <string name="title_confederations">Confederations</string>
+    <string name="toolbar_associations">National Associations</string>
+    <string name="toolbar_confederations">FIFA &amp; Regional Confederations</string>
+    <string name="text_home">It\'s known as football everywhere in the world. In America, we call it Soccer!</string>
 </resources>

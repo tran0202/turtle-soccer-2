@@ -1,4 +1,4 @@
-package com.mmtran.turtlesoccer.ui.home;
+package com.mmtran.turtlesoccer.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.mmtran.turtlesoccer.databinding.FragmentHomeBinding;
+import com.mmtran.turtlesoccer.models.HomeViewModel;
 
 public class HomeFragment extends Fragment {
 
@@ -27,25 +28,9 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-//    @Override
-//    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-//        buildActionBar(getLayoutInflater(), actionBar, R.layout.toolbar_home);
-//    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-
-//    private void buildActionBar (LayoutInflater inflater, ActionBar actionBar, Integer toolBar) {
-//        ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER);
-//        View customActionBar = inflater.inflate(toolBar, null);
-//        if (actionBar != null) {
-//            actionBar.setCustomView(customActionBar, layoutParams);
-//            actionBar.setDisplayShowCustomEnabled(true);
-//        }
-//    }
 }

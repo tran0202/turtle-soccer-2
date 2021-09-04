@@ -1,16 +1,16 @@
-package com.mmtran.turtlesoccer.ui.associations;
+package com.mmtran.turtlesoccer.models;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class AssociationsViewModel extends ViewModel {
+public class ConfederationsViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public AssociationsViewModel() {
+    public ConfederationsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
+        mText.setValue("FIFA and Regional Confederations");
     }
 
     public LiveData<String> getText() {

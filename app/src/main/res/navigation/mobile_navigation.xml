@@ -7,19 +7,20 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.mmtran.turtlesoccer.ui.home.HomeFragment"
+        android:name="com.mmtran.turtlesoccer.fragments.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_confederations"
+        android:name="com.mmtran.turtlesoccer.fragments.ConfederationsFragment"
+        android:label="@string/title_confederations"
+        tools:layout="@layout/fragment_confederations" />
+
+    <fragment
         android:id="@+id/navigation_associations"
-        android:name="com.mmtran.turtlesoccer.ui.associations.AssociationsFragment"
+        android:name="com.mmtran.turtlesoccer.fragments.AssociationsFragment"
         android:label="@string/title_associations"
         tools:layout="@layout/fragment_associations" />
 
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.mmtran.turtlesoccer.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
 </navigation>
