@@ -6,9 +6,9 @@
     "parentNationId": "",
     "confederationId": "AFC",
     "nationTypeId": "NATN",
-    "flagFilename": "Afghanistan.png",
-    "startDate": "1973-07-16",
-    "endDate": ""
+    "flagFilename": "Flag_of_Afghanistan_(2013–2021).svg",
+    "startDate": "2013-08-19",
+    "endDate": "2021-08-15"
   },
   {
     "id": "AFG-1931-1973",
@@ -17,7 +17,7 @@
     "parentNationId": "AFG",
     "confederationId": "AFC",
     "nationTypeId": "NATN",
-    "flagFilename": "Afghanistan_1931_1973.png",
+    "flagFilename": "Flag_of_Afghanistan_(1931–1973).svg",
     "code": "AFG",
     "startDate": "1930-03-27",
     "endDate": "1973-07-16"
@@ -3455,7 +3455,7 @@
     "parentNationId": "",
     "confederationId": "CONCACAF",
     "nationTypeId": "NATN",
-    "flagFilename": "640px-Flag_of_the_United_States.svg.png",
+    "flagFilename": "Flag_of_the_United_States.svg",
     "startDate": "",
     "endDate": ""
   },

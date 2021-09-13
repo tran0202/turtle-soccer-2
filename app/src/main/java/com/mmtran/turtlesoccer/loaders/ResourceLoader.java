@@ -17,15 +17,10 @@ public class ResourceLoader {
 
     private Resources resources;
 
-    private Nation[] nations;
     private List<Nation> nationList;
 
     public ResourceLoader(Resources resources) {
         this.resources = resources;
-    }
-
-    public ResourceLoader(Nation[] nations) {
-        this.nations = nations;
     }
 
     public List<Nation> getNations() {
@@ -34,7 +29,7 @@ public class ResourceLoader {
         String jsonString = readTextFile(XmlFileInputStream);
         Gson gson = new Gson();
 
-        nations =  gson.fromJson(jsonString, Nation[].class);
+        Nation[] nations =  gson.fromJson(jsonString, Nation[].class);
         nationList = Arrays.asList(nations);
 
         return nationList;
@@ -44,10 +39,6 @@ public class ResourceLoader {
         return getNations().stream().filter(nation ->
                 nation.getParentNationId().isEmpty() && nation.getConfederationId() != null && !nation.getConfederationId().isEmpty())
                 .collect(Collectors.toList());
-    }
-
-    public void setNations(Nation[] nations) {
-        this.nations = nations;
     }
 
     public String readTextFile(InputStream inputStream) {

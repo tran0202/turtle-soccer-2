@@ -28,7 +28,7 @@ public class AssociationItem extends ListItem {
 
         firebaseStorageLoader = new FirebaseStorageLoader();
         firebaseStorageLoader.init(context);
-        firebaseStorageLoader.loadImage(context, binding.associationFlag, "flags/640px-Flag_of_the_United_States.svg.png");
+        firebaseStorageLoader.loadImage(context, binding.associationFlag, "flags/Flag_of_the_United_States.svg");
 
         binding.associationId.setText(nation.getId());
 
