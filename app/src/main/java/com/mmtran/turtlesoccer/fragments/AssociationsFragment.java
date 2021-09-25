@@ -15,42 +15,28 @@ import com.mmtran.turtlesoccer.R;
 import com.mmtran.turtlesoccer.adapters.AssociationsAdapter;
 import com.mmtran.turtlesoccer.databinding.FragmentAssociationsBinding;
 import com.mmtran.turtlesoccer.loaders.FirestoreLoader;
-import com.mmtran.turtlesoccer.loaders.ResourceLoader;
 import com.mmtran.turtlesoccer.models.AssociationsViewModel;
-import com.mmtran.turtlesoccer.models.Nation;
 import com.mmtran.turtlesoccer.utils.ActionBarUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AssociationsFragment extends Fragment {
 
     private AssociationsViewModel associationsViewModel;
     private FragmentAssociationsBinding binding;
-    private ResourceLoader resourceLoader;
-    private FirestoreLoader dataLoader;
-    private List<Nation> nationList = new ArrayList<Nation>();
     private AssociationsAdapter associationsAdapter;
-    private static final String TAG = "Association Fragments";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        resourceLoader = new ResourceLoader(getResources());
-        nationList = resourceLoader.getActiveNations();
+        associationsViewModel = new ViewModelProvider(this).get(AssociationsViewModel.class);
 
-        dataLoader = new FirestoreLoader();
-        dataLoader.getNations(nationList);
-
-        associationsViewModel =
-                new ViewModelProvider(this).get(AssociationsViewModel.class);
+        FirestoreLoader dataLoader = new FirestoreLoader();
+        dataLoader.getActiveNations(associationsViewModel);
 
         binding = FragmentAssociationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         associationsAdapter = new AssociationsAdapter(getContext());
         binding.associationList.setAdapter(associationsAdapter);
-        associationsAdapter.setData(nationList);
 
         return root;
     }
@@ -62,6 +48,10 @@ public class AssociationsFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         ActionBarUtil.buildActionBar(getLayoutInflater(), actionBar, R.layout.toolbar_associations);
         actionBar.setTitle(R.string.toolbar_associations);
+
+        associationsViewModel.getNationList().observe(getViewLifecycleOwner(), nationList -> {
+            associationsAdapter.setData(nationList);
+        });
     }
 
     @Override

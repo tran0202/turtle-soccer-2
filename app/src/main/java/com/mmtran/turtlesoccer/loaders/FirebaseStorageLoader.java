@@ -24,6 +24,7 @@ public class FirebaseStorageLoader {
         StorageReference imagesRef = storageReference.child(filename);
         GlideApp.with(context)
                 .load(imagesRef)
+                .centerInside()
                 .into(imageView);
     }
 }

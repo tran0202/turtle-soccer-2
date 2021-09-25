@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment {
 
         firebaseStorageLoader = new FirebaseStorageLoader();
         firebaseStorageLoader.init(getContext());
-        firebaseStorageLoader.loadImage(getActivity(), binding.logoHome, "turtle_soccer_logo.png");
+        firebaseStorageLoader.loadImage(getActivity(), binding.logoHome, "logos/Turtle_Soccer_logo.png");
         firebaseStorageLoader.loadImage(getActivity(), binding.heroImage, "soccer_ts1475731972.jpg");
     }
 

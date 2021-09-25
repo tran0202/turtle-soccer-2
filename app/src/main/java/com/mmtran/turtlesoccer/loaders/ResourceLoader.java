@@ -35,12 +35,6 @@ public class ResourceLoader {
         return nationList;
     }
 
-    public List<Nation> getActiveNations() {
-        return getNations().stream().filter(nation ->
-                nation.getParentNationId().isEmpty() && nation.getConfederationId() != null && !nation.getConfederationId().isEmpty())
-                .collect(Collectors.toList());
-    }
-
     public String readTextFile(InputStream inputStream) {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

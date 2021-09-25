@@ -6,4 +6,5 @@
     <string name="toolbar_associations">National Associations</string>
     <string name="toolbar_confederations">FIFA &amp; Regional Confederations</string>
     <string name="text_home">It\'s known as football everywhere in the world. In America, we call it Soccer!</string>
+    <string name="association_confederation">(%1$s)</string>
 </resources>

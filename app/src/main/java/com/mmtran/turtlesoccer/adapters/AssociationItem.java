@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.content.res.ResourcesCompat;
+
+import com.mmtran.turtlesoccer.R;
 import com.mmtran.turtlesoccer.databinding.RowAssociationBinding;
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader;
 import com.mmtran.turtlesoccer.models.Nation;
@@ -28,9 +31,11 @@ public class AssociationItem extends ListItem {
 
         firebaseStorageLoader = new FirebaseStorageLoader();
         firebaseStorageLoader.init(context);
-        firebaseStorageLoader.loadImage(context, binding.associationFlag, "flags/Flag_of_the_United_States.svg");
+        firebaseStorageLoader.loadImage(context, binding.associationFlag, "flags/" + nation.getFlagFilename());
 
         binding.associationId.setText(nation.getId());
+        binding.associationName.setText(nation.getName());
+        binding.confederation.setText(nation.getConfederationId());
 
         return root;
     }
