@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-public class AssociationsViewModel extends ViewModel {
+public class AssociationListViewModel extends ViewModel {
 
     private MutableLiveData<List<Nation>> _nationList;
 
-    public AssociationsViewModel() {
+    public AssociationListViewModel() {
         _nationList = new MutableLiveData<>();
     }
 

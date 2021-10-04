@@ -15,22 +15,22 @@ import com.mmtran.turtlesoccer.R;
 import com.mmtran.turtlesoccer.adapters.AssociationsAdapter;
 import com.mmtran.turtlesoccer.databinding.FragmentAssociationsBinding;
 import com.mmtran.turtlesoccer.loaders.FirestoreLoader;
-import com.mmtran.turtlesoccer.models.AssociationsViewModel;
+import com.mmtran.turtlesoccer.models.AssociationListViewModel;
 import com.mmtran.turtlesoccer.utils.ActionBarUtil;
 
 public class AssociationsFragment extends Fragment {
 
-    private AssociationsViewModel associationsViewModel;
+    private AssociationListViewModel associationListViewModel;
     private FragmentAssociationsBinding binding;
     private AssociationsAdapter associationsAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        associationsViewModel = new ViewModelProvider(this).get(AssociationsViewModel.class);
+        associationListViewModel = new ViewModelProvider(this).get(AssociationListViewModel.class);
 
         FirestoreLoader dataLoader = new FirestoreLoader();
-        dataLoader.getActiveNations(associationsViewModel);
+        dataLoader.getActiveNations(associationListViewModel);
 
         binding = FragmentAssociationsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -49,7 +49,7 @@ public class AssociationsFragment extends Fragment {
         ActionBarUtil.buildActionBar(getLayoutInflater(), actionBar, R.layout.toolbar_associations);
         actionBar.setTitle(R.string.toolbar_associations);
 
-        associationsViewModel.getNationList().observe(getViewLifecycleOwner(), nationList -> {
+        associationListViewModel.getNationList().observe(getViewLifecycleOwner(), nationList -> {
             associationsAdapter.setData(nationList);
         });
     }

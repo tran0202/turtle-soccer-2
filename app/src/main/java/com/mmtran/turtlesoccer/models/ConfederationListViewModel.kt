@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ConfederationsViewModel : ViewModel() {
+class ConfederationListViewModel : ViewModel() {
 
     private val _confederationList: MutableLiveData<List<Confederation>> = MutableLiveData()
 

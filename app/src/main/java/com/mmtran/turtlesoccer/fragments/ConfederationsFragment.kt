@@ -12,13 +12,13 @@ import com.mmtran.turtlesoccer.adapters.ConfederationsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentConfederationsBinding
 import com.mmtran.turtlesoccer.loaders.FirestoreLoader
 import com.mmtran.turtlesoccer.models.Confederation
-import com.mmtran.turtlesoccer.models.ConfederationsViewModel
+import com.mmtran.turtlesoccer.models.ConfederationListViewModel
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
 
 class ConfederationsFragment : Fragment() {
 
-    private var confederationsViewModel: ConfederationsViewModel? = null
+    private var confederationListViewModel: ConfederationListViewModel? = null
     private var binding: FragmentConfederationsBinding? = null
     private var confederationsAdapter: ConfederationsAdapter? = null
 
@@ -26,11 +26,11 @@ class ConfederationsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        confederationsViewModel = ViewModelProvider(this).get(
-            ConfederationsViewModel::class.java
+        confederationListViewModel = ViewModelProvider(this).get(
+            ConfederationListViewModel::class.java
         )
         val dataLoader = FirestoreLoader()
-        dataLoader.getConfederations(confederationsViewModel!!)
+        dataLoader.getConfederations(confederationListViewModel!!)
 
         binding = FragmentConfederationsBinding.inflate(inflater, container, false)
         val root: View = binding!!.root
@@ -48,7 +48,7 @@ class ConfederationsFragment : Fragment() {
         ActionBarUtil.buildActionBar(layoutInflater, actionBar, R.layout.toolbar_confederations)
         actionBar!!.setTitle(R.string.toolbar_confederations)
 
-        confederationsViewModel!!.confederationList.observe(
+        confederationListViewModel!!.confederationList.observe(
             viewLifecycleOwner,
             { confederationList: List<Confederation?>? ->
                 confederationsAdapter!!.setData(confederationList)

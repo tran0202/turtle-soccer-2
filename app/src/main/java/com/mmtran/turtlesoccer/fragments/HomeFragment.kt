@@ -39,8 +39,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
-        buildActionBar(layoutInflater, actionBar, R.layout.toolbar_associations)
-        actionBar!!.setTitle(R.string.toolbar_associations)
+        buildActionBar(layoutInflater, actionBar, R.layout.toolbar_home)
+        actionBar!!.setTitle(R.string.toolbar_home)
 
         firebaseStorageLoader = FirebaseStorageLoader()
         firebaseStorageLoader!!.init(context)
