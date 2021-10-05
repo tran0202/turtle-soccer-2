@@ -95,6 +95,10 @@ class CompetitionsFragment : Fragment() {
             if (competition.isClubCompetition()) {
                 val club = clubList!!.find { it!!.id.equals(championId) }
                 if (club!= null) {
+                    val nation = nationList!!.find { it!!.id.equals(club.nationId) }
+                    if (nation != null) {
+                        club.nation = nation
+                    }
                     competition.setCurrentChampionClub(club)
                 }
             } else {

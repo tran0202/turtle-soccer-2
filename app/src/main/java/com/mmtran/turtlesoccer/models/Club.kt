@@ -17,6 +17,8 @@ class Club {
     @PropertyName("nation_id")
     var nationId: String? = null
 
+    var nation: Nation? = null
+
     @get:PropertyName("parent_team_id")
     @set:PropertyName("parent_team_id")
     @PropertyName("parent_team_id")
