@@ -47,20 +47,8 @@ class Competition {
 
     var descriptions: List<String?>? = emptyList()
     var order: Int? = null
-
-    private val _currentChampionNation: MutableLiveData<Nation> = MutableLiveData()
-    val currentChampionNation: LiveData<Nation>
-        get() = _currentChampionNation
-    fun setCurrentChampionNation(nation: Nation) {
-        _currentChampionNation.postValue(nation)
-    }
-
-    private val _currentChampionClub: MutableLiveData<Club> = MutableLiveData()
-    val currentChampionClub: LiveData<Club>
-        get() = _currentChampionClub
-    fun setCurrentChampionClub(club: Club) {
-        _currentChampionClub.postValue(club)
-    }
+    var currentChampionNation: Nation? = Nation()
+    var currentChampionClub: Club? = Club()
 
     constructor() {}
     constructor(id: String?, name: String?, color: String?, teamTypeId: String?, confederationId: String?,

@@ -12,6 +12,7 @@ class Confederation {
     @PropertyName("logo_filename")
     var logoFilename: String? = null
     var description: String? = null
+    var competitionList: List<Competition?>? = emptyList()
 
     constructor() {}
     constructor(id: String?, name: String?, logoFilename: String?, description: String?) {

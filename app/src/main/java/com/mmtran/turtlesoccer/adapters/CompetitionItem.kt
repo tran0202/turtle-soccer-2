@@ -41,22 +41,22 @@ class CompetitionItem(private val competition: Competition) : ListItem() {
             firebaseStorageLoader!!.loadImage(
                 context,
                 binding!!.flagName.clubLogo,
-                "club_logos/" + competition.currentChampionClub.value!!.logoFilename
+                "club_logos/" + competition.currentChampionClub!!.logoFilename
             )
             firebaseStorageLoader!!.loadImage(
                 context,
                 binding!!.flagName.flag,
-                "flags/" + competition.currentChampionClub.value!!.nation!!.flagFilename
+                "flags/" + competition.currentChampionClub!!.nation!!.flagFilename
             )
-            binding!!.flagName.name.text = competition.currentChampionClub.value!!.name
+            binding!!.flagName.name.text = competition.currentChampionClub!!.name
         } else {
             binding!!.flagName.clubLogo.visibility = View.GONE
             firebaseStorageLoader!!.loadImage(
                 context,
                 binding!!.flagName.flag,
-                "flags/" + competition.currentChampionNation.value!!.flagFilename
+                "flags/" + competition.currentChampionNation!!.flagFilename
             )
-            binding!!.flagName.name.text = competition.currentChampionNation.value!!.name
+            binding!!.flagName.name.text = competition.currentChampionNation!!.name
         }
 
         binding!!.description.text = if (competition.descriptions!!.isNotEmpty()) competition.descriptions!![0] else ""

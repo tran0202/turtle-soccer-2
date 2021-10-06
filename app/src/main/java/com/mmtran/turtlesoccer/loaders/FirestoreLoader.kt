@@ -112,7 +112,7 @@ class FirestoreLoader {
         docRef.get().addOnSuccessListener { documentSnapshot ->
             val nation = documentSnapshot.toObject(Nation::class.java)
             nation!!.id = documentSnapshot.id
-            competition.setCurrentChampionNation(nation)
+            competition.currentChampionNation = nation
         }
     }
 

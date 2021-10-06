@@ -8,9 +8,13 @@
     <string name="toolbar_competitions">Competitions</string>
     <string name="toolbar_confederations">FIFA &amp; Regional Confederations</string>
     <string name="toolbar_associations">National Associations</string>
+
     <string name="text_home">It\'s known as football everywhere in the world. In America, we call it Soccer!</string>
+
     <string name="trophy">Trophy</string>
     <string name="competition_team_count">Number of teams: %1$s</string>
     <string name="competition_current_champions_label">Current Champions: </string>
     <string name="competition_last_champions_label">Last Champions: </string>
+
+    <string name="competitions_label">Competitions: </string>
 </resources>

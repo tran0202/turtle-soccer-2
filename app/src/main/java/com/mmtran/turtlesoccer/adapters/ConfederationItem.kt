@@ -13,6 +13,7 @@ class ConfederationItem(private val confederation: Confederation) : ListItem() {
 
     private var binding: RowConfederationBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
+    private var confCompetitionsAdapter: ConfCompetitionsAdapter? = null
 
     override fun getView(context: Context?, convertView: View?, parent: ViewGroup?): View {
 
@@ -30,6 +31,13 @@ class ConfederationItem(private val confederation: Confederation) : ListItem() {
 
         binding!!.confederationName.text = confederation.name
         binding!!.description.text = confederation.description
+
+        confCompetitionsAdapter = ConfCompetitionsAdapter(context)
+        binding!!.confCompetitionList.adapter = confCompetitionsAdapter
+        confCompetitionsAdapter!!.setData(confederation.competitionList)
+        val lp: ViewGroup.LayoutParams = binding!!.confCompetitionList.layoutParams
+        lp.height = 75 * confederation.competitionList!!.size
+        binding!!.confCompetitionList.layoutParams = lp
 
         return root
     }

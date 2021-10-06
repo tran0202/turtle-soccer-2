@@ -68,23 +68,23 @@ class CompetitionsFragment : Fragment() {
             viewLifecycleOwner,
             { nationList_: List<Nation?>? ->
                 nationList = nationList_
-                assignChampionNation()
+                joinChampionNation()
             })
         clubListViewModel!!.clubList.observe(
             viewLifecycleOwner,
             { clubList_: List<Club?>? ->
                 clubList = clubList_
-                assignChampionNation()
+                joinChampionNation()
             })
         competitionListViewModel!!.competitionList.observe(
             viewLifecycleOwner,
             { competitionList_: List<Competition?>? ->
                 competitionList = competitionList_
-                assignChampionNation()
+                joinChampionNation()
             })
     }
 
-    private fun assignChampionNation() {
+    private fun joinChampionNation() {
         if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || clubList.isNullOrEmpty()) return
         for (competition: Competition? in competitionList!!) {
             var championId = if (competition!!.currentChampions !== null) {
@@ -99,12 +99,12 @@ class CompetitionsFragment : Fragment() {
                     if (nation != null) {
                         club.nation = nation
                     }
-                    competition.setCurrentChampionClub(club)
+                    competition.currentChampionClub = club
                 }
             } else {
                 val nation = nationList!!.find { it!!.id.equals(championId) }
                 if (nation!= null) {
-                    competition.setCurrentChampionNation(nation)
+                    competition.currentChampionNation = nation
                 }
             }
         }
