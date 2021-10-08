@@ -14,14 +14,17 @@ import com.mmtran.turtlesoccer.adapters.CompetitionsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentCompetitionsBinding
 import com.mmtran.turtlesoccer.models.*
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
+import kotlin.random.Random
 
 class CompetitionsFragment : Fragment() {
 
     private var nationListViewModel: AssociationListViewModel? = null
     private var clubListViewModel: ClubListViewModel? = null
+    private var tournamentListViewModel: TournamentListViewModel? = null
     private var competitionListViewModel: CompetitionListViewModel? = null
     private var nationList: List<Nation?>? = emptyList()
     private var clubList: List<Club?>? = emptyList()
+    private var tournamentList: List<Tournament?>? = emptyList()
     private var competitionList: List<Competition?>? = emptyList()
 
     private var binding: FragmentCompetitionsBinding? = null
@@ -42,6 +45,11 @@ class CompetitionsFragment : Fragment() {
             ClubListViewModel::class.java
         )
         dataLoader.getClubs(clubListViewModel!!)
+
+        tournamentListViewModel = ViewModelProvider(this).get(
+            TournamentListViewModel::class.java
+        )
+        dataLoader.getTournaments(tournamentListViewModel!!)
 
         competitionListViewModel = ViewModelProvider(this).get(
             CompetitionListViewModel::class.java
@@ -68,24 +76,30 @@ class CompetitionsFragment : Fragment() {
             viewLifecycleOwner,
             { nationList_: List<Nation?>? ->
                 nationList = nationList_
-                joinChampionNation()
+                joinChampionNationAndTournament()
             })
         clubListViewModel!!.clubList.observe(
             viewLifecycleOwner,
             { clubList_: List<Club?>? ->
                 clubList = clubList_
-                joinChampionNation()
+                joinChampionNationAndTournament()
+            })
+        tournamentListViewModel!!.tournamentList.observe(
+            viewLifecycleOwner,
+            { tournamentList_: List<Tournament?>? ->
+                tournamentList = tournamentList_
+                joinChampionNationAndTournament()
             })
         competitionListViewModel!!.competitionList.observe(
             viewLifecycleOwner,
             { competitionList_: List<Competition?>? ->
                 competitionList = competitionList_
-                joinChampionNation()
+                joinChampionNationAndTournament()
             })
     }
 
-    private fun joinChampionNation() {
-        if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || clubList.isNullOrEmpty()) return
+    private fun joinChampionNationAndTournament() {
+        if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || clubList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
         for (competition: Competition? in competitionList!!) {
             var championId = if (competition!!.currentChampions !== null) {
                 competition!!.currentChampions!!;
@@ -107,8 +121,24 @@ class CompetitionsFragment : Fragment() {
                     competition.currentChampionNation = nation
                 }
             }
+            val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
+            competition!!.tournamentList = createRandomTournamentList(tourList)
         }
         competitionsAdapter!!.setData(competitionList)
+    }
+
+    private fun createRandomTournamentList(tourList: List<Tournament?>) : List<Tournament?> {
+        var result = emptyList<Tournament?>()
+        var temp = tourList
+        val len = tourList.size
+        if (len <= 5) return tourList
+        for (i in 1..5) {
+            val rIndex = Random.nextInt(temp.size)
+            val rTournament = temp[rIndex]
+            result = result + rTournament
+            temp = temp - rTournament
+        }
+        return result
     }
 
     override fun onDestroyView() {

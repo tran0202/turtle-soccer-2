@@ -10,10 +10,37 @@ import java.util.*
 class FirestoreLoader {
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val competitionList: MutableList<Competition> = ArrayList()
     private val confederationList: MutableList<Confederation> = ArrayList()
+    private val competitionList: MutableList<Competition> = ArrayList()
+    private val tournamentList: MutableList<Tournament> = ArrayList()
     private val nationList: MutableList<Nation> = ArrayList()
     private val clubList: MutableList<Club> = ArrayList()
+
+    fun getConfederations(confederationListViewModel: ConfederationListViewModel) {
+
+        val query: Query = db.collection("confederation")
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                var fifa = Confederation()
+                for (document in task.result!!) {
+                    val confederation = document.toObject(
+                        Confederation::class.java
+                    )
+                    confederation.id = document.id
+                    if (confederation.id == "FIFA") {
+                        fifa = confederation
+                    } else {
+                        confederationList.add(confederation)
+                    }
+                    Log.d(TAG, document.id + " => " + document.data)
+                }
+                confederationList.add(0, fifa)
+                confederationListViewModel.setConfederationList(confederationList)
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.exception)
+            }
+        }
+    }
 
     fun getCompetitions(competitionsViewModel: CompetitionListViewModel) {
 
@@ -36,26 +63,20 @@ class FirestoreLoader {
         }
     }
 
-    fun getConfederations(confederationListViewModel: ConfederationListViewModel) {
+    fun getTournaments(tournamentListViewModel: TournamentListViewModel) {
 
-        val query: Query = db.collection("confederation")
+        val query: Query = db.collection("tournament")
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                var fifa = Confederation()
                 for (document in task.result!!) {
-                    val confederation = document.toObject(
-                        Confederation::class.java
+                    val tournament = document.toObject(
+                        Tournament::class.java
                     )
-                    confederation.id = document.id
-                    if (confederation.id == "FIFA") {
-                        fifa = confederation
-                    } else {
-                        confederationList.add(confederation)
-                    }
+                    tournament.id = document.id
+                    tournamentList.add(tournament)
                     Log.d(TAG, document.id + " => " + document.data)
                 }
-                confederationList.add(0, fifa)
-                confederationListViewModel.setConfederationList(confederationList)
+                tournamentListViewModel.setTournamentList(tournamentList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
             }

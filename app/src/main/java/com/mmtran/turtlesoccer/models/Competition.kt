@@ -49,6 +49,7 @@ class Competition {
     var order: Int? = null
     var currentChampionNation: Nation? = Nation()
     var currentChampionClub: Club? = Club()
+    var tournamentList: List<Tournament?>? = emptyList()
 
     constructor() {}
     constructor(id: String?, name: String?, color: String?, teamTypeId: String?, confederationId: String?,

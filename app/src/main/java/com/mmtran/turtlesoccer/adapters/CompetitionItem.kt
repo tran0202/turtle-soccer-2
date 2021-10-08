@@ -14,6 +14,7 @@ class CompetitionItem(private val competition: Competition) : ListItem() {
 
     private var binding: RowCompetitionBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
+    private var compTournamentsAdapter: CompTournamentsAdapter? = null
 
     override fun getView(context: Context?, convertView: View?, parent: ViewGroup?): View {
 
@@ -60,6 +61,10 @@ class CompetitionItem(private val competition: Competition) : ListItem() {
         }
 
         binding!!.description.text = if (competition.descriptions!!.isNotEmpty()) competition.descriptions!![0] else ""
+
+        compTournamentsAdapter = CompTournamentsAdapter(context)
+        binding!!.compTournamentList.adapter = compTournamentsAdapter
+        compTournamentsAdapter!!.setData(competition.tournamentList)
 
         return root
     }
