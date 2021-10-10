@@ -26,8 +26,7 @@ public class AssociationItem extends ListItem {
         binding = RowAssociationBinding.inflate(inflater, parent, false);
         View root = binding.getRoot();
 
-        firebaseStorageLoader = new FirebaseStorageLoader();
-        firebaseStorageLoader.init(context);
+        firebaseStorageLoader = new FirebaseStorageLoader(context);
         firebaseStorageLoader.loadImage(context, binding.associationFlag, "flags/" + nation.getFlagFilename());
 
         binding.associationId.setText(nation.getId());

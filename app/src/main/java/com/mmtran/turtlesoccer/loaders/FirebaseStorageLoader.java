@@ -11,7 +11,7 @@ public class FirebaseStorageLoader {
 
     private StorageReference storageReference;
 
-    public void init(Context context) {
+    public FirebaseStorageLoader(Context context) {
 
         FirebaseSafetyNetUtil.init(context);
 

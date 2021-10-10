@@ -21,8 +21,7 @@ class ConfederationItem(private val confederation: Confederation) : ListItem() {
         binding = RowConfederationBinding.inflate(inflater, parent, false)
         val root: View = binding!!.root
 
-        firebaseStorageLoader = FirebaseStorageLoader()
-        firebaseStorageLoader!!.init(context)
+        firebaseStorageLoader = FirebaseStorageLoader(context)
         firebaseStorageLoader!!.loadImage(
             context,
             binding!!.confederationFlag,

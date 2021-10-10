@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
 
 import com.mmtran.turtlesoccer.databinding.RowCompetitionBinding
@@ -22,8 +24,7 @@ class CompetitionItem(private val competition: Competition) : ListItem() {
         binding = RowCompetitionBinding.inflate(inflater, parent, false)
         val root: View = binding!!.root
 
-        firebaseStorageLoader = FirebaseStorageLoader()
-        firebaseStorageLoader!!.init(context)
+        firebaseStorageLoader = FirebaseStorageLoader(context)
         firebaseStorageLoader!!.loadImage(
             context,
             binding!!.competitionTrophy,
@@ -62,9 +63,12 @@ class CompetitionItem(private val competition: Competition) : ListItem() {
 
         binding!!.description.text = if (competition.descriptions!!.isNotEmpty()) competition.descriptions!![0] else ""
 
-        compTournamentsAdapter = CompTournamentsAdapter(context)
-        binding!!.compTournamentList.adapter = compTournamentsAdapter
-        compTournamentsAdapter!!.setData(competition.tournamentList)
+        val recyclerView: RecyclerView = binding!!.compTournamentList
+        val numberOfColumns = 5
+        recyclerView.layoutManager = GridLayoutManager(context, numberOfColumns)
+        compTournamentsAdapter = CompTournamentsAdapter(context, competition.tournamentList!!)
+//        compTournamentsAdapter!!.setClickListener(this)
+        recyclerView.adapter = compTournamentsAdapter
 
         return root
     }

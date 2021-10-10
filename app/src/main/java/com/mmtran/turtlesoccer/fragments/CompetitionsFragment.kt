@@ -121,8 +121,8 @@ class CompetitionsFragment : Fragment() {
                     competition.currentChampionNation = nation
                 }
             }
-            val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
-            competition!!.tournamentList = createRandomTournamentList(tourList)
+            val tourList = tournamentList!!.filter { it!!.competitionId == competition.id }
+            competition.tournamentList = createRandomTournamentList(tourList)
         }
         competitionsAdapter!!.setData(competitionList)
     }

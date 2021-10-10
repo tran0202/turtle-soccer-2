@@ -42,8 +42,7 @@ class HomeFragment : Fragment() {
         buildActionBar(layoutInflater, actionBar, R.layout.toolbar_home)
         actionBar!!.setTitle(R.string.toolbar_home)
 
-        firebaseStorageLoader = FirebaseStorageLoader()
-        firebaseStorageLoader!!.init(context)
+        firebaseStorageLoader = FirebaseStorageLoader(context)
         firebaseStorageLoader!!.loadImage(
             activity,
             binding!!.logoHome,
