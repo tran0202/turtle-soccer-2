@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.mmtran.turtlesoccer.loaders.FirestoreLoader
 import com.mmtran.turtlesoccer.R
@@ -57,12 +61,8 @@ class CompetitionsFragment : Fragment() {
         dataLoader.getCompetitions(competitionListViewModel!!)
 
         binding = FragmentCompetitionsBinding.inflate(inflater, container, false)
-        val root: View = binding!!.root
 
-        competitionsAdapter = CompetitionsAdapter(requireContext())
-        binding!!.competitionList.adapter = competitionsAdapter
-
-        return root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -124,7 +124,19 @@ class CompetitionsFragment : Fragment() {
             val tourList = tournamentList!!.filter { it!!.competitionId == competition.id }
             competition.tournamentList = createRandomTournamentList(tourList)
         }
-        competitionsAdapter!!.setData(competitionList)
+
+        val recyclerView: RecyclerView = binding!!.competitionList
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.divider_gray_4
+            )!!
+        )
+        recyclerView.addItemDecoration(divider)
+        competitionsAdapter = CompetitionsAdapter(context, competitionList!!)
+        recyclerView.adapter = competitionsAdapter
     }
 
     private fun createRandomTournamentList(tourList: List<Tournament?>) : List<Tournament?> {

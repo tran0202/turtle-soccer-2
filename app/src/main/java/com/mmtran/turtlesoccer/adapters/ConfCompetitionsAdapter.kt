@@ -1,30 +1,62 @@
 package com.mmtran.turtlesoccer.adapters
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
-import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.databinding.RowConfCompetitionBinding
 import com.mmtran.turtlesoccer.models.Competition
 
-import java.util.ArrayList
+class ConfCompetitionsAdapter(context: Context?, competitionList: List<Competition?>) :
+    RecyclerView.Adapter<ConfCompetitionsAdapter.ViewHolder>() {
 
-class ConfCompetitionsAdapter(context: Context) : ArrayAdapter<ConfCompetitionItem?>(context, R.layout.row_conf_competition) {
+    private val _context = context
+    private val _competitionList: List<Competition?> = competitionList
+    private val mInflater: LayoutInflater = LayoutInflater.from(context)
+    private var mClickListener: ItemClickListener? = null
 
-    fun setData(competitionList: List<Competition?>?) {
-        clear()
-        val items: MutableList<ConfCompetitionItem> = ArrayList()
-        if (competitionList != null && competitionList.isNotEmpty()) {
-            for (competition in competitionList) {
-                items.add(ConfCompetitionItem(competition!!))
-            }
-        }
-        addAll(items)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+        val binding: RowConfCompetitionBinding = RowConfCompetitionBinding.inflate(mInflater, parent, false)
+        return ViewHolder(binding)
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val item = getItem(position)
-        return item!!.getView(context, convertView, parent)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        holder.competitionNameTextView.text = _competitionList[position]!!.name
+    }
+
+    override fun getItemCount(): Int {
+        return _competitionList.size
+    }
+
+    inner class ViewHolder internal constructor(binding: RowConfCompetitionBinding) : RecyclerView.ViewHolder(binding.root),
+        View.OnClickListener {
+
+        val root: View = binding.root
+        var competitionNameTextView: TextView = binding.competitionName
+
+        override fun onClick(view: View) {
+            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+        }
+
+        init {
+            root.setOnClickListener(this)
+        }
+    }
+
+    fun getItem(id: Int): Competition? {
+        return _competitionList[id]
+    }
+
+    fun setClickListener(itemClickListener: ItemClickListener?) {
+        mClickListener = itemClickListener
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(view: View?, position: Int)
     }
 }

@@ -14,4 +14,10 @@
     <color name="green">#13730f</color>
     <color name="orange">#ffa500</color>
     <color name="gray0">#212529</color>
+    <color name="gray1">#333333</color>
+    <color name="gray2">#5C6066</color>
+    <color name="gray3">#858585</color>
+    <color name="gray4">#C7C6C6</color>
+    <color name="gray5">#E6E7E9</color>
+    <color name="gray6">#F8F8F8</color>
 </resources>

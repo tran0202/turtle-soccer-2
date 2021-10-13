@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.mmtran.turtlesoccer.adapters.ConfederationsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentConfederationsBinding
@@ -17,6 +20,7 @@ import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.models.Competition
 import com.mmtran.turtlesoccer.models.CompetitionListViewModel
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
+import androidx.core.content.ContextCompat
 
 class ConfederationsFragment : Fragment() {
 
@@ -45,12 +49,8 @@ class ConfederationsFragment : Fragment() {
         dataLoader.getCompetitions(competitionListViewModel!!)
 
         binding = FragmentConfederationsBinding.inflate(inflater, container, false)
-        val root: View = binding!!.root
 
-        confederationsAdapter = ConfederationsAdapter(requireContext())
-        binding!!.confederationList.adapter = confederationsAdapter
-
-        return root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,7 +80,19 @@ class ConfederationsFragment : Fragment() {
             val compList = competitionList!!.filter { it!!.confederationId == confederation!!.id }
             confederation!!.competitionList = compList
         }
-        confederationsAdapter!!.setData(confederationList)
+
+        val recyclerView: RecyclerView = binding!!.confederationList
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.divider_gray_4
+            )!!
+        )
+        recyclerView.addItemDecoration(divider)
+        confederationsAdapter = ConfederationsAdapter(context, confederationList!!)
+        recyclerView.adapter = confederationsAdapter
     }
 
     override fun onDestroyView() {
