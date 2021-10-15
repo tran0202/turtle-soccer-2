@@ -32,6 +32,12 @@ class Tournament {
 
     var id: String? = null
     var year: String? = null
+
+    @get:PropertyName("short_year")
+    @set:PropertyName("short_year")
+    @PropertyName("short_year")
+    var shortYear: String? = null
+
     var name: String? = null
 
     @get:PropertyName("competition_id")
@@ -52,6 +58,7 @@ class Tournament {
     var pointsForWin: Int? = null
 
     var details: TournamentDetails? = TournamentDetails()
+    var competition: Competition? = Competition()
 
     constructor() {}
     constructor(id: String?, year: String?, name: String?, competitionId: String?, active: Boolean?,

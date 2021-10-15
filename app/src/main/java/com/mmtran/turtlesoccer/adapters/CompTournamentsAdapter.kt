@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.databinding.RowCompTournamentBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
@@ -32,8 +33,9 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
         firebaseStorageLoader.loadImage(
             _context,
             holder.tournamentLogoImageView,
-            "wc_logos/" + _tournamentList[position]!!.details!!.logoFilename
+            _tournamentList[position]!!.competition!!.logoPath + "/" + _tournamentList[position]!!.details!!.logoFilename
         )
+        holder.shortYearTextView.text = _tournamentList[position]!!.shortYear
     }
 
     // total number of cells
@@ -46,7 +48,8 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
         View.OnClickListener {
 
         val root: View = binding.root
-        var tournamentLogoImageView: ImageView = binding.tournamentLogos
+        var tournamentLogoImageView: ImageView = binding.tournamentLogo
+        var shortYearTextView: TextView = binding.shortYear
 
         override fun onClick(view: View) {
             if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)

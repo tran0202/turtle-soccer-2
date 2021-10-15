@@ -122,7 +122,7 @@ class CompetitionsFragment : Fragment() {
                 }
             }
             val tourList = tournamentList!!.filter { it!!.competitionId == competition.id }
-            competition.tournamentList = createRandomTournamentList(tourList)
+            competition.tournamentList = createRandomTournamentList(tourList, competition)
         }
 
         val recyclerView: RecyclerView = binding!!.competitionList
@@ -139,16 +139,31 @@ class CompetitionsFragment : Fragment() {
         recyclerView.adapter = competitionsAdapter
     }
 
-    private fun createRandomTournamentList(tourList: List<Tournament?>) : List<Tournament?> {
+    private fun createRandomTournamentList(tourList: List<Tournament?>, competition: Competition) : List<Tournament?> {
         var result = emptyList<Tournament?>()
         var temp = tourList
         val len = tourList.size
-        if (len <= 5) return tourList
-        for (i in 1..5) {
-            val rIndex = Random.nextInt(temp.size)
-            val rTournament = temp[rIndex]
-            result = result + rTournament
-            temp = temp - rTournament
+        if (len <= 5) {
+            for (i in 0 until len) {
+                temp[i]!!.competition = competition
+                result = result + temp[i]
+            }
+        } else {
+//            var j = 5
+//            if (j > len) {
+//                j = len
+//            }
+//            for (i in j-5 until j) {
+//                temp[i]!!.competition = competition
+//                result = result + temp[i]
+//            }
+            for (i in 1..5) {
+                val rIndex = Random.nextInt(temp.size)
+                val rTournament = temp[rIndex]
+                rTournament!!.competition = competition
+                result = result + rTournament
+                temp = temp - rTournament
+            }
         }
         return result
     }
