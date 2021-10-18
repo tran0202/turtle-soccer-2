@@ -1,8 +1,9 @@
 package com.mmtran.turtlesoccer.models
 
 import com.google.firebase.firestore.PropertyName
+import java.io.Serializable
 
-class Club {
+class Club: Serializable {
 
     var id: String? = null
     var name: String? = null

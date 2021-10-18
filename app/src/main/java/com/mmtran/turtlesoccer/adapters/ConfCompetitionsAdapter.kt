@@ -40,7 +40,7 @@ class ConfCompetitionsAdapter(context: Context?, competitionList: List<Competiti
         var competitionNameTextView: TextView = binding.competitionName
 
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+            if (mClickListener != null) mClickListener!!.onItemClick(view, _competitionList, absoluteAdapterPosition)
         }
 
         init {
@@ -57,6 +57,6 @@ class ConfCompetitionsAdapter(context: Context?, competitionList: List<Competiti
     }
 
     interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
+        fun onItemClick(view: View?, competitionList: List<Competition?>, position: Int)
     }
 }

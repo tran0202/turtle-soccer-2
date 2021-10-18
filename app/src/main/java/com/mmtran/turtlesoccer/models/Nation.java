@@ -2,7 +2,9 @@ package com.mmtran.turtlesoccer.models;
 
 import com.google.firebase.firestore.PropertyName;
 
-public class Nation {
+import java.io.Serializable;
+
+public class Nation implements Serializable {
 
     private String id;
     private String name;

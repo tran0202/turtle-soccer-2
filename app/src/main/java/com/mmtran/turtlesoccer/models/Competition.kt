@@ -1,10 +1,9 @@
 package com.mmtran.turtlesoccer.models
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.PropertyName
+import java.io.Serializable
 
-class Competition {
+class Competition: Serializable {
 
     var id: String? = null
     var name: String? = null
