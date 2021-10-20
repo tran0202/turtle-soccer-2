@@ -17,4 +17,6 @@
     <string name="competition_last_champions_label">Last Champions: </string>
 
     <string name="competitions_label">Competitions: </string>
+    <string name="competition_about">About</string>
+    <string name="competition_all_time_standings">All-time Standings</string>
 </resources>

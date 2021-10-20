@@ -24,6 +24,9 @@ public class Nation implements Serializable {
     @PropertyName("flag_filename")
     String flagFilename;
 
+    @PropertyName("flag_max_width")
+    String flagMaxWidth;
+
     private String code;
 
     @PropertyName("start_date")
@@ -31,6 +34,9 @@ public class Nation implements Serializable {
 
     @PropertyName("end_date")
     private String endDate;
+
+    @PropertyName("time_stamp")
+    private String timeStamp;
 
     public Nation() {}
 
@@ -79,6 +85,11 @@ public class Nation implements Serializable {
         return flagFilename;
     }
 
+    @PropertyName("flag_max_width")
+    public String getFlagMaxWidth() {
+        return flagMaxWidth;
+    }
+
     public String getCode() {
         return code;
     }
@@ -91,6 +102,11 @@ public class Nation implements Serializable {
     @PropertyName("end_date")
     public String getEndDate() {
         return endDate;
+    }
+
+    @PropertyName("time_stamp")
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
     public void setId(String id) {
@@ -126,6 +142,11 @@ public class Nation implements Serializable {
         this.flagFilename = flagFilename;
     }
 
+    @PropertyName("flag_max_width")
+    public void setFlagMaxWidth(String flagMaxWidth) {
+        this.flagMaxWidth = flagMaxWidth;
+    }
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -138,5 +159,10 @@ public class Nation implements Serializable {
     @PropertyName("end_date")
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    @PropertyName("time_stamp")
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

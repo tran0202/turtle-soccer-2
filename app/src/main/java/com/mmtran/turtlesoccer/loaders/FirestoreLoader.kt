@@ -14,7 +14,7 @@ class FirestoreLoader {
     private val competitionList: MutableList<Competition> = ArrayList()
     private val tournamentList: MutableList<Tournament> = ArrayList()
     private val nationList: MutableList<Nation> = ArrayList()
-    private val clubList: MutableList<Club> = ArrayList()
+    private val teamList: MutableList<Team> = ArrayList()
 
     fun getConfederations(confederationListViewModel: ConfederationListViewModel) {
 
@@ -106,36 +106,36 @@ class FirestoreLoader {
         }
     }
 
-    fun getClubs(clubListViewModel: ClubListViewModel) {
+    fun getTeams(teamListViewModel: TeamListViewModel) {
 
-        val query = db.collection("club")
+        val query = db.collection("team")
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result!!) {
-                    val club = document.toObject(Club::class.java)
-                    club.id = document.id
-                    clubList.add(club)
+                    val team = document.toObject(Team::class.java)
+                    team.id = document.id
+                    teamList.add(team)
                     Log.d(TAG, document.id + " => " + document.data)
                 }
-                clubList.sortWith(Comparator { lhs, rhs ->
+                teamList.sortWith(Comparator { lhs, rhs ->
                     lhs!!.name!!.compareTo(rhs!!.name!!).compareTo(0)
                 })
-                clubListViewModel.setClubList(clubList)
+                teamListViewModel.setTeamList(teamList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
             }
         }
     }
 
-    fun getNation(competition: Competition) {
-
-        val docRef = db.collection("nation").document("FRA")
-        docRef.get().addOnSuccessListener { documentSnapshot ->
-            val nation = documentSnapshot.toObject(Nation::class.java)
-            nation!!.id = documentSnapshot.id
-            competition.currentChampionNation = nation
-        }
-    }
+//    fun getNation(competition: Competition) {
+//
+//        val docRef = db.collection("nation").document("FRA")
+//        docRef.get().addOnSuccessListener { documentSnapshot ->
+//            val nation = documentSnapshot.toObject(Nation::class.java)
+//            nation!!.id = documentSnapshot.id
+//            competition.currentChampionNation = nation
+//        }
+//    }
 
     companion object {
         private const val TAG = "FirestoreLoader"

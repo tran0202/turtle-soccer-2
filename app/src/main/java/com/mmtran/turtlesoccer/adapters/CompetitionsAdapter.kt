@@ -14,6 +14,7 @@ import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
 import com.mmtran.turtlesoccer.databinding.RowCompetitionBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Competition
+import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
 
 class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>) :
     RecyclerView.Adapter<CompetitionsAdapter.ViewHolder>() {
@@ -44,30 +45,10 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
 
         if (_competitionList[position]!!.currentChampions !== null) {
             holder.competitionCurrentChampionsLabelTextView.text = _context!!.getString(R.string.competition_current_champions_label);
+            renderFlagName(_context, holder.fragmentFlagNameBinding, _competitionList[position]!!.currentChampionTeam)
         } else {
             holder.competitionCurrentChampionsLabelTextView.text = _context!!.getString(R.string.competition_last_champions_label);
-        }
-
-        if (_competitionList[position]!!.isClubCompetition()) {
-            firebaseStorageLoader!!.loadImage(
-                _context,
-                holder.fragmentFlagNameBinding.clubLogo,
-                "club_logos/" + _competitionList[position]!!.currentChampionClub!!.logoFilename
-            )
-            firebaseStorageLoader!!.loadImage(
-                _context,
-                holder.fragmentFlagNameBinding.flag,
-                "flags/" + _competitionList[position]!!.currentChampionClub!!.nation!!.flagFilename
-            )
-            holder.fragmentFlagNameBinding.name.text = _competitionList[position]!!.currentChampionClub!!.name
-        } else {
-            holder.fragmentFlagNameBinding.clubLogo.visibility = View.GONE
-            firebaseStorageLoader!!.loadImage(
-                _context,
-                holder.fragmentFlagNameBinding.flag,
-                "flags/" + _competitionList[position]!!.currentChampionNation!!.flagFilename
-            )
-            holder.fragmentFlagNameBinding.name.text = _competitionList[position]!!.currentChampionNation!!.name
+            renderFlagName(_context, holder.fragmentFlagNameBinding, _competitionList[position]!!.lastChampionTeam)
         }
 
         holder.descriptionTextView.text = if (_competitionList[position]!!.descriptions!!.isNotEmpty()) _competitionList[position]!!.descriptions!![0] else ""

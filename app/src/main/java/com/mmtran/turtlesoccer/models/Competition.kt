@@ -29,6 +29,11 @@ class Competition: Serializable {
     @PropertyName("trophy_filename")
     var trophyFilename: String? = null
 
+    @get:PropertyName("show_successors")
+    @set:PropertyName("show_successors")
+    @PropertyName("show_successors")
+    var showSuccessors: Boolean? = null
+
     @get:PropertyName("team_count")
     @set:PropertyName("team_count")
     @PropertyName("team_count")
@@ -39,15 +44,23 @@ class Competition: Serializable {
     @PropertyName("current_champions")
     var currentChampions: String? = null
 
+    var currentChampionTeam: Team? = Team()
+
     @get:PropertyName("last_champions")
     @set:PropertyName("last_champions")
     @PropertyName("last_champions")
     var lastChampions: String? = null
 
+    var lastChampionTeam: Team? = Team()
+
     var descriptions: List<String?>? = emptyList()
     var order: Int? = null
-    var currentChampionNation: Nation? = Nation()
-    var currentChampionClub: Club? = Club()
+
+    @get:PropertyName("time_stamp")
+    @set:PropertyName("time_stamp")
+    @PropertyName("time_stamp")
+    var timeStamp: String? = null
+
     var tournamentList: List<Tournament?>? = emptyList()
 
     constructor() {}

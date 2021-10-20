@@ -64,18 +64,20 @@ class ConfederationsFragment : Fragment() {
             viewLifecycleOwner,
             { confederationList_: List<Confederation?>? ->
                 confederationList = confederationList_
-                joinCompetition()
+                confederationsObserver()
             })
         competitionListViewModel!!.competitionList.observe(
             viewLifecycleOwner,
             { competitionList_: List<Competition?>? ->
                 competitionList = competitionList_
-                joinCompetition()
+                confederationsObserver()
             })
     }
 
-    private fun joinCompetition() {
+    private fun confederationsObserver() {
+
         if (confederationList.isNullOrEmpty() || competitionList.isNullOrEmpty()) return
+
         for (confederation: Confederation? in confederationList!!) {
             val compList = competitionList!!.filter { it!!.confederationId == confederation!!.id }
             confederation!!.competitionList = compList

@@ -3,10 +3,15 @@ package com.mmtran.turtlesoccer.models
 import com.google.firebase.firestore.PropertyName
 import java.io.Serializable
 
-class Club: Serializable {
+class Team: Serializable {
 
     var id: String? = null
     var name: String? = null
+
+    @get:PropertyName("short_name")
+    @set:PropertyName("short_name")
+    @PropertyName("short_name")
+    var shortName: String? = null
 
     @get:PropertyName("team_type_id")
     @set:PropertyName("team_type_id")
@@ -25,6 +30,8 @@ class Club: Serializable {
     @PropertyName("parent_team_id")
     var parentTeamId: String? = null
 
+    var successor: Boolean? = null
+
     @get:PropertyName("club_code")
     @set:PropertyName("club_code")
     @PropertyName("club_code")
@@ -40,16 +47,20 @@ class Club: Serializable {
     @PropertyName("official_name")
     var officialName: String? = null
 
+    @get:PropertyName("time_stamp")
+    @set:PropertyName("time_stamp")
+    @PropertyName("time_stamp")
+    var timeStamp: String? = null
+
     constructor() {}
-    constructor(id: String?, name: String?, teamTypeId: String?, nationId: String?,
-                parentTeamId: String?, clubCode: String?, logoFilename: String?, officialName: String?) {
+    constructor(id: String?, name: String?, shortName: String?, teamTypeId: String?, nationId: String?,
+                parentTeamId: String?, successor: Boolean?) {
         this.id = id
         this.name = name
+        this.shortName = shortName
         this.teamTypeId = teamTypeId
         this.nationId = nationId
         this.parentTeamId = parentTeamId
-        this.clubCode = clubCode
-        this.logoFilename = logoFilename
-        this.officialName = officialName
+        this.successor = successor
     }
 }

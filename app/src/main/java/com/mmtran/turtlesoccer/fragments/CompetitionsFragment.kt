@@ -18,16 +18,17 @@ import com.mmtran.turtlesoccer.adapters.CompetitionsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentCompetitionsBinding
 import com.mmtran.turtlesoccer.models.*
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
+import com.mmtran.turtlesoccer.utils.CompetitionUtil
 import kotlin.random.Random
 
 class CompetitionsFragment : Fragment() {
 
     private var nationListViewModel: AssociationListViewModel? = null
-    private var clubListViewModel: ClubListViewModel? = null
+    private var teamListViewModel: TeamListViewModel? = null
     private var tournamentListViewModel: TournamentListViewModel? = null
     private var competitionListViewModel: CompetitionListViewModel? = null
     private var nationList: List<Nation?>? = emptyList()
-    private var clubList: List<Club?>? = emptyList()
+    private var teamList: List<Team?>? = emptyList()
     private var tournamentList: List<Tournament?>? = emptyList()
     private var competitionList: List<Competition?>? = emptyList()
 
@@ -45,10 +46,10 @@ class CompetitionsFragment : Fragment() {
         )
         dataLoader.getActiveNations(nationListViewModel!!)
 
-        clubListViewModel = ViewModelProvider(this).get(
-            ClubListViewModel::class.java
+        teamListViewModel = ViewModelProvider(this).get(
+            TeamListViewModel::class.java
         )
-        dataLoader.getClubs(clubListViewModel!!)
+        dataLoader.getTeams(teamListViewModel!!)
 
         tournamentListViewModel = ViewModelProvider(this).get(
             TournamentListViewModel::class.java
@@ -76,53 +77,36 @@ class CompetitionsFragment : Fragment() {
             viewLifecycleOwner,
             { nationList_: List<Nation?>? ->
                 nationList = nationList_
-                joinChampionNationAndTournament()
+                competitionsObserver()
             })
-        clubListViewModel!!.clubList.observe(
+        teamListViewModel!!.teamList.observe(
             viewLifecycleOwner,
-            { clubList_: List<Club?>? ->
-                clubList = clubList_
-                joinChampionNationAndTournament()
+            { teamList_: List<Team?>? ->
+                teamList = teamList_
+                competitionsObserver()
             })
         tournamentListViewModel!!.tournamentList.observe(
             viewLifecycleOwner,
             { tournamentList_: List<Tournament?>? ->
                 tournamentList = tournamentList_
-                joinChampionNationAndTournament()
+                competitionsObserver()
             })
         competitionListViewModel!!.competitionList.observe(
             viewLifecycleOwner,
             { competitionList_: List<Competition?>? ->
                 competitionList = competitionList_
-                joinChampionNationAndTournament()
+                competitionsObserver()
             })
     }
 
-    private fun joinChampionNationAndTournament() {
-        if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || clubList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
+    private fun competitionsObserver() {
+
+        if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
+        
         for (competition: Competition? in competitionList!!) {
-            var championId = if (competition!!.currentChampions !== null) {
-                competition!!.currentChampions!!;
-            } else {
-                competition!!.lastChampions!!;
-            }
-            if (competition.isClubCompetition()) {
-                val club = clubList!!.find { it!!.id.equals(championId) }
-                if (club!= null) {
-                    val nation = nationList!!.find { it!!.id.equals(club.nationId) }
-                    if (nation != null) {
-                        club.nation = nation
-                    }
-                    competition.currentChampionClub = club
-                }
-            } else {
-                val nation = nationList!!.find { it!!.id.equals(championId) }
-                if (nation!= null) {
-                    competition.currentChampionNation = nation
-                }
-            }
-            val tourList = tournamentList!!.filter { it!!.competitionId == competition.id }
-            competition.tournamentList = createRandomTournamentList(tourList, competition)
+            CompetitionUtil.getChampion(competition, nationList, teamList)
+            val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
+            competition!!.tournamentList = createRandomTournamentList(tourList, competition)
         }
 
         val recyclerView: RecyclerView = binding!!.competitionList

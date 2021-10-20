@@ -12,6 +12,12 @@ class Confederation {
     @PropertyName("logo_filename")
     var logoFilename: String? = null
     var description: String? = null
+
+    @get:PropertyName("time_stamp")
+    @set:PropertyName("time_stamp")
+    @PropertyName("time_stamp")
+    var timeStamp: String? = null
+
     var competitionList: List<Competition?>? = emptyList()
 
     constructor() {}

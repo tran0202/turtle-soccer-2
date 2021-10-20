@@ -1,34 +1,37 @@
 package com.mmtran.turtlesoccer.activities
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.MenuItem
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.adapters.CompetitionPagerAdapter
 import com.mmtran.turtlesoccer.adapters.EXTRA_COMPETITION
 import com.mmtran.turtlesoccer.databinding.ActivityCompetitionBinding
-import com.mmtran.turtlesoccer.databinding.ActivityMainBinding
 import com.mmtran.turtlesoccer.loaders.FirestoreLoader
 import com.mmtran.turtlesoccer.models.*
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
+import com.google.android.material.tabs.TabLayoutMediator
+import com.mmtran.turtlesoccer.utils.CompetitionUtil
 
 class CompetitionActivity : AppCompatActivity() {
 
-    private var nationListViewModel: AssociationListViewModel? = null
-    private var clubListViewModel: ClubListViewModel? = null
-    private var tournamentListViewModel: TournamentListViewModel? = null
-    private var nationList: List<Nation?>? = emptyList()
-    private var clubList: List<Club?>? = emptyList()
-    private var tournamentList: List<Tournament?>? = emptyList()
-    private var competition: Competition? = null
+    private val tabRes =
+        intArrayOf(R.string.competition_about, R.string.competition_all_time_standings)
 
     private var binding: ActivityCompetitionBinding? = null
+    private var compViewPager: ViewPager2? = null
+    private var competitionPagerAdapter: CompetitionPagerAdapter? = null
+
+    private var nationListViewModel: AssociationListViewModel? = null
+    private var teamListViewModel: TeamListViewModel? = null
+    private var tournamentListViewModel: TournamentListViewModel? = null
+    private var nationList: List<Nation?>? = emptyList()
+    private var teamList: List<Team?>? = emptyList()
+    private var tournamentList: List<Tournament?>? = emptyList()
+    private var competition: Competition? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,16 +44,18 @@ class CompetitionActivity : AppCompatActivity() {
         ActionBarUtil.buildActionBar(layoutInflater, supportActionBar, R.layout.toolbar_competition_activity)
         supportActionBar!!.title = competition!!.name
 
+        compViewPager = binding!!.competitionViewPager
+
         val dataLoader = FirestoreLoader()
         nationListViewModel = ViewModelProvider(this).get(
             AssociationListViewModel::class.java
         )
         dataLoader.getActiveNations(nationListViewModel!!)
 
-        clubListViewModel = ViewModelProvider(this).get(
-            ClubListViewModel::class.java
+        teamListViewModel = ViewModelProvider(this).get(
+            TeamListViewModel::class.java
         )
-        dataLoader.getClubs(clubListViewModel!!)
+        dataLoader.getTeams(teamListViewModel!!)
 
         tournamentListViewModel = ViewModelProvider(this).get(
             TournamentListViewModel::class.java
@@ -61,26 +66,42 @@ class CompetitionActivity : AppCompatActivity() {
             this,
             { nationList_: List<Nation?>? ->
                 nationList = nationList_
-                joinNation()
+                competitionObserver()
             })
-        clubListViewModel!!.clubList.observe(
+        teamListViewModel!!.teamList.observe(
             this,
-            { clubList_: List<Club?>? ->
-                clubList = clubList_
-                joinNation()
+            { teamList_: List<Team?>? ->
+                teamList = teamList_
+                competitionObserver()
             })
         tournamentListViewModel!!.tournamentList.observe(
             this,
             { tournamentList_: List<Tournament?>? ->
                 tournamentList = tournamentList_
-                joinNation()
+                competitionObserver()
             })
     }
 
-    private fun joinNation() {
-        if (nationList.isNullOrEmpty() || clubList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
+    private fun competitionObserver() {
+
+        if (nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
+
+        CompetitionUtil.getChampion(competition, nationList, teamList)
+
         tournamentList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
-        val x =1
+        competition!!.tournamentList = tournamentList
+
+        competitionPagerAdapter = CompetitionPagerAdapter.newInstance(supportFragmentManager, lifecycle)
+        competitionPagerAdapter!!.setCompetition(competition!!)
+        compViewPager!!.adapter = competitionPagerAdapter
+
+        TabLayoutMediator(
+            binding!!.competitionTabLayout, compViewPager!!
+        ) { tab: TabLayout.Tab, position: Int ->
+            tab.setText(
+                tabRes[position]
+            )
+        }.attach()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
