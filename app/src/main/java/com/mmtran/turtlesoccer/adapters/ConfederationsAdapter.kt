@@ -2,7 +2,6 @@ package com.mmtran.turtlesoccer.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,20 +17,18 @@ import com.mmtran.turtlesoccer.databinding.RowConfederationBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Competition
 
-const val EXTRA_COMPETITION = "com.mmtran.turtlesoccer.COMPETITION"
-
 class ConfederationsAdapter(context: Context?, confederationList: List<Confederation?>) :
     RecyclerView.Adapter<ConfederationsAdapter.ViewHolder>(), ConfCompetitionsAdapter.ItemClickListener {
 
     private val _context = context
     private var _confederationList: List<Confederation?> = confederationList
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private var mClickListener: ItemClickListener? = null
+    private val _inflater: LayoutInflater = LayoutInflater.from(context)
+    private var _clickListener: ItemClickListener? = null
     private var confCompetitionsAdapter: ConfCompetitionsAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowConfederationBinding = RowConfederationBinding.inflate(mInflater, parent, false)
+        val binding: RowConfederationBinding = RowConfederationBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -55,14 +52,11 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
     }
 
     override fun onItemClick(view: View?, competitionList: List<Competition?>, position: Int) {
+
         val intent = Intent(_context, CompetitionActivity::class.java).apply {
             putExtra(EXTRA_COMPETITION, competitionList[position]!!)
         }
         startActivity(_context!!, intent, null)
-//        Log.i("TAG",
-//            "You clicked " + competitionList!![position]!!.name
-//                 + ", which is at cell position " + position
-//        )
     }
 
     override fun getItemCount(): Int {
@@ -79,7 +73,7 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
         var confCompetitionListRecyclerView: RecyclerView = binding.confCompetitionList
 
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
         }
 
         init {
@@ -92,7 +86,7 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
     }
 
     fun setClickListener(itemClickListener: ItemClickListener?) {
-        mClickListener = itemClickListener
+        _clickListener = itemClickListener
     }
 
     interface ItemClickListener {

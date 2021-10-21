@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.adapters.DescriptionsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentCompAboutBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.CompAboutViewModel
@@ -20,6 +21,7 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
 
     private var binding: FragmentCompAboutBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
+    private var descriptionsAdapter: DescriptionsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +34,9 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
         compAboutViewModel!!.setCompetition(competition!!)
 
         binding = FragmentCompAboutBinding.inflate(inflater, container, false)
+
+        descriptionsAdapter = DescriptionsAdapter(requireContext())
+        binding!!.descriptionList.adapter = descriptionsAdapter
 
         compAboutViewModel!!.competition.observe(
             viewLifecycleOwner,
@@ -64,6 +69,8 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
             binding!!.competitionTrophy,
             competition!!.logoPath + "/" + competition!!.trophyFilename
         )
+
+        descriptionsAdapter!!.setData(competition!!.descriptions!!)
     }
 
     override fun onDestroyView() {

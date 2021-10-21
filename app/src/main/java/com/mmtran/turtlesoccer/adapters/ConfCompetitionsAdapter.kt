@@ -15,12 +15,12 @@ class ConfCompetitionsAdapter(context: Context?, competitionList: List<Competiti
 
     private val _context = context
     private val _competitionList: List<Competition?> = competitionList
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private var mClickListener: ItemClickListener? = null
+    private val _inflater: LayoutInflater = LayoutInflater.from(context)
+    private var _clickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowConfCompetitionBinding = RowConfCompetitionBinding.inflate(mInflater, parent, false)
+        val binding: RowConfCompetitionBinding = RowConfCompetitionBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -40,7 +40,7 @@ class ConfCompetitionsAdapter(context: Context?, competitionList: List<Competiti
         var competitionNameTextView: TextView = binding.competitionName
 
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, _competitionList, absoluteAdapterPosition)
+            if (_clickListener != null) _clickListener!!.onItemClick(view, _competitionList, absoluteAdapterPosition)
         }
 
         init {
@@ -53,7 +53,7 @@ class ConfCompetitionsAdapter(context: Context?, competitionList: List<Competiti
     }
 
     fun setClickListener(itemClickListener: ItemClickListener?) {
-        mClickListener = itemClickListener
+        _clickListener = itemClickListener
     }
 
     interface ItemClickListener {

@@ -23,7 +23,7 @@ import kotlin.random.Random
 
 class CompetitionsFragment : Fragment() {
 
-    private var nationListViewModel: AssociationListViewModel? = null
+    private var nationListViewModel: NationListViewModel? = null
     private var teamListViewModel: TeamListViewModel? = null
     private var tournamentListViewModel: TournamentListViewModel? = null
     private var competitionListViewModel: CompetitionListViewModel? = null
@@ -42,7 +42,7 @@ class CompetitionsFragment : Fragment() {
 
         val dataLoader = FirestoreLoader()
         nationListViewModel = ViewModelProvider(this).get(
-            AssociationListViewModel::class.java
+            NationListViewModel::class.java
         )
         dataLoader.getActiveNations(nationListViewModel!!)
 

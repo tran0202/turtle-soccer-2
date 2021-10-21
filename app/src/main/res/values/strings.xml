@@ -3,11 +3,11 @@
     <string name="title_home">Home</string>
     <string name="title_competitions">Competitions</string>
     <string name="title_confederations">Confederations</string>
-    <string name="title_associations">Associations</string>
+    <string name="title_nations">Associations</string>
     <string name="toolbar_home">Home</string>
     <string name="toolbar_competitions">Competitions</string>
     <string name="toolbar_confederations">FIFA &amp; Regional Confederations</string>
-    <string name="toolbar_associations">National Associations</string>
+    <string name="toolbar_nations">National Associations</string>
 
     <string name="text_home">It\'s known as football everywhere in the world. In America, we call it Soccer!</string>
 
@@ -18,5 +18,6 @@
 
     <string name="competitions_label">Competitions: </string>
     <string name="competition_about">About</string>
+    <string name="competition_results">Results</string>
     <string name="competition_all_time_standings">All-time Standings</string>
 </resources>

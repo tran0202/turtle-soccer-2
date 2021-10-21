@@ -6,7 +6,7 @@
         <item name="tabIndicatorColor">@color/blue</item>
         <item name="tabMinWidth">200dp</item>
         <item name="tabPaddingStart">10dp</item>
-        <item name="tabPaddingBottom">-20dp</item>
+        <item name="tabPaddingBottom">-10dp</item>
     </style>
     <style name="CustomTabLayout.Text" parent="TextAppearance.AppCompat.Button">
         <item name="android:textColor">@drawable/tab_text_color</item>

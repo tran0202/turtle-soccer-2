@@ -16,13 +16,13 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
 
     private val _context = context
     private val _tournamentList: List<Tournament?> = tournamentList
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private var mClickListener: ItemClickListener? = null
+    private val _inflater: LayoutInflater = LayoutInflater.from(context)
+    private var _clickListener: ItemClickListener? = null
 
     // inflates the cell layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowCompTournamentBinding = RowCompTournamentBinding.inflate(mInflater, parent, false)
+        val binding: RowCompTournamentBinding = RowCompTournamentBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -52,7 +52,7 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
         var shortYearTextView: TextView = binding.shortYear
 
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
         }
 
         init {
@@ -67,7 +67,7 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
 
     // allows clicks events to be caught
     fun setClickListener(itemClickListener: ItemClickListener?) {
-        mClickListener = itemClickListener
+        _clickListener = itemClickListener
     }
 
     // parent activity will implement this method to respond to click events

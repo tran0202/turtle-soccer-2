@@ -24,9 +24,9 @@
         tools:layout="@layout/fragment_confederations" />
 
     <fragment
-        android:id="@+id/navigation_associations"
-        android:name="com.mmtran.turtlesoccer.fragments.AssociationsFragment"
-        android:label="@string/title_associations"
-        tools:layout="@layout/fragment_associations" />
+        android:id="@+id/navigation_nations"
+        android:name="com.mmtran.turtlesoccer.fragments.NationsFragment"
+        android:label="@string/title_nations"
+        tools:layout="@layout/fragment_nations" />
 
 </navigation>

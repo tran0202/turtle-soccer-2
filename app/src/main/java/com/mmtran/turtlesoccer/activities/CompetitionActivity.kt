@@ -18,14 +18,11 @@ import com.mmtran.turtlesoccer.utils.CompetitionUtil
 
 class CompetitionActivity : AppCompatActivity() {
 
-    private val tabRes =
-        intArrayOf(R.string.competition_about, R.string.competition_all_time_standings)
-
     private var binding: ActivityCompetitionBinding? = null
     private var compViewPager: ViewPager2? = null
     private var competitionPagerAdapter: CompetitionPagerAdapter? = null
 
-    private var nationListViewModel: AssociationListViewModel? = null
+    private var nationListViewModel: NationListViewModel? = null
     private var teamListViewModel: TeamListViewModel? = null
     private var tournamentListViewModel: TournamentListViewModel? = null
     private var nationList: List<Nation?>? = emptyList()
@@ -48,7 +45,7 @@ class CompetitionActivity : AppCompatActivity() {
 
         val dataLoader = FirestoreLoader()
         nationListViewModel = ViewModelProvider(this).get(
-            AssociationListViewModel::class.java
+            NationListViewModel::class.java
         )
         dataLoader.getActiveNations(nationListViewModel!!)
 
@@ -99,7 +96,7 @@ class CompetitionActivity : AppCompatActivity() {
             binding!!.competitionTabLayout, compViewPager!!
         ) { tab: TabLayout.Tab, position: Int ->
             tab.setText(
-                tabRes[position]
+                TAB_RES[position]
             )
         }.attach()
     }
@@ -112,5 +109,10 @@ class CompetitionActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    companion object {
+        private val TAB_RES =
+            intArrayOf(R.string.competition_about, R.string.competition_results, R.string.competition_all_time_standings)
     }
 }

@@ -22,7 +22,7 @@ object CompetitionUtil {
             if (nation != null) {
                 team.nation = nation
             }
-            if (competition!!.currentChampions !== null) {
+            if (competition.currentChampions !== null) {
                 competition.currentChampionTeam = team
             } else {
                 competition.lastChampionTeam = team

@@ -21,13 +21,13 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
 
     private val _context = context
     private var _competitionList: List<Competition?> = competitionList
-    private val mInflater: LayoutInflater = LayoutInflater.from(context)
-    private var mClickListener: ItemClickListener? = null
+    private val _inflater: LayoutInflater = LayoutInflater.from(context)
+    private var _clickListener: ItemClickListener? = null
     private var compTournamentsAdapter: CompTournamentsAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowCompetitionBinding = RowCompetitionBinding.inflate(mInflater, parent, false)
+        val binding: RowCompetitionBinding = RowCompetitionBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -44,10 +44,10 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         holder.competitionTeamCountTextView.text = _context!!.getString(R.string.competition_team_count, _competitionList[position]!!.teamCount.toString())
 
         if (_competitionList[position]!!.currentChampions !== null) {
-            holder.competitionCurrentChampionsLabelTextView.text = _context!!.getString(R.string.competition_current_champions_label);
+            holder.competitionCurrentChampionsLabelTextView.text = _context.getString(R.string.competition_current_champions_label);
             renderFlagName(_context, holder.fragmentFlagNameBinding, _competitionList[position]!!.currentChampionTeam)
         } else {
-            holder.competitionCurrentChampionsLabelTextView.text = _context!!.getString(R.string.competition_last_champions_label);
+            holder.competitionCurrentChampionsLabelTextView.text = _context.getString(R.string.competition_last_champions_label);
             renderFlagName(_context, holder.fragmentFlagNameBinding, _competitionList[position]!!.lastChampionTeam)
         }
 
@@ -77,7 +77,7 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         var compTournamentListRecyclerView: RecyclerView = binding.compTournamentList
 
         override fun onClick(view: View) {
-            if (mClickListener != null) mClickListener!!.onItemClick(view, adapterPosition)
+            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
         }
 
         init {
@@ -90,7 +90,7 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
     }
 
     fun setClickListener(itemClickListener: ItemClickListener?) {
-        mClickListener = itemClickListener
+        _clickListener = itemClickListener
     }
 
     interface ItemClickListener {

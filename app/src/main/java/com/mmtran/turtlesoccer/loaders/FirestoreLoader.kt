@@ -83,7 +83,7 @@ class FirestoreLoader {
         }
     }
 
-    fun getActiveNations(associationListViewModel: AssociationListViewModel) {
+    fun getActiveNations(nationListViewModel: NationListViewModel) {
 
         val query = db.collection("nation")
             .whereEqualTo("parent_nation_id", "")
@@ -99,7 +99,7 @@ class FirestoreLoader {
                 nationList.sortWith(Comparator { lhs, rhs ->
                     lhs!!.name.compareTo(rhs!!.name).compareTo(0)
                 })
-                associationListViewModel.setNationList(nationList)
+                nationListViewModel.setNationList(nationList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
             }

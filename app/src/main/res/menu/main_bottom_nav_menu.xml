@@ -17,8 +17,8 @@
         android:title="@string/title_confederations" />
 
     <item
-        android:id="@+id/navigation_associations"
+        android:id="@+id/navigation_nations"
         android:icon="@drawable/flag_64"
-        android:title="@string/title_associations" />
+        android:title="@string/title_nations" />
 
 </menu>

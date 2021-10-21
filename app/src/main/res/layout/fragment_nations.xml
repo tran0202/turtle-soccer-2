@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="75dp"
-    tools:context=".fragments.AssociationsFragment">
+    tools:context=".fragments.NationsFragment">
 
-    <ListView
-        android:id="@+id/association_list"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nation_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

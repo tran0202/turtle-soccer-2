@@ -121,7 +121,7 @@ class TournamentDetails {
     @get:PropertyName("association_count")
     @set:PropertyName("association_count")
     @PropertyName("association_count")
-    var associationCount: Int? = null
+    var nationCount: Int? = null
 
     @get:PropertyName("confed_count")
     @set:PropertyName("confed_count")
