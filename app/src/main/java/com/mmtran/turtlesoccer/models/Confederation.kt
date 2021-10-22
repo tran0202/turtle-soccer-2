@@ -20,7 +20,7 @@ class Confederation {
 
     var competitionList: List<Competition?>? = emptyList()
 
-    constructor() {}
+    constructor()
     constructor(id: String?, name: String?, logoFilename: String?, description: String?) {
         this.id = id
         this.name = name

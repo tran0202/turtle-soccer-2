@@ -47,7 +47,7 @@ class CompetitionActivity : AppCompatActivity() {
         nationListViewModel = ViewModelProvider(this).get(
             NationListViewModel::class.java
         )
-        dataLoader.getActiveNations(nationListViewModel!!)
+        dataLoader.getNations(nationListViewModel!!)
 
         teamListViewModel = ViewModelProvider(this).get(
             TeamListViewModel::class.java
@@ -84,6 +84,7 @@ class CompetitionActivity : AppCompatActivity() {
         if (nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
 
         CompetitionUtil.getChampion(competition, nationList, teamList)
+        CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
 
         tournamentList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
         competition!!.tournamentList = tournamentList

@@ -3,6 +3,26 @@ package com.mmtran.turtlesoccer.models
 import com.google.firebase.firestore.PropertyName
 import java.io.Serializable
 
+class Champion: Serializable {
+
+    @get:PropertyName("team_id")
+    @set:PropertyName("team_id")
+    @PropertyName("team_id")
+    var teamId: String? = null
+
+    var team: Team? = null
+
+    @get:PropertyName("title_count")
+    @set:PropertyName("title_count")
+    @PropertyName("title_count")
+    var titleCount: Int? = null
+
+    constructor()
+    constructor(teamId: String?) {
+        this.teamId = teamId
+    }
+}
+
 class Competition: Serializable {
 
     var id: String? = null
@@ -42,16 +62,17 @@ class Competition: Serializable {
     @get:PropertyName("current_champions")
     @set:PropertyName("current_champions")
     @PropertyName("current_champions")
-    var currentChampions: String? = null
-
-    var currentChampionTeam: Team? = Team()
+    var currentChampions: Champion? = null
 
     @get:PropertyName("last_champions")
     @set:PropertyName("last_champions")
     @PropertyName("last_champions")
-    var lastChampions: String? = null
+    var lastChampions: Champion? = null
 
-    var lastChampionTeam: Team? = Team()
+    @get:PropertyName("most_successful_teams")
+    @set:PropertyName("most_successful_teams")
+    @PropertyName("most_successful_teams")
+    var mostSuccessfulTeams: List<Champion?>? = emptyList()
 
     var descriptions: List<String?>? = emptyList()
     var order: Int? = null
@@ -63,9 +84,9 @@ class Competition: Serializable {
 
     var tournamentList: List<Tournament?>? = emptyList()
 
-    constructor() {}
+    constructor()
     constructor(id: String?, name: String?, color: String?, teamTypeId: String?, confederationId: String?,
-                logoPath: String?, trophyFilename: String?, currentChampions: String?, lastChampions: String?,
+                logoPath: String?, trophyFilename: String?,
                 teamCount: Int?, descriptions: List<String?>?, order: Int?) {
         this.id = id
         this.name = name
@@ -74,8 +95,6 @@ class Competition: Serializable {
         this.confederationId = confederationId
         this.logoPath = logoPath
         this.trophyFilename = trophyFilename
-        this.currentChampions = currentChampions
-        this.lastChampions = lastChampions
         this.teamCount = teamCount
         this.descriptions = descriptions
         this.order = order

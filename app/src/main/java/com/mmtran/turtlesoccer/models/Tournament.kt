@@ -148,7 +148,7 @@ class TournamentDetails {
     @PropertyName("final_city_count")
     var finalCityCount: Int? = null
 
-    constructor() {}
+    constructor()
     constructor(logoFilename: String?, startDate: String?, endDate: String?) {
         this.logoFilename = logoFilename
         this.startDate = startDate
@@ -162,7 +162,7 @@ class HeroImage {
     var filename: String? = null
     var text: String? = null
 
-    constructor() {}
+    constructor()
 }
 
 class FinalStandings {
@@ -199,7 +199,7 @@ class FinalStandings {
     @PropertyName("semi_finalist2")
     var semiFinalist2: String? = null
 
-    constructor() {}
+    constructor()
 }
 
 class Statistics {
@@ -231,7 +231,7 @@ class Statistics {
     @PropertyName("final_attendance")
     var finalAttendance: Int? = null
 
-    constructor() {}
+    constructor()
 }
 
 class Awards {
@@ -301,7 +301,7 @@ class Awards {
     @PropertyName("fair_play_team")
     var fairPlayTeam: List<String?>? = emptyList()
 
-    constructor() {}
+    constructor()
 }
 
 class Player {
@@ -320,7 +320,7 @@ class Player {
     @PropertyName("rejected_notes")
     var rejectedNotes: String? = null
 
-    constructor() {}
+    constructor()
 }
 
 class Tournament {
@@ -408,7 +408,7 @@ class Tournament {
 
     var competition: Competition? = Competition()
 
-    constructor() {}
+    constructor()
     constructor(id: String?, year: String?, name: String?, competitionId: String?, active: Boolean?,
                 goldenGoalRule: Boolean?, pointsForWin: Int?) {
         this.id = id

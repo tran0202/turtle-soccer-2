@@ -47,7 +47,7 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
         val recyclerView: RecyclerView = holder.confCompetitionListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
         confCompetitionsAdapter = ConfCompetitionsAdapter(_context, _confederationList[position]!!.competitionList!!)
-        confCompetitionsAdapter!!.setClickListener(this);
+        confCompetitionsAdapter!!.setClickListener(this)
         recyclerView.adapter = confCompetitionsAdapter
     }
 

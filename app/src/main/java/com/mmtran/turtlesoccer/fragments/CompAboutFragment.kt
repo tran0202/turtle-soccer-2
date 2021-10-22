@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.adapters.CompSuccessfulTeamsAdapter
 import com.mmtran.turtlesoccer.adapters.DescriptionsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentCompAboutBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
@@ -21,6 +24,7 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
 
     private var binding: FragmentCompAboutBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
+    private var compSuccessfulTeamsAdapter: CompSuccessfulTeamsAdapter? = null
     private var descriptionsAdapter: DescriptionsAdapter? = null
 
     override fun onCreateView(
@@ -34,6 +38,11 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
         compAboutViewModel!!.setCompetition(competition!!)
 
         binding = FragmentCompAboutBinding.inflate(inflater, container, false)
+
+        val recyclerView: RecyclerView = binding!!.compSuccessfulTeamList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        compSuccessfulTeamsAdapter = CompSuccessfulTeamsAdapter(requireContext(), competition!!.mostSuccessfulTeams!!)
+        recyclerView.adapter = compSuccessfulTeamsAdapter
 
         descriptionsAdapter = DescriptionsAdapter(requireContext())
         binding!!.descriptionList.adapter = descriptionsAdapter
@@ -58,11 +67,15 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
 
         if (competition!!.currentChampions !== null) {
             binding!!.competitionCurrentChampionsLabel.text = requireContext().getString(R.string.competition_current_champions_label)
-            renderFlagName(requireContext(), binding!!.flagName, competition!!.currentChampionTeam)
+            renderFlagName(requireContext(), binding!!.flagName, competition!!.currentChampions!!.team)
+            binding!!.titleCount.text = requireActivity().getString(R.string.competition_title_count, competition!!.currentChampions!!.titleCount.toString())
         } else {
             binding!!.competitionCurrentChampionsLabel.text = requireContext().getString(R.string.competition_last_champions_label)
-            renderFlagName(requireContext(), binding!!.flagName, competition!!.lastChampionTeam)
+            renderFlagName(requireContext(), binding!!.flagName, competition!!.lastChampions!!.team)
+            binding!!.titleCount.text = requireActivity().getString(R.string.competition_title_count, competition!!.lastChampions!!.titleCount.toString())
         }
+
+        binding!!.mostSuccessfulTeamLabel.text = requireContext().getString(R.string.competition_most_successful_team_label)
 
         firebaseStorageLoader!!.loadImage(
             activity,

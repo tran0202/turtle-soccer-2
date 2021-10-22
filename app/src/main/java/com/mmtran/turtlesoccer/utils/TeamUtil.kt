@@ -13,9 +13,10 @@ object TeamUtil {
         val firebaseStorageLoader = FirebaseStorageLoader(context)
 
         if (team!!.teamTypeId.equals("CLUB")) {
+            binding!!.clubLogo.visibility = View.VISIBLE
             firebaseStorageLoader.loadImage(
                 context,
-                binding!!.clubLogo,
+                binding.clubLogo,
                 "club_logos/" + team.logoFilename
             )
             firebaseStorageLoader.loadImage(

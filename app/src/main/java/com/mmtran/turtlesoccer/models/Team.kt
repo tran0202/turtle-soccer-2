@@ -52,7 +52,7 @@ class Team: Serializable {
     @PropertyName("time_stamp")
     var timeStamp: String? = null
 
-    constructor() {}
+    constructor()
     constructor(id: String?, name: String?, shortName: String?, teamTypeId: String?, nationId: String?,
                 parentTeamId: String?, successor: Boolean?) {
         this.id = id

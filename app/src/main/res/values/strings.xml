@@ -15,6 +15,8 @@
     <string name="competition_team_count">Number of teams: %1$s</string>
     <string name="competition_current_champions_label">Current Champions: </string>
     <string name="competition_last_champions_label">Last Champions: </string>
+    <string name="competition_title_count">(%1$s)</string>
+    <string name="competition_most_successful_team_label">Most successful teams: </string>
 
     <string name="competitions_label">Competitions: </string>
     <string name="competition_about">About</string>

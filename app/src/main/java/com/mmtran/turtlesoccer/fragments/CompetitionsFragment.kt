@@ -44,7 +44,7 @@ class CompetitionsFragment : Fragment() {
         nationListViewModel = ViewModelProvider(this).get(
             NationListViewModel::class.java
         )
-        dataLoader.getActiveNations(nationListViewModel!!)
+        dataLoader.getNations(nationListViewModel!!)
 
         teamListViewModel = ViewModelProvider(this).get(
             TeamListViewModel::class.java
@@ -105,6 +105,7 @@ class CompetitionsFragment : Fragment() {
         
         for (competition: Competition? in competitionList!!) {
             CompetitionUtil.getChampion(competition, nationList, teamList)
+            CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
             val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
             competition!!.tournamentList = createRandomTournamentList(tourList, competition)
         }

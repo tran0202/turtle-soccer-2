@@ -83,6 +83,27 @@ class FirestoreLoader {
         }
     }
 
+    fun getNations(nationListViewModel: NationListViewModel) {
+
+        val query = db.collection("nation")
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result!!) {
+                    val nation = document.toObject(Nation::class.java)
+                    nation.id = document.id
+                    nationList.add(nation)
+                    Log.d(TAG, document.id + " => " + document.data)
+                }
+                nationList.sortWith { lhs, rhs ->
+                    lhs!!.name.compareTo(rhs!!.name).compareTo(0)
+                }
+                nationListViewModel.setNationList(nationList)
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.exception)
+            }
+        }
+    }
+
     fun getActiveNations(nationListViewModel: NationListViewModel) {
 
         val query = db.collection("nation")
@@ -96,9 +117,9 @@ class FirestoreLoader {
                     nationList.add(nation)
                     Log.d(TAG, document.id + " => " + document.data)
                 }
-                nationList.sortWith(Comparator { lhs, rhs ->
+                nationList.sortWith { lhs, rhs ->
                     lhs!!.name.compareTo(rhs!!.name).compareTo(0)
-                })
+                }
                 nationListViewModel.setNationList(nationList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
@@ -117,9 +138,9 @@ class FirestoreLoader {
                     teamList.add(team)
                     Log.d(TAG, document.id + " => " + document.data)
                 }
-                teamList.sortWith(Comparator { lhs, rhs ->
+                teamList.sortWith { lhs, rhs ->
                     lhs!!.name!!.compareTo(rhs!!.name!!).compareTo(0)
-                })
+                }
                 teamListViewModel.setTeamList(teamList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
