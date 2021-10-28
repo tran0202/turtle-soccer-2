@@ -19,6 +19,7 @@ import com.mmtran.turtlesoccer.databinding.FragmentCompetitionsBinding
 import com.mmtran.turtlesoccer.models.*
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
 import com.mmtran.turtlesoccer.utils.CompetitionUtil
+import com.mmtran.turtlesoccer.utils.TournamentUtil
 import kotlin.random.Random
 
 class CompetitionsFragment : Fragment() {
@@ -107,6 +108,7 @@ class CompetitionsFragment : Fragment() {
             CompetitionUtil.getChampion(competition, nationList, teamList)
             CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
             val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
+            TournamentUtil.attachCompetition(tourList, competition)
             competition!!.tournamentList = createRandomTournamentList(tourList, competition)
         }
 
@@ -116,7 +118,7 @@ class CompetitionsFragment : Fragment() {
         divider.setDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
-                R.drawable.divider_gray_4
+                R.drawable.divider_gray_5
             )!!
         )
         recyclerView.addItemDecoration(divider)
@@ -130,7 +132,6 @@ class CompetitionsFragment : Fragment() {
         val len = tourList.size
         if (len <= 5) {
             for (i in 0 until len) {
-                temp[i]!!.competition = competition
                 result = result + temp[i]
             }
         } else {
@@ -145,7 +146,6 @@ class CompetitionsFragment : Fragment() {
             for (i in 1..5) {
                 val rIndex = Random.nextInt(temp.size)
                 val rTournament = temp[rIndex]
-                rTournament!!.competition = competition
                 result = result + rTournament
                 temp = temp - rTournament
             }

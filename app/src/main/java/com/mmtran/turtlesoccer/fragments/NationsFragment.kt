@@ -68,7 +68,7 @@ class NationsFragment : Fragment() {
         divider.setDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
-                R.drawable.divider_gray_4
+                R.drawable.divider_gray_5
             )!!
         )
         recyclerView.addItemDecoration(divider)

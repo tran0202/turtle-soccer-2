@@ -168,16 +168,21 @@ class HeroImage {
 class FinalStandings {
 
     var champions: String? = null
+    var championTeam: Team? = Team()
 
     @get:PropertyName("runners_up")
     @set:PropertyName("runners_up")
     @PropertyName("runners_up")
     var runnersUp: String? = null
 
+    var runnersUpTeam: Team? = Team()
+
     @get:PropertyName("third_place")
     @set:PropertyName("third_place")
     @PropertyName("third_place")
     var thirdPlace: List<String?>? = emptyList()
+
+    var thirdPlaceTeam: List<Team?>? = emptyList()
 
     @get:PropertyName("third_place_text")
     @set:PropertyName("third_place_text")
@@ -189,15 +194,21 @@ class FinalStandings {
     @PropertyName("fourth_place")
     var fourthPlace: String? = null
 
+    var fourthPlaceTeam: Team? = Team()
+
     @get:PropertyName("semi_finalist1")
     @set:PropertyName("semi_finalist1")
     @PropertyName("semi_finalist1")
     var semiFinalist1: String? = null
 
+    var semiFinalist1Team: Team? = Team()
+
     @get:PropertyName("semi_finalist2")
     @set:PropertyName("semi_finalist2")
     @PropertyName("semi_finalist2")
     var semiFinalist2: String? = null
+
+    var semiFinalist2Team: Team? = Team()
 
     constructor()
 }
@@ -323,6 +334,17 @@ class Player {
     constructor()
 }
 
+enum class SectionHeader(val value: Int) {
+    NOT_HEADER(0),
+    THIRD_PLACE_HEADER(1),
+    SEMIFINALISTS_HEADER(2)
+}
+
+enum class ThirdPlaceDetermined(val value: Int) {
+    HAS_THIRD_PLACE(0),
+    HAS_SEMI_FINALISTS(1)
+}
+
 class Tournament {
 
     var id: String? = null
@@ -406,6 +428,9 @@ class Tournament {
     @PropertyName("time_stamp")
     var timeStamp: String? = null
 
+    var compTourResultSectionHeader: SectionHeader = SectionHeader.NOT_HEADER
+    var compTourResultEvenRow: Boolean = false
+    var thirdPlaceDetermined: ThirdPlaceDetermined = ThirdPlaceDetermined.HAS_THIRD_PLACE
     var competition: Competition? = Competition()
 
     constructor()

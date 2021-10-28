@@ -15,6 +15,7 @@ import com.mmtran.turtlesoccer.models.*
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mmtran.turtlesoccer.utils.CompetitionUtil
+import com.mmtran.turtlesoccer.utils.TournamentUtil
 
 class CompetitionActivity : AppCompatActivity() {
 
@@ -88,6 +89,12 @@ class CompetitionActivity : AppCompatActivity() {
 
         tournamentList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
         competition!!.tournamentList = tournamentList
+        TournamentUtil.attachCompetition(tournamentList, competition)
+
+        competition!!.tournamentList = competition!!.tournamentList!!.reversed()
+        TournamentUtil.processTournament(competition!!.tournamentList!!)
+
+        TournamentUtil.processFinalStandings(competition, nationList, teamList)
 
         competitionPagerAdapter = CompetitionPagerAdapter.newInstance(supportFragmentManager, lifecycle)
         competitionPagerAdapter!!.setCompetition(competition!!)

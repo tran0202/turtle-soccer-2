@@ -13,12 +13,8 @@ object CompetitionUtil {
 
         for (champion: Champion? in competition.mostSuccessfulTeams!!) {
 
-            val team = teamList.find { it!!.id.equals(champion!!.teamId) }
-            if (team!= null) {
-                val nation = nationList.find { it!!.id.equals(team.nationId) }
-                if (nation != null) {
-                    team.nation = nation
-                }
+            val team = TeamUtil.getTeam(champion!!.teamId, nationList, teamList)
+            if (team != null) {
                 champion!!.team = team
             }
         }
@@ -36,12 +32,8 @@ object CompetitionUtil {
         }
         if (championId.isNullOrEmpty()) return
 
-        val team = teamList.find { it!!.id.equals(championId) }
+        val team = TeamUtil.getTeam(championId, nationList, teamList)
         if (team!= null) {
-            val nation = nationList.find { it!!.id.equals(team.nationId) }
-            if (nation != null) {
-                team.nation = nation
-            }
             if (competition!!.currentChampions !== null) {
                 competition!!.currentChampions!!.team = team
             } else {

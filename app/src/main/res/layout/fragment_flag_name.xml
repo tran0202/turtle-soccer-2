@@ -36,7 +36,7 @@
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
-        android:background="@drawable/flag_border"
+        android:background="@drawable/border_flag"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/club_logo"
         app:layout_constraintEnd_toStartOf="@id/name"

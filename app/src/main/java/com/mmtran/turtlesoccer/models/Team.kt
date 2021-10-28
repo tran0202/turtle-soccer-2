@@ -31,6 +31,7 @@ class Team: Serializable {
     var parentTeamId: String? = null
 
     var successor: Boolean? = null
+    var code: String? = null
 
     @get:PropertyName("club_code")
     @set:PropertyName("club_code")
@@ -62,5 +63,9 @@ class Team: Serializable {
         this.nationId = nationId
         this.parentTeamId = parentTeamId
         this.successor = successor
+    }
+
+    fun isValid(): Boolean {
+        return id != null
     }
 }

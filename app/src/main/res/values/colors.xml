@@ -20,4 +20,10 @@
     <color name="gray4">#C7C6C6</color>
     <color name="gray5">#E6E7E9</color>
     <color name="gray6">#F8F8F8</color>
+    <color name="gold">#FFD700</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="bronze">#CC9966</color>
+    <color name="sky_blue">#9ACDFF</color>
+    <color name="light_blue">#EAF4FF</color>
+    <color name="bright_blue">#BBF3FF</color>
 </resources>

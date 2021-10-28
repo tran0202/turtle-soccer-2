@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mmtran.turtlesoccer.fragments.CompAboutFragment
 import com.mmtran.turtlesoccer.fragments.CompAllTimeStandingsFragment
-import com.mmtran.turtlesoccer.fragments.CompResultsFragment
+import com.mmtran.turtlesoccer.fragments.CompTourResultsFragment
 import com.mmtran.turtlesoccer.models.Competition
 
 class CompetitionPagerAdapter(fragmentManager: FragmentManager?, lifecycle: Lifecycle?) :
@@ -21,7 +21,7 @@ class CompetitionPagerAdapter(fragmentManager: FragmentManager?, lifecycle: Life
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             PAGE_ABOUT -> CompAboutFragment.newInstance(competition)
-            PAGE_RESULTS -> CompResultsFragment.newInstance(competition)
+            PAGE_RESULTS -> CompTourResultsFragment.newInstance(competition)
             PAGE_ALL_TIME_STANDINGS -> CompAllTimeStandingsFragment.newInstance(competition)
             else -> Fragment()
         }
