@@ -33,38 +33,40 @@ object TournamentUtil {
         if (competition!!.tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         for (tournament: Tournament? in competition.tournamentList!!) {
-            val championId = tournament!!.finalStandings!!.champions
-            val runnersUpId = tournament.finalStandings!!.runnersUp
-            val thirdPlaceList = tournament.finalStandings!!.thirdPlace
-            val fourthPlaceId = tournament.finalStandings!!.fourthPlace
-            val semiFinalist1Id = tournament.finalStandings!!.semiFinalist1
-            val semiFinalist2Id = tournament.finalStandings!!.semiFinalist2
+            if (tournament!!.finalStandings != null) {
+                val championId = tournament.finalStandings!!.champions
+                val runnersUpId = tournament.finalStandings!!.runnersUp
+                val thirdPlaceList = tournament.finalStandings!!.thirdPlace
+                val fourthPlaceId = tournament.finalStandings!!.fourthPlace
+                val semiFinalist1Id = tournament.finalStandings!!.semiFinalist1
+                val semiFinalist2Id = tournament.finalStandings!!.semiFinalist2
 
-            val team1 = TeamUtil.getTeam(championId, nationList, teamList)
-            if (team1 != null) {
-                tournament.finalStandings!!.championTeam = team1
-            }
-            val team2 = TeamUtil.getTeam(runnersUpId, nationList, teamList)
-            if (team2 != null) {
-                tournament.finalStandings!!.runnersUpTeam = team2
-            }
-            for (thirdPlaceId: String? in thirdPlaceList!!) {
-                val team3 = TeamUtil.getTeam(thirdPlaceId, nationList, teamList)
-                if (team3 != null) {
-                    tournament.finalStandings!!.thirdPlaceTeam = tournament.finalStandings!!.thirdPlaceTeam?.plus(team3)
+                val team1 = TeamUtil.getTeam(championId, nationList, teamList)
+                if (team1 != null) {
+                    tournament.finalStandings!!.championTeam = team1
                 }
-            }
-            val team4 = TeamUtil.getTeam(fourthPlaceId, nationList, teamList)
-            if (team4 != null) {
-                tournament.finalStandings!!.fourthPlaceTeam = team4
-            }
-            val team5 = TeamUtil.getTeam(semiFinalist1Id, nationList, teamList)
-            if (team5 != null) {
-                tournament.finalStandings!!.semiFinalist1Team = team5
-            }
-            val team6 = TeamUtil.getTeam(semiFinalist2Id, nationList, teamList)
-            if (team6 != null) {
-                tournament.finalStandings!!.semiFinalist2Team = team6
+                val team2 = TeamUtil.getTeam(runnersUpId, nationList, teamList)
+                if (team2 != null) {
+                    tournament.finalStandings!!.runnersUpTeam = team2
+                }
+                for (thirdPlaceId: String? in thirdPlaceList!!) {
+                    val team3 = TeamUtil.getTeam(thirdPlaceId, nationList, teamList)
+                    if (team3 != null) {
+                        tournament.finalStandings!!.thirdPlaceTeam = tournament.finalStandings!!.thirdPlaceTeam?.plus(team3)
+                    }
+                }
+                val team4 = TeamUtil.getTeam(fourthPlaceId, nationList, teamList)
+                if (team4 != null) {
+                    tournament.finalStandings!!.fourthPlaceTeam = team4
+                }
+                val team5 = TeamUtil.getTeam(semiFinalist1Id, nationList, teamList)
+                if (team5 != null) {
+                    tournament.finalStandings!!.semiFinalist1Team = team5
+                }
+                val team6 = TeamUtil.getTeam(semiFinalist2Id, nationList, teamList)
+                if (team6 != null) {
+                    tournament.finalStandings!!.semiFinalist2Team = team6
+                }
             }
         }
     }

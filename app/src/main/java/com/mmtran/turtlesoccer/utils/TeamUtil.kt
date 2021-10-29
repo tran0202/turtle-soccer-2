@@ -42,7 +42,11 @@ object TeamUtil {
 
         val firebaseStorageLoader = FirebaseStorageLoader(context)
 
-        if (team!!.teamTypeId.equals("CLUB")) {
+        if (team == null || team.nation == null) return
+
+        val factor: Float = context!!.resources.displayMetrics.density
+
+        if (team.teamTypeId.equals("CLUB")) {
             binding!!.clubLogo.visibility = View.VISIBLE
             firebaseStorageLoader.loadImage(
                 context,
@@ -54,6 +58,7 @@ object TeamUtil {
                 binding.flag,
                 "flags/" + team.nation!!.flagFilename
             )
+            binding.flag.layoutParams.width = (18 * factor).toInt()
             binding.code.text = team.clubCode
         } else {
             binding!!.clubLogo.visibility = View.GONE

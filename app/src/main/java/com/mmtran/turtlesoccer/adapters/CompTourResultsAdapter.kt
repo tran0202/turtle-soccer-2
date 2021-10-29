@@ -63,16 +63,18 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
 
         if (tournament.compTourResultEvenRow) {
             holder.tournamentColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_comp_result_even_row_first_cell, null)
-            holder.championColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_comp_result_even_row_other_cell, null)
-            holder.runnerUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_comp_result_even_row_other_cell, null)
-            holder.thirdPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_comp_result_even_row_other_cell, null)
-            holder.fourthPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_comp_result_even_row_other_cell, null)
+            holder.championColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
+            holder.runnerUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
+            holder.thirdPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
+            holder.fourthPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
+            holder.semiFinalistsColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
         } else {
             holder.tournamentColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_other_row_first_cell, null)
-            holder.championColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_other_row_other_cell, null)
-            holder.runnerUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_other_row_other_cell, null)
-            holder.thirdPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_other_row_other_cell, null)
-            holder.fourthPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_other_row_other_cell, null)
+            holder.championColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
+            holder.runnerUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
+            holder.thirdPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
+            holder.fourthPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
+            holder.semiFinalistsColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
         }
 
         val firebaseStorageLoader = FirebaseStorageLoader(_context)
@@ -89,42 +91,45 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
             holder.shortYearTextView.visibility = View.GONE
         }
 
-        TeamUtil.renderFlagNameNarrow(_context, holder.championFlagNameBinding, tournament.finalStandings!!.championTeam)
-        TeamUtil.renderFlagNameNarrow(_context, holder.runnerUpFlagNameBinding, tournament.finalStandings!!.runnersUpTeam)
+        if (tournament.finalStandings != null) {
 
-        val recyclerView: RecyclerView = holder.thirdPlaceListRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(_context)
-        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(
-            ContextCompat.getDrawable(
-                _context,
-                R.drawable.no_divider
-            )!!
-        )
-        recyclerView.addItemDecoration(divider)
-        compTourThirdPlaceAdapter = CompTourThirdPlaceAdapter(_context, tournament.finalStandings!!.thirdPlaceTeam!!)
-        recyclerView.adapter = compTourThirdPlaceAdapter
+            TeamUtil.renderFlagNameNarrow(_context, holder.championFlagNameBinding, tournament.finalStandings!!.championTeam)
+            TeamUtil.renderFlagNameNarrow(_context, holder.runnerUpFlagNameBinding, tournament.finalStandings!!.runnersUpTeam)
 
-        if (tournament.finalStandings!!.fourthPlaceTeam!!.isValid()) {
-            holder.fourthPlaceFlagNameBinding.flag.visibility = View.VISIBLE
-            holder.fourthPlaceFlagNameBinding.clubLogo.visibility = View.VISIBLE
-            TeamUtil.renderFlagNameNarrow(_context, holder.fourthPlaceFlagNameBinding, tournament.finalStandings!!.fourthPlaceTeam)
-        } else {
-            holder.fourthPlaceFlagNameBinding.flag.visibility = View.GONE
-            holder.fourthPlaceFlagNameBinding.clubLogo.visibility = View.GONE
-            holder.fourthPlaceFlagNameBinding.code.text = ""
-        }
+            val recyclerView: RecyclerView = holder.thirdPlaceListRecyclerView
+            recyclerView.layoutManager = LinearLayoutManager(_context)
+            val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
+            divider.setDrawable(
+                ContextCompat.getDrawable(
+                    _context,
+                    R.drawable.no_divider
+                )!!
+            )
+            recyclerView.addItemDecoration(divider)
+            compTourThirdPlaceAdapter = CompTourThirdPlaceAdapter(_context, tournament.finalStandings!!.thirdPlaceTeam!!)
+            recyclerView.adapter = compTourThirdPlaceAdapter
 
-        if (tournament.finalStandings!!.semiFinalist1Team!!.isValid() && tournament.finalStandings!!.semiFinalist2Team!!.isValid()) {
-            holder.semiFinalistsColumnLinearLayout.visibility = View.VISIBLE
-            holder.thirdPlaceColumnLinearLayout.visibility = View.GONE
-            holder.fourthPlaceColumnLinearLayout.visibility = View.GONE
-            TeamUtil.renderFlagNameNarrow(_context, holder.semiFinalist1FlagNameBinding, tournament.finalStandings!!.semiFinalist1Team)
-            TeamUtil.renderFlagNameNarrow(_context, holder.semiFinalist2FlagNameBinding, tournament.finalStandings!!.semiFinalist2Team)
-        } else {
-            holder.semiFinalistsColumnLinearLayout.visibility = View.GONE
-            holder.thirdPlaceColumnLinearLayout.visibility = View.VISIBLE
-            holder.fourthPlaceColumnLinearLayout.visibility = View.VISIBLE
+            if (tournament.finalStandings!!.fourthPlaceTeam!!.isValid()) {
+                holder.fourthPlaceFlagNameBinding.flag.visibility = View.VISIBLE
+                holder.fourthPlaceFlagNameBinding.clubLogo.visibility = View.VISIBLE
+                TeamUtil.renderFlagNameNarrow(_context, holder.fourthPlaceFlagNameBinding, tournament.finalStandings!!.fourthPlaceTeam)
+            } else {
+                holder.fourthPlaceFlagNameBinding.flag.visibility = View.GONE
+                holder.fourthPlaceFlagNameBinding.clubLogo.visibility = View.GONE
+                holder.fourthPlaceFlagNameBinding.code.text = ""
+            }
+
+            if (tournament.finalStandings!!.semiFinalist1Team!!.isValid() && tournament.finalStandings!!.semiFinalist2Team!!.isValid()) {
+                holder.semiFinalistsColumnLinearLayout.visibility = View.VISIBLE
+                holder.thirdPlaceColumnLinearLayout.visibility = View.GONE
+                holder.fourthPlaceColumnLinearLayout.visibility = View.GONE
+                TeamUtil.renderFlagNameNarrow(_context, holder.semiFinalist1FlagNameBinding, tournament.finalStandings!!.semiFinalist1Team)
+                TeamUtil.renderFlagNameNarrow(_context, holder.semiFinalist2FlagNameBinding, tournament.finalStandings!!.semiFinalist2Team)
+            } else {
+                holder.semiFinalistsColumnLinearLayout.visibility = View.GONE
+                holder.thirdPlaceColumnLinearLayout.visibility = View.VISIBLE
+                holder.fourthPlaceColumnLinearLayout.visibility = View.VISIBLE
+            }
         }
     }
 
