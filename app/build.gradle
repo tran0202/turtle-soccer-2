@@ -4,14 +4,22 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 
 android {
+    signingConfigs {
+        release {
+        storeFile file('/Users/mmtran2/mmtran-source/keystores/ts-upload-keystore.jks')
+            storePassword 'mmai2410.db'
+            keyAlias 'upload'
+            keyPassword 'mmai2410.db'
+        }
+    }
     compileSdk 31
 
     defaultConfig {
         applicationId "com.mmtran.turtlesoccer"
         minSdk 27
         targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName '1.0.1'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -19,6 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

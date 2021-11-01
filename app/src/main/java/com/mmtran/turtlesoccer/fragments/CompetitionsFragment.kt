@@ -109,7 +109,7 @@ class CompetitionsFragment : Fragment() {
             CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
             val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
             TournamentUtil.attachCompetition(tourList, competition)
-            competition!!.tournamentList = createRandomTournamentList(tourList, competition)
+            competition!!.tournamentList = createRandomTournamentList(tourList)
         }
 
         val recyclerView: RecyclerView = binding!!.competitionList
@@ -126,7 +126,7 @@ class CompetitionsFragment : Fragment() {
         recyclerView.adapter = competitionsAdapter
     }
 
-    private fun createRandomTournamentList(tourList: List<Tournament?>, competition: Competition) : List<Tournament?> {
+    private fun createRandomTournamentList(tourList: List<Tournament?>) : List<Tournament?> {
         var result = emptyList<Tournament?>()
         var temp = tourList
         val len = tourList.size

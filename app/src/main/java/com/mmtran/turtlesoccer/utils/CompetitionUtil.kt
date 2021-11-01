@@ -15,7 +15,7 @@ object CompetitionUtil {
 
             val team = TeamUtil.getTeam(champion!!.teamId, nationList, teamList)
             if (team != null) {
-                champion!!.team = team
+                champion.team = team
             }
         }
     }
