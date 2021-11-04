@@ -48,10 +48,6 @@ class ConfCompetitionsAdapter(context: Context?, competitionList: List<Competiti
         }
     }
 
-    fun getItem(id: Int): Competition? {
-        return _competitionList[id]
-    }
-
     fun setClickListener(itemClickListener: ItemClickListener?) {
         _clickListener = itemClickListener
     }

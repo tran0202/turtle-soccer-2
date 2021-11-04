@@ -17,7 +17,6 @@ class CompTourThirdPlaceAdapter(context: Context?, teamList: List<Team?>) :
     private val _context = context
     private var _teamList: List<Team?> = teamList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
-    private var _clickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -34,30 +33,9 @@ class CompTourThirdPlaceAdapter(context: Context?, teamList: List<Team?>) :
         return _teamList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowThirdPlaceBinding) : RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
+    inner class ViewHolder internal constructor(binding: RowThirdPlaceBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
         var thirdPlaceFlagNameBinding: FragmentFlagNameNarrowBinding = binding.thirdPlaceFlagName
-
-        override fun onClick(view: View) {
-            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
-        }
-
-        init {
-            root.setOnClickListener(this)
-        }
-    }
-
-    fun getItem(id: Int): Team? {
-        return _teamList[id]
-    }
-
-    fun setClickListener(itemClickListener: ItemClickListener?) {
-        _clickListener = itemClickListener
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
     }
 }

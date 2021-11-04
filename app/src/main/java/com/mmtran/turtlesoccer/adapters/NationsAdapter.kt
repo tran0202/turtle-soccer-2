@@ -18,7 +18,6 @@ class NationsAdapter(context: Context?, nationList: List<Nation?>) :
     private val _context = context
     private var _nationList: List<Nation?> = nationList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
-    private var _clickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -45,33 +44,12 @@ class NationsAdapter(context: Context?, nationList: List<Nation?>) :
         return _nationList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowNationBinding) : RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
+    inner class ViewHolder internal constructor(binding: RowNationBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
         var nationIdTextView: TextView = binding.nationId
         var nationFlagImageView: ImageView = binding.nationFlag
         var nationNameTextView: TextView = binding.nationName
         var confederationTextView: TextView = binding.confederation
-
-        override fun onClick(view: View) {
-            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
-        }
-
-        init {
-            root.setOnClickListener(this)
-        }
-    }
-
-    fun getItem(id: Int): Nation? {
-        return _nationList[id]
-    }
-
-    fun setClickListener(itemClickListener: ItemClickListener?) {
-        _clickListener = itemClickListener
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
     }
 }

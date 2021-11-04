@@ -18,7 +18,6 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
     private val _context = context
     private val _championList: List<Champion?> = championList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
-    private var _clickListener: ItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -36,31 +35,10 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
         return _championList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowCompSuccessfulTeamBinding) : RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
+    inner class ViewHolder internal constructor(binding: RowCompSuccessfulTeamBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
         var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
         var titleCountTextView: TextView = binding.titleCount
-
-        override fun onClick(view: View) {
-            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
-        }
-
-        init {
-            root.setOnClickListener(this)
-        }
-    }
-
-    fun getItem(id: Int): Champion? {
-        return _championList[id]
-    }
-
-    fun setClickListener(itemClickListener: ItemClickListener?) {
-        _clickListener = itemClickListener
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
     }
 }

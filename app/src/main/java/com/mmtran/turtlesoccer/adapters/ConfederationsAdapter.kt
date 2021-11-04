@@ -23,7 +23,6 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
     private val _context = context
     private var _confederationList: List<Confederation?> = confederationList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
-    private var _clickListener: ItemClickListener? = null
     private var confCompetitionsAdapter: ConfCompetitionsAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -63,33 +62,12 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
         return _confederationList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowConfederationBinding) : RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
+    inner class ViewHolder internal constructor(binding: RowConfederationBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
         var confederationFlagImageView: ImageView = binding.confederationLogo
         var confederationNameTextView: TextView = binding.confederationName
         var descriptionTextView: TextView = binding.description
         var confCompetitionListRecyclerView: RecyclerView = binding.confCompetitionList
-
-        override fun onClick(view: View) {
-            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
-        }
-
-        init {
-            root.setOnClickListener(this)
-        }
-    }
-
-    fun getItem(id: Int): Confederation? {
-        return _confederationList[id]
-    }
-
-    fun setClickListener(itemClickListener: ItemClickListener?) {
-        _clickListener = itemClickListener
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
     }
 }

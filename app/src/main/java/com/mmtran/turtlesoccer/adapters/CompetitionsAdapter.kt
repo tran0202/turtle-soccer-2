@@ -23,7 +23,6 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
     private val _context = context
     private var _competitionList: List<Competition?> = competitionList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
-    private var _clickListener: ItemClickListener? = null
     private var compTournamentsAdapter: CompTournamentsAdapter? = null
     private var compSuccessfulTeamsAdapter: CompSuccessfulTeamsAdapter? = null
 
@@ -75,8 +74,7 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         return _competitionList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowCompetitionBinding) : RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
+    inner class ViewHolder internal constructor(binding: RowCompetitionBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
         var competitionTrophyImageView: ImageView = binding.competitionTrophy
@@ -89,25 +87,5 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         var compSuccessfulTeamListRecyclerView: RecyclerView = binding.compSuccessfulTeamList
         var descriptionTextView: TextView = binding.description
         var compTournamentListRecyclerView: RecyclerView = binding.compTournamentList
-
-        override fun onClick(view: View) {
-            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
-        }
-
-        init {
-            root.setOnClickListener(this)
-        }
-    }
-
-    fun getItem(id: Int): Competition? {
-        return _competitionList[id]
-    }
-
-    fun setClickListener(itemClickListener: ItemClickListener?) {
-        _clickListener = itemClickListener
-    }
-
-    interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
     }
 }

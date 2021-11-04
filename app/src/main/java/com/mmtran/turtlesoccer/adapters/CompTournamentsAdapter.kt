@@ -17,7 +17,7 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
     private val _context = context
     private val _tournamentList: List<Tournament?> = tournamentList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
-    private var _clickListener: ItemClickListener? = null
+//    private var _clickListener: ItemClickListener? = null
 
     // inflates the cell layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,34 +44,34 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
     }
 
     // stores and recycles views as they are scrolled off screen
-    inner class ViewHolder internal constructor(binding: RowCompTournamentBinding) : RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
+    inner class ViewHolder internal constructor(binding: RowCompTournamentBinding) : RecyclerView.ViewHolder(binding.root) {//,
+//        View.OnClickListener {
 
         val root: View = binding.root
         var tournamentLogoImageView: ImageView = binding.tournamentLogo
         var shortYearTextView: TextView = binding.shortYear
 
-        override fun onClick(view: View) {
-            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
-        }
-
-        init {
-            root.setOnClickListener(this)
-        }
+//        override fun onClick(view: View) {
+//            if (_clickListener != null) _clickListener!!.onItemClick(view, absoluteAdapterPosition)
+//        }
+//
+//        init {
+//            root.setOnClickListener(this)
+//        }
     }
 
-    // convenience method for getting data at click position
-    fun getItem(id: Int): Tournament? {
-        return _tournamentList[id]
-    }
-
-    // allows clicks events to be caught
-    fun setClickListener(itemClickListener: ItemClickListener?) {
-        _clickListener = itemClickListener
-    }
-
-    // parent activity will implement this method to respond to click events
-    interface ItemClickListener {
-        fun onItemClick(view: View?, position: Int)
-    }
+//    // convenience method for getting data at click position
+//    fun getItem(id: Int): Tournament? {
+//        return _tournamentList[id]
+//    }
+//
+//    // allows clicks events to be caught
+//    fun setClickListener(itemClickListener: ItemClickListener?) {
+//        _clickListener = itemClickListener
+//    }
+//
+//    // parent activity will implement this method to respond to click events
+//    interface ItemClickListener {
+//        fun onItemClick(view: View?, position: Int)
+//    }
 }
