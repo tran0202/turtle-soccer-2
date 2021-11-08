@@ -168,14 +168,14 @@ class HeroImage {
 class FinalStandings {
 
     var champions: String? = null
-    var championTeam: Team? = Team()
+    var championTeam: Team? = null
 
     @get:PropertyName("runners_up")
     @set:PropertyName("runners_up")
     @PropertyName("runners_up")
     var runnersUp: String? = null
 
-    var runnersUpTeam: Team? = Team()
+    var runnersUpTeam: Team? = null
 
     @get:PropertyName("third_place")
     @set:PropertyName("third_place")

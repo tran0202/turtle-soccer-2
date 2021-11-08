@@ -63,19 +63,47 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
 
         firebaseStorageLoader = FirebaseStorageLoader(requireContext())
 
-        binding!!.competitionTeamCount.text = requireContext().getString(R.string.competition_team_count, competition!!.teamCount.toString())
-
-        if (competition!!.currentChampions !== null) {
-            binding!!.competitionCurrentChampionsLabel.text = requireContext().getString(R.string.competition_current_champions_label)
-            renderFlagName(requireContext(), binding!!.flagName, competition!!.currentChampions!!.team)
-            binding!!.titleCount.text = requireActivity().getString(R.string.competition_title_count, competition!!.currentChampions!!.titleCount.toString())
+        if (competition!!.teamCount != null) {
+            binding!!.competitionTeamCount.visibility = View.VISIBLE
+            binding!!.competitionTeamCount.text = requireContext().getString(R.string.competition_team_count, competition!!.teamCount.toString())
         } else {
-            binding!!.competitionCurrentChampionsLabel.text = requireContext().getString(R.string.competition_last_champions_label)
-            renderFlagName(requireContext(), binding!!.flagName, competition!!.lastChampions!!.team)
-            binding!!.titleCount.text = requireActivity().getString(R.string.competition_title_count, competition!!.lastChampions!!.titleCount.toString())
+            binding!!.competitionTeamCount.visibility = View.GONE
         }
 
-        binding!!.mostSuccessfulTeamLabel.text = requireContext().getString(R.string.competition_most_successful_team_label)
+        when {
+            competition!!.currentChampions !== null && competition!!.currentChampions!!.team !== null ->  {
+                binding!!.competitionCurrentChampionsLabel.visibility = View.VISIBLE
+                binding!!.competitionCurrentChampionsLabel.text = requireContext().getString(R.string.competition_current_champions_label)
+                binding!!.competitionCurrentChampions.visibility = View.VISIBLE
+                renderFlagName(requireContext(), binding!!.flagName, competition!!.currentChampions!!.team)
+                if (competition!!.currentChampions!!.titleCount != null) {
+                    binding!!.titleCount.text = requireActivity().getString(R.string.competition_title_count, competition!!.currentChampions!!.titleCount.toString())
+                } else {
+                    binding!!.titleCount.visibility = View.GONE
+                }
+            }
+            competition!!.lastChampions !== null && competition!!.lastChampions!!.team !== null ->  {
+                binding!!.competitionCurrentChampionsLabel.visibility = View.VISIBLE
+                binding!!.competitionCurrentChampionsLabel.text = requireContext().getString(R.string.competition_last_champions_label)
+                binding!!.competitionCurrentChampions.visibility = View.VISIBLE
+                renderFlagName(requireContext(), binding!!.flagName, competition!!.lastChampions!!.team)
+                if (competition!!.lastChampions!!.titleCount != null) {
+                    binding!!.titleCount.text = requireActivity().getString(R.string.competition_title_count, competition!!.lastChampions!!.titleCount.toString())
+                } else {
+                    binding!!.titleCount.visibility = View.GONE
+                }
+            }
+            else ->  {
+                binding!!.competitionCurrentChampionsLabel.visibility = View.GONE
+                binding!!.competitionCurrentChampions.visibility = View.GONE
+            }
+        }
+
+        if (!competition!!.mostSuccessfulTeams.isNullOrEmpty()) {
+            binding!!.mostSuccessfulTeamLabel.text = requireContext().getString(R.string.competition_most_successful_team_label)
+        } else {
+            binding!!.mostSuccessfulTeamLabel.visibility =View.GONE
+        }
 
         firebaseStorageLoader!!.loadImage(
             activity,

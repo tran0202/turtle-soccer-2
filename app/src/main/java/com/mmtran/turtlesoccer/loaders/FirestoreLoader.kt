@@ -63,26 +63,6 @@ class FirestoreLoader {
         }
     }
 
-    fun getTournaments(tournamentListViewModel: TournamentListViewModel) {
-
-        val query: Query = db.collection("tournament")
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                for (document in task.result!!) {
-                    val tournament = document.toObject(
-                        Tournament::class.java
-                    )
-                    tournament.id = document.id
-                    tournamentList.add(tournament)
-                    Log.d(TAG, document.id + " => " + document.data)
-                }
-                tournamentListViewModel.setTournamentList(tournamentList)
-            } else {
-                Log.d(TAG, "Error getting documents: ", task.exception)
-            }
-        }
-    }
-
     fun getNations(nationListViewModel: NationListViewModel) {
 
         val query = db.collection("nation")
@@ -142,6 +122,26 @@ class FirestoreLoader {
                     lhs!!.name!!.compareTo(rhs!!.name!!).compareTo(0)
                 }
                 teamListViewModel.setTeamList(teamList)
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.exception)
+            }
+        }
+    }
+
+    fun getTournaments(tournamentListViewModel: TournamentListViewModel) {
+
+        val query: Query = db.collection("tournament2")
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result!!) {
+                    val tournament = document.toObject(
+                        Tournament::class.java
+                    )
+                    tournament.id = document.id
+                    tournamentList.add(tournament)
+                    Log.d(TAG, document.id + " => " + document.data)
+                }
+                tournamentListViewModel.setTournamentList(tournamentList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
             }

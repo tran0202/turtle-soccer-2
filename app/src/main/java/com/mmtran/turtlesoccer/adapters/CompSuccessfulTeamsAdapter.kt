@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
@@ -27,8 +28,18 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        renderFlagName(_context, holder.fragmentFlagNameBinding, _championList[position]!!.team)
-        holder.titleCountTextView.text = _context!!.getString(R.string.competition_title_count, _championList[position]!!.titleCount.toString())
+        if (_championList[position]!!.team != null) {
+            holder.successfulTeamsLinearLayout.visibility = View.VISIBLE
+            renderFlagName(_context, holder.fragmentFlagNameBinding, _championList[position]!!.team)
+            if (_championList[position]!!.titleCount != null) {
+                holder.titleCountTextView.visibility = View.VISIBLE
+                holder.titleCountTextView.text = _context!!.getString(R.string.competition_title_count, _championList[position]!!.titleCount.toString())
+            } else {
+                holder.titleCountTextView.visibility = View.GONE
+            }
+        } else {
+            holder.successfulTeamsLinearLayout.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {
@@ -38,6 +49,7 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
     inner class ViewHolder internal constructor(binding: RowCompSuccessfulTeamBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
+        var successfulTeamsLinearLayout: LinearLayout = binding.successfulTeams
         var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
         var titleCountTextView: TextView = binding.titleCount
     }

@@ -11,7 +11,7 @@ class Confederation {
     @set:PropertyName("logo_filename")
     @PropertyName("logo_filename")
     var logoFilename: String? = null
-    var description: String? = null
+    var descriptions: List<String?>? = emptyList()
 
     @get:PropertyName("time_stamp")
     @set:PropertyName("time_stamp")
@@ -21,10 +21,9 @@ class Confederation {
     var competitionList: List<Competition?>? = emptyList()
 
     constructor()
-    constructor(id: String?, name: String?, logoFilename: String?, description: String?) {
+    constructor(id: String?, name: String?, logoFilename: String?) {
         this.id = id
         this.name = name
         this.logoFilename = logoFilename
-        this.description = description
     }
 }

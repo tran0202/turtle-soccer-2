@@ -41,7 +41,18 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
         )
 
         holder.confederationNameTextView.text = _confederationList[position]!!.name
-        holder.descriptionTextView.text = _confederationList[position]!!.description
+
+        if (!_confederationList[position]!!.descriptions!!.isNullOrEmpty() && !_confederationList[position]!!.descriptions?.get(0).isNullOrEmpty()) {
+            holder.descriptionTextView.text = _confederationList[position]!!.descriptions?.get(0)
+        } else {
+            holder.descriptionTextView.visibility = View.GONE
+        }
+
+        if (!_confederationList[position]!!.competitionList!!.isNullOrEmpty()) {
+            holder.competitionLabelTextView.visibility = View.VISIBLE
+        } else {
+            holder.competitionLabelTextView.visibility = View.GONE
+        }
 
         val recyclerView: RecyclerView = holder.confCompetitionListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
@@ -68,6 +79,7 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
         var confederationFlagImageView: ImageView = binding.confederationLogo
         var confederationNameTextView: TextView = binding.confederationName
         var descriptionTextView: TextView = binding.description
+        var competitionLabelTextView: TextView = binding.competitionLabel
         var confCompetitionListRecyclerView: RecyclerView = binding.confCompetitionList
     }
 }

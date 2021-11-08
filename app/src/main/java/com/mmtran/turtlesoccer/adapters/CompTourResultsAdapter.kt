@@ -92,8 +92,18 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
 
         if (tournament.finalStandings != null) {
 
-            TeamUtil.renderFlagNameNarrow(_context, holder.championFlagNameBinding, tournament.finalStandings!!.championTeam)
-            TeamUtil.renderFlagNameNarrow(_context, holder.runnerUpFlagNameBinding, tournament.finalStandings!!.runnersUpTeam)
+            if (tournament.finalStandings!!.championTeam != null) {
+                holder.championColumnInnerLayout.visibility = View.VISIBLE
+                TeamUtil.renderFlagNameNarrow(_context, holder.championFlagNameBinding, tournament.finalStandings!!.championTeam)
+            } else {
+                holder.championColumnInnerLayout.visibility = View.GONE
+            }
+            if (tournament.finalStandings!!.runnersUpTeam != null) {
+                holder.runnerUpColumnInnerLinearLayout.visibility = View.VISIBLE
+                TeamUtil.renderFlagNameNarrow(_context, holder.runnerUpFlagNameBinding, tournament.finalStandings!!.runnersUpTeam)
+            } else {
+                holder.runnerUpColumnInnerLinearLayout.visibility = View.GONE
+            }
 
             val recyclerView: RecyclerView = holder.thirdPlaceListRecyclerView
             recyclerView.layoutManager = LinearLayoutManager(_context)
@@ -146,8 +156,10 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
         var tournamentLogoImageView: ImageView = binding.tournamentLogo
         var shortYearTextView: TextView = binding.shortYear
         var championColumnLinearLayout: LinearLayout = binding.championColumn
+        var championColumnInnerLayout: LinearLayout = binding.championColumnInner
         var championFlagNameBinding: FragmentFlagNameNarrowBinding = binding.championFlagName
         var runnerUpColumnLinearLayout: LinearLayout = binding.runnerUpColumn
+        var runnerUpColumnInnerLinearLayout: LinearLayout = binding.runnerUpColumnInner
         var runnerUpFlagNameBinding: FragmentFlagNameNarrowBinding = binding.runnerUpFlagName
         var thirdPlaceColumnLinearLayout: LinearLayout = binding.thirdPlaceColumn
         var thirdPlaceListRecyclerView: RecyclerView = binding.thirdPlaceList

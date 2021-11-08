@@ -12,28 +12,44 @@ object TeamUtil {
 
     fun renderFlagName(context: Context?, binding: FragmentFlagNameBinding?, team: Team?) {
 
+        if (team == null) return
+
         val firebaseStorageLoader = FirebaseStorageLoader(context)
 
-        if (team!!.teamTypeId.equals("CLUB")) {
-            binding!!.clubLogo.visibility = View.VISIBLE
-            firebaseStorageLoader.loadImage(
-                context,
-                binding.clubLogo,
-                "club_logos/" + team.logoFilename
-            )
-            firebaseStorageLoader.loadImage(
-                context,
-                binding.flag,
-                "flags/" + team.nation!!.flagFilename
-            )
+        if (team.teamTypeId.equals("CLUB")) {
+            if (!team.logoFilename.isNullOrEmpty()) {
+                binding!!.clubLogo.visibility = View.VISIBLE
+                firebaseStorageLoader.loadImage(
+                    context,
+                    binding.clubLogo,
+                    "club_logos/" + team.logoFilename
+                )
+            } else {
+                binding!!.clubLogo.visibility = View.GONE
+            }
+            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
+                binding.flag.visibility = View.VISIBLE
+                firebaseStorageLoader.loadImage(
+                    context,
+                    binding.flag,
+                    "flags/" + team.nation!!.flagFilename
+                )
+            } else {
+                binding.flag.visibility = View.GONE
+            }
             binding.name.text = team.name
         } else {
             binding!!.clubLogo.visibility = View.GONE
-            firebaseStorageLoader.loadImage(
-                context,
-                binding.flag,
-                "flags/" + team.nation!!.flagFilename
-            )
+            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
+                binding.flag.visibility = View.VISIBLE
+                firebaseStorageLoader.loadImage(
+                    context,
+                    binding.flag,
+                    "flags/" + team.nation!!.flagFilename
+                )
+            } else {
+                binding.flag.visibility = View.GONE
+            }
             binding.name.text = team.name
         }
     }
@@ -42,31 +58,45 @@ object TeamUtil {
 
         val firebaseStorageLoader = FirebaseStorageLoader(context)
 
-        if (team == null || team.nation == null) return
+        if (team?.nation == null) return
 
         val factor: Float = context!!.resources.displayMetrics.density
 
         if (team.teamTypeId.equals("CLUB")) {
-            binding!!.clubLogo.visibility = View.VISIBLE
-            firebaseStorageLoader.loadImage(
-                context,
-                binding.clubLogo,
-                "club_logos/" + team.logoFilename
-            )
-            firebaseStorageLoader.loadImage(
-                context,
-                binding.flag,
-                "flags/" + team.nation!!.flagFilename
-            )
-            binding.flag.layoutParams.width = (18 * factor).toInt()
+            if (!team.logoFilename.isNullOrEmpty()) {
+                binding!!.clubLogo.visibility = View.VISIBLE
+                firebaseStorageLoader.loadImage(
+                    context,
+                    binding.clubLogo,
+                    "club_logos/" + team.logoFilename
+                )
+            } else {
+                binding!!.clubLogo.visibility = View.GONE
+            }
+            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
+                binding.flag.visibility = View.VISIBLE
+                firebaseStorageLoader.loadImage(
+                    context,
+                    binding.flag,
+                    "flags/" + team.nation!!.flagFilename
+                )
+                binding.flag.layoutParams.width = (18 * factor).toInt()
+            } else {
+                binding.flag.visibility = View.GONE
+            }
             binding.code.text = team.clubCode
         } else {
             binding!!.clubLogo.visibility = View.GONE
-            firebaseStorageLoader.loadImage(
-                context,
-                binding.flag,
-                "flags/" + team.nation!!.flagFilename
-            )
+            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
+                binding.flag.visibility = View.VISIBLE
+                firebaseStorageLoader.loadImage(
+                    context,
+                    binding.flag,
+                    "flags/" + team.nation!!.flagFilename
+                )
+            } else {
+                binding.flag.visibility = View.GONE
+            }
             binding.code.text = team.code
         }
     }

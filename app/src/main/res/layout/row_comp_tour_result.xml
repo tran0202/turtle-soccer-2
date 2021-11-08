@@ -163,11 +163,16 @@
                     android:orientation="vertical"
                     android:background="@drawable/border_other_row_other_cell">
 
-                    <include
-                        android:id="@+id/champion_flag_name"
-                        layout="@layout/fragment_flag_name_narrow"
+                    <LinearLayout
+                        android:id="@+id/champion_column_inner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent">
+                        <include
+                            android:id="@+id/champion_flag_name"
+                            layout="@layout/fragment_flag_name_narrow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -183,11 +188,16 @@
                     android:orientation="vertical"
                     android:background="@drawable/border_other_row_other_cell">
 
-                    <include
-                        android:id="@+id/runner_up_flag_name"
-                        layout="@layout/fragment_flag_name_narrow"
+                    <LinearLayout
+                        android:id="@+id/runner_up_column_inner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent">
+                        <include
+                            android:id="@+id/runner_up_flag_name"
+                            layout="@layout/fragment_flag_name_narrow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
 
                 </LinearLayout>
 

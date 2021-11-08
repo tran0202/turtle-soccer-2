@@ -29,12 +29,16 @@ class NationsAdapter(context: Context?, nationList: List<Nation?>) :
 
         holder.nationIdTextView.text = _nationList[position]!!.id
 
-        val firebaseStorageLoader = FirebaseStorageLoader(_context)
-        firebaseStorageLoader.loadImage(
-            _context,
-            holder.nationFlagImageView,
-            "flags/" + _nationList[position]!!.flagFilename
-        )
+        if (!_nationList[position]!!.flagFilename.isNullOrEmpty()) {
+            val firebaseStorageLoader = FirebaseStorageLoader(_context)
+            firebaseStorageLoader.loadImage(
+                _context,
+                holder.nationFlagImageView,
+                "flags/" + _nationList[position]!!.flagFilename
+            )
+        } else {
+            holder.nationFlagImageView.visibility = View.GONE
+        }
 
         holder.nationNameTextView.text = _nationList[position]!!.name
         holder.confederationTextView.text = _nationList[position]!!.confederationId
