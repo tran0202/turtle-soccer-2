@@ -130,7 +130,7 @@ class FirestoreLoader {
 
     fun getTournaments(tournamentListViewModel: TournamentListViewModel) {
 
-        val query: Query = db.collection("tournament2")
+        val query: Query = db.collection("tournament")
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result!!) {

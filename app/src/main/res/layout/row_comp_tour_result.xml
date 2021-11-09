@@ -155,18 +155,18 @@
                     android:id="@+id/champion_column"
                     android:layout_width="68dp"
                     android:layout_height="fill_parent"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
                     android:background="@drawable/border_other_row_other_cell">
 
                     <LinearLayout
                         android:id="@+id/champion_column_inner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
                         <include
                             android:id="@+id/champion_flag_name"
                             layout="@layout/fragment_flag_name_narrow"
@@ -180,18 +180,18 @@
                     android:id="@+id/runner_up_column"
                     android:layout_width="68dp"
                     android:layout_height="fill_parent"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
                     android:background="@drawable/border_other_row_other_cell">
 
                     <LinearLayout
                         android:id="@+id/runner_up_column_inner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
                         <include
                             android:id="@+id/runner_up_flag_name"
                             layout="@layout/fragment_flag_name_narrow"
