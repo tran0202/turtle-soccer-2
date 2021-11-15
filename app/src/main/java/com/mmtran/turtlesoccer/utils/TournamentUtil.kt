@@ -49,6 +49,7 @@ object TournamentUtil {
                 if (team2 != null) {
                     tournament.finalStandings!!.runnersUpTeam = team2
                 }
+                tournament.finalStandings!!.thirdPlaceTeam = emptyList()
                 for (thirdPlaceId: String? in thirdPlaceList!!) {
                     val team3 = TeamUtil.getTeam(thirdPlaceId, nationList, teamList)
                     if (team3 != null) {

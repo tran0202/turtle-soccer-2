@@ -1,5 +1,6 @@
 package com.mmtran.turtlesoccer.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 import com.mmtran.turtlesoccer.loaders.FirestoreLoader
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.activities.MainActivity
+import com.mmtran.turtlesoccer.adapters.CompetitionPagerAdapter
 import com.mmtran.turtlesoccer.adapters.CompetitionsAdapter
+import com.mmtran.turtlesoccer.adapters.EXTRA_COMPETITION
 import com.mmtran.turtlesoccer.databinding.FragmentCompetitionsBinding
 import com.mmtran.turtlesoccer.models.*
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
@@ -22,7 +30,8 @@ import com.mmtran.turtlesoccer.utils.CompetitionUtil
 import com.mmtran.turtlesoccer.utils.TournamentUtil
 import kotlin.random.Random
 
-class CompetitionsFragment : Fragment() {
+@SuppressLint("UseRequireInsteadOfGet")
+class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
     private var nationListViewModel: NationListViewModel? = null
     private var teamListViewModel: TeamListViewModel? = null
@@ -35,6 +44,9 @@ class CompetitionsFragment : Fragment() {
 
     private var binding: FragmentCompetitionsBinding? = null
     private var competitionsAdapter: CompetitionsAdapter? = null
+    private var competition: Competition? = null
+    private var compViewPager: ViewPager2? = null
+    private var competitionPagerAdapter: CompetitionPagerAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,7 +74,11 @@ class CompetitionsFragment : Fragment() {
         )
         dataLoader.getCompetitions(competitionListViewModel!!)
 
+        competition = if (arguments != null) arguments!!.getSerializable(EXTRA_COMPETITION) as Competition else null
+
         binding = FragmentCompetitionsBinding.inflate(inflater, container, false)
+
+        compViewPager = binding!!.competitionViewPager
 
         return binding!!.root
     }
@@ -72,7 +88,11 @@ class CompetitionsFragment : Fragment() {
 
         val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
         ActionBarUtil.buildActionBar(layoutInflater, actionBar, R.layout.toolbar_competitions)
-        actionBar!!.setTitle(R.string.toolbar_competitions)
+        if (isRenderCompetitionList()) {
+            actionBar!!.setTitle(R.string.toolbar_competitions)
+        } else {
+            actionBar!!.title = competition!!.name
+        }
 
         nationListViewModel!!.nationList.observe(
             viewLifecycleOwner,
@@ -102,8 +122,51 @@ class CompetitionsFragment : Fragment() {
 
     private fun competitionsObserver() {
 
+        if (isRenderCompetitionList()) {
+            binding!!.competitionList.visibility = View.VISIBLE
+            renderCompetitionList()
+            binding!!.competition.visibility = View.GONE
+        } else {
+            binding!!.competitionList.visibility = View.GONE
+            binding!!.competition.visibility = View.VISIBLE
+            renderCompetition()
+        }
+    }
+
+    private fun renderCompetition() {
+
+        if (nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
+
+        CompetitionUtil.getChampion(competition, nationList, teamList)
+        CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
+
+        tournamentList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
+        competition!!.tournamentList = tournamentList
+        TournamentUtil.attachCompetition(tournamentList, competition)
+
+        competition!!.tournamentList = competition!!.tournamentList!!.reversed()
+        TournamentUtil.processTournament(competition!!.tournamentList!!)
+
+        TournamentUtil.processFinalStandings(competition, nationList, teamList)
+
+        competitionPagerAdapter = CompetitionPagerAdapter.newInstance(parentFragmentManager, lifecycle)
+        competitionPagerAdapter!!.setCompetition(competition!!)
+        compViewPager!!.adapter = competitionPagerAdapter
+
+        TabLayoutMediator(
+            binding!!.competitionTabLayout, compViewPager!!
+        ) { tab: TabLayout.Tab, position: Int ->
+            tab.setText(
+                TAB_RES[position]
+            )
+        }.attach()
+
+    }
+
+    private fun renderCompetitionList() {
+
         if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
-        
+
         for (competition: Competition? in competitionList!!) {
             CompetitionUtil.getChampion(competition, nationList, teamList)
             CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
@@ -123,7 +186,20 @@ class CompetitionsFragment : Fragment() {
         )
         recyclerView.addItemDecoration(divider)
         competitionsAdapter = CompetitionsAdapter(context, competitionList!!)
+        competitionsAdapter!!.setClickListener(this)
         recyclerView.adapter = competitionsAdapter
+    }
+
+    private fun isRenderCompetitionList(): Boolean {
+        return competition == null
+    }
+
+    override fun onItemClick(view: View?, competitionList: List<Competition?>, position: Int) {
+
+        val args = Bundle()
+        args.putSerializable(EXTRA_COMPETITION, competitionList[position]!!)
+        val navController = Navigation.findNavController(context as MainActivity, R.id.nav_host_fragment_activity_main)
+        navController.navigate(R.id.navigation_competitions, args)
     }
 
     private fun createRandomTournamentList(tourList: List<Tournament?>) : List<Tournament?> {
@@ -156,5 +232,10 @@ class CompetitionsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    companion object {
+        private val TAB_RES =
+            intArrayOf(R.string.competition_about, R.string.competition_results, R.string.competition_all_time_standings)
     }
 }

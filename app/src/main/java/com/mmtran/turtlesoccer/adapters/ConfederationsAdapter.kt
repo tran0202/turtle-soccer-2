@@ -1,16 +1,17 @@
 package com.mmtran.turtlesoccer.adapters
 
 import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.activities.CompetitionActivity
+import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.activities.MainActivity
 
 import com.mmtran.turtlesoccer.models.Confederation
 import com.mmtran.turtlesoccer.databinding.RowConfederationBinding
@@ -63,10 +64,10 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
 
     override fun onItemClick(view: View?, competitionList: List<Competition?>, position: Int) {
 
-        val intent = Intent(_context, CompetitionActivity::class.java).apply {
-            putExtra(EXTRA_COMPETITION, competitionList[position]!!)
-        }
-        startActivity(_context!!, intent, null)
+        val args = Bundle()
+        args.putSerializable(EXTRA_COMPETITION, competitionList[position]!!)
+        val navController = Navigation.findNavController(_context as MainActivity, R.id.nav_host_fragment_activity_main)
+        navController.navigate(R.id.navigation_competitions, args)
     }
 
     override fun getItemCount(): Int {
