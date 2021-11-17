@@ -17,6 +17,7 @@ import com.mmtran.turtlesoccer.utils.ActionBarUtil.buildActionBar
 class TournamentsFragment : Fragment() {
 
     private var tournamentListViewModel: TournamentListViewModel? = null
+
     private var binding: FragmentTournamentsBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
 

@@ -14,4 +14,11 @@ class NationListViewModel : ViewModel() {
     fun setNationList(nationList: List<Nation>) {
         _nationList.postValue(nationList)
     }
+
+    fun getActiveNations(nationList: List<Nation?>?): List<Nation?>? {
+
+        if (nationList.isNullOrEmpty()) return emptyList()
+
+        return nationList.filter { it!!.parentNationId.isEmpty() && !it.confederationId.isNullOrEmpty() }
+    }
 }

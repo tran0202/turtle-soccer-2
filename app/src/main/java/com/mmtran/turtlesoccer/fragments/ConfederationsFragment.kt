@@ -6,26 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.mmtran.turtlesoccer.adapters.ConfederationsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentConfederationsBinding
-import com.mmtran.turtlesoccer.loaders.FirestoreLoader
 import com.mmtran.turtlesoccer.models.Confederation
-import com.mmtran.turtlesoccer.models.ConfederationListViewModel
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.models.Competition
-import com.mmtran.turtlesoccer.models.CompetitionListViewModel
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
 import androidx.core.content.ContextCompat
+import com.mmtran.turtlesoccer.activities.MainActivity
 
 class ConfederationsFragment : Fragment() {
 
-    private var confederationListViewModel: ConfederationListViewModel? = null
-    private var competitionListViewModel: CompetitionListViewModel? = null
     private var confederationList: List<Confederation?>? = emptyList()
     private var competitionList: List<Competition?>? = emptyList()
 
@@ -36,14 +31,6 @@ class ConfederationsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-        val dataLoader = FirestoreLoader()
-
-        confederationListViewModel = ViewModelProvider(this).get(modelClass = ConfederationListViewModel::class.java)
-        dataLoader.getConfederations(confederationListViewModel!!)
-
-        competitionListViewModel = ViewModelProvider(this).get(modelClass = CompetitionListViewModel::class.java)
-        dataLoader.getCompetitions(competitionListViewModel!!)
 
         binding = FragmentConfederationsBinding.inflate(inflater, container, false)
 
@@ -57,13 +44,13 @@ class ConfederationsFragment : Fragment() {
         ActionBarUtil.buildActionBar(layoutInflater, actionBar, R.layout.toolbar_confederations)
         actionBar!!.setTitle(R.string.toolbar_confederations)
 
-        confederationListViewModel!!.confederationList.observe(
+        (activity as MainActivity).confederationListViewModel!!.confederationList.observe(
             viewLifecycleOwner,
             { confederationList_: List<Confederation?>? ->
                 confederationList = confederationList_
                 confederationsObserver()
             })
-        competitionListViewModel!!.competitionList.observe(
+        (activity as MainActivity).competitionListViewModel!!.competitionList.observe(
             viewLifecycleOwner,
             { competitionList_: List<Competition?>? ->
                 competitionList = competitionList_

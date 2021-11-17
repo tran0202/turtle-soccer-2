@@ -16,6 +16,48 @@ class FirestoreLoader {
     private val nationList: MutableList<Nation> = ArrayList()
     private val teamList: MutableList<Team> = ArrayList()
 
+    fun getNations(nationListViewModel: NationListViewModel) {
+
+        val query = db.collection("nation")
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result!!) {
+                    val nation = document.toObject(Nation::class.java)
+                    nation.id = document.id
+                    nationList.add(nation)
+//                    Log.d(TAG, document.id + " => " + document.data)
+                }
+                nationList.sortWith { lhs, rhs ->
+                    lhs!!.name.compareTo(rhs!!.name).compareTo(0)
+                }
+                nationListViewModel.setNationList(nationList)
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.exception)
+            }
+        }
+    }
+
+    fun getTeams(teamListViewModel: TeamListViewModel) {
+
+        val query = db.collection("team")
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result!!) {
+                    val team = document.toObject(Team::class.java)
+                    team.id = document.id
+                    teamList.add(team)
+//                    Log.d(TAG, document.id + " => " + document.data)
+                }
+                teamList.sortWith { lhs, rhs ->
+                    lhs!!.name!!.compareTo(rhs!!.name!!).compareTo(0)
+                }
+                teamListViewModel.setTeamList(teamList)
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.exception)
+            }
+        }
+    }
+
     fun getConfederations(confederationListViewModel: ConfederationListViewModel) {
 
         val query: Query = db.collection("confederation")
@@ -32,7 +74,7 @@ class FirestoreLoader {
                     } else {
                         confederationList.add(confederation)
                     }
-                    Log.d(TAG, document.id + " => " + document.data)
+//                    Log.d(TAG, document.id + " => " + document.data)
                 }
                 confederationList.add(0, fifa)
                 confederationListViewModel.setConfederationList(confederationList)
@@ -54,74 +96,9 @@ class FirestoreLoader {
                     )
                     competition.id = document.id
                     competitionList.add(competition)
-                    Log.d(TAG, document.id + " => " + document.data)
+//                    Log.d(TAG, document.id + " => " + document.data)
                 }
                 competitionsViewModel.setCompetitionList(competitionList)
-            } else {
-                Log.d(TAG, "Error getting documents: ", task.exception)
-            }
-        }
-    }
-
-    fun getNations(nationListViewModel: NationListViewModel) {
-
-        val query = db.collection("nation")
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                for (document in task.result!!) {
-                    val nation = document.toObject(Nation::class.java)
-                    nation.id = document.id
-                    nationList.add(nation)
-                    Log.d(TAG, document.id + " => " + document.data)
-                }
-                nationList.sortWith { lhs, rhs ->
-                    lhs!!.name.compareTo(rhs!!.name).compareTo(0)
-                }
-                nationListViewModel.setNationList(nationList)
-            } else {
-                Log.d(TAG, "Error getting documents: ", task.exception)
-            }
-        }
-    }
-
-    fun getActiveNations(nationListViewModel: NationListViewModel) {
-
-        val query = db.collection("nation")
-            .whereEqualTo("parent_nation_id", "")
-            .whereNotEqualTo("confederation_id", "")
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                for (document in task.result!!) {
-                    val nation = document.toObject(Nation::class.java)
-                    nation.id = document.id
-                    nationList.add(nation)
-                    Log.d(TAG, document.id + " => " + document.data)
-                }
-                nationList.sortWith { lhs, rhs ->
-                    lhs!!.name.compareTo(rhs!!.name).compareTo(0)
-                }
-                nationListViewModel.setNationList(nationList)
-            } else {
-                Log.d(TAG, "Error getting documents: ", task.exception)
-            }
-        }
-    }
-
-    fun getTeams(teamListViewModel: TeamListViewModel) {
-
-        val query = db.collection("team")
-        query.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                for (document in task.result!!) {
-                    val team = document.toObject(Team::class.java)
-                    team.id = document.id
-                    teamList.add(team)
-                    Log.d(TAG, document.id + " => " + document.data)
-                }
-                teamList.sortWith { lhs, rhs ->
-                    lhs!!.name!!.compareTo(rhs!!.name!!).compareTo(0)
-                }
-                teamListViewModel.setTeamList(teamList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
             }
@@ -139,7 +116,7 @@ class FirestoreLoader {
                     )
                     tournament.id = document.id
                     tournamentList.add(tournament)
-                    Log.d(TAG, document.id + " => " + document.data)
+//                    Log.d(TAG, document.id + " => " + document.data)
                 }
                 tournamentListViewModel.setTournamentList(tournamentList)
             } else {

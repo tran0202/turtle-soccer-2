@@ -6,22 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-import com.mmtran.turtlesoccer.loaders.FirestoreLoader
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
 import androidx.core.content.ContextCompat
+import com.mmtran.turtlesoccer.activities.MainActivity
 import com.mmtran.turtlesoccer.adapters.NationsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentNationsBinding
 import com.mmtran.turtlesoccer.models.*
 
 class NationsFragment : Fragment() {
 
-    private var nationListViewModel: NationListViewModel? = null
     private var nationList: List<Nation?>? = emptyList()
 
     private var binding: FragmentNationsBinding? = null
@@ -31,11 +29,6 @@ class NationsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-        val dataLoader = FirestoreLoader()
-
-        nationListViewModel = ViewModelProvider(this).get(modelClass = NationListViewModel::class.java)
-        dataLoader.getActiveNations(nationListViewModel!!)
 
         binding = FragmentNationsBinding.inflate(inflater, container, false)
 
@@ -49,10 +42,10 @@ class NationsFragment : Fragment() {
         ActionBarUtil.buildActionBar(layoutInflater, actionBar, R.layout.toolbar_nations)
         actionBar!!.setTitle(R.string.toolbar_nations)
 
-        nationListViewModel!!.nationList.observe(
+        (activity as MainActivity).nationListViewModel!!.nationList.observe(
             viewLifecycleOwner,
             { nationList_: List<Nation?>? ->
-                nationList = nationList_
+                nationList = (activity as MainActivity).nationListViewModel!!.getActiveNations(nationList_)
                 nationsObserver()
             })
     }

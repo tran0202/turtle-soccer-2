@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-import com.mmtran.turtlesoccer.loaders.FirestoreLoader
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.activities.MainActivity
 import com.mmtran.turtlesoccer.adapters.CompetitionPagerAdapter
@@ -33,10 +31,6 @@ import kotlin.random.Random
 @SuppressLint("UseRequireInsteadOfGet")
 class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
-    private var nationListViewModel: NationListViewModel? = null
-    private var teamListViewModel: TeamListViewModel? = null
-    private var tournamentListViewModel: TournamentListViewModel? = null
-    private var competitionListViewModel: CompetitionListViewModel? = null
     private var nationList: List<Nation?>? = emptyList()
     private var teamList: List<Team?>? = emptyList()
     private var tournamentList: List<Tournament?>? = emptyList()
@@ -52,20 +46,6 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
-        val dataLoader = FirestoreLoader()
-
-        nationListViewModel = ViewModelProvider(this).get(modelClass = NationListViewModel::class.java)
-        dataLoader.getNations(nationListViewModel!!)
-
-        teamListViewModel = ViewModelProvider(this).get(modelClass = TeamListViewModel::class.java)
-        dataLoader.getTeams(teamListViewModel!!)
-
-        tournamentListViewModel = ViewModelProvider(this).get(modelClass = TournamentListViewModel::class.java)
-        dataLoader.getTournaments(tournamentListViewModel!!)
-
-        competitionListViewModel = ViewModelProvider(this).get(modelClass = CompetitionListViewModel::class.java)
-        dataLoader.getCompetitions(competitionListViewModel!!)
 
         competition = if (arguments != null) arguments!!.getSerializable(EXTRA_COMPETITION) as Competition else null
 
@@ -85,25 +65,25 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
             actionBar!!.title = competition!!.name
         }
 
-        nationListViewModel!!.nationList.observe(
+        (activity as MainActivity).nationListViewModel!!.nationList.observe(
             viewLifecycleOwner,
             { nationList_: List<Nation?>? ->
                 nationList = nationList_
                 competitionsObserver()
             })
-        teamListViewModel!!.teamList.observe(
+        (activity as MainActivity).teamListViewModel!!.teamList.observe(
             viewLifecycleOwner,
             { teamList_: List<Team?>? ->
                 teamList = teamList_
                 competitionsObserver()
             })
-        tournamentListViewModel!!.tournamentList.observe(
+        (activity as MainActivity).tournamentListViewModel!!.tournamentList.observe(
             viewLifecycleOwner,
             { tournamentList_: List<Tournament?>? ->
                 tournamentList = tournamentList_
                 competitionsObserver()
             })
-        competitionListViewModel!!.competitionList.observe(
+        (activity as MainActivity).competitionListViewModel!!.competitionList.observe(
             viewLifecycleOwner,
             { competitionList_: List<Competition?>? ->
                 competitionList = competitionList_
