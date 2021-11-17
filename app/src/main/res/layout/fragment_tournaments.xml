@@ -6,31 +6,32 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="50dp"
     android:orientation="vertical"
-    tools:context=".fragments.CompetitionsFragment">
+    tools:context=".fragments.HomeFragment">
 
     <LinearLayout
-        android:id="@+id/competition"
+        android:id="@+id/tournament"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/competition_tab_layout"
+        <TextView
+            android:id="@+id/text_home"
+            android:text="Tournament"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            style="@style/CustomTabLayout" />
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/competition_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/competition_list"
+        android:id="@+id/tournament_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,6 +7,11 @@
         android:title="@string/title_home" />
 
     <item
+        android:id="@+id/navigation_tournaments"
+        android:icon="@drawable/icons8_tournament_48"
+        android:title="@string/title_tournaments" />
+
+    <item
         android:id="@+id/navigation_competitions"
         android:icon="@drawable/cup_50"
         android:title="@string/title_competitions" />

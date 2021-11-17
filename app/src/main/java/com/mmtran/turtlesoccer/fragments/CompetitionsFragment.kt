@@ -43,10 +43,10 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
     private var competitionList: List<Competition?>? = emptyList()
 
     private var binding: FragmentCompetitionsBinding? = null
-    private var competitionsAdapter: CompetitionsAdapter? = null
     private var competition: Competition? = null
     private var compViewPager: ViewPager2? = null
     private var competitionPagerAdapter: CompetitionPagerAdapter? = null
+    private var competitionsAdapter: CompetitionsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,31 +54,22 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
     ): View {
 
         val dataLoader = FirestoreLoader()
-        nationListViewModel = ViewModelProvider(this).get(
-            NationListViewModel::class.java
-        )
+
+        nationListViewModel = ViewModelProvider(this).get(modelClass = NationListViewModel::class.java)
         dataLoader.getNations(nationListViewModel!!)
 
-        teamListViewModel = ViewModelProvider(this).get(
-            TeamListViewModel::class.java
-        )
+        teamListViewModel = ViewModelProvider(this).get(modelClass = TeamListViewModel::class.java)
         dataLoader.getTeams(teamListViewModel!!)
 
-        tournamentListViewModel = ViewModelProvider(this).get(
-            TournamentListViewModel::class.java
-        )
+        tournamentListViewModel = ViewModelProvider(this).get(modelClass = TournamentListViewModel::class.java)
         dataLoader.getTournaments(tournamentListViewModel!!)
 
-        competitionListViewModel = ViewModelProvider(this).get(
-            CompetitionListViewModel::class.java
-        )
+        competitionListViewModel = ViewModelProvider(this).get(modelClass = CompetitionListViewModel::class.java)
         dataLoader.getCompetitions(competitionListViewModel!!)
 
         competition = if (arguments != null) arguments!!.getSerializable(EXTRA_COMPETITION) as Competition else null
 
         binding = FragmentCompetitionsBinding.inflate(inflater, container, false)
-
-        compViewPager = binding!!.competitionViewPager
 
         return binding!!.root
     }
@@ -149,6 +140,7 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
         TournamentUtil.processFinalStandings(competition, nationList, teamList)
 
+        compViewPager = binding!!.competitionViewPager
         competitionPagerAdapter = CompetitionPagerAdapter.newInstance(parentFragmentManager, lifecycle)
         competitionPagerAdapter!!.setCompetition(competition!!)
         compViewPager!!.adapter = competitionPagerAdapter

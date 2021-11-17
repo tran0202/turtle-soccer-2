@@ -32,31 +32,13 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        compAboutViewModel = ViewModelProvider(this).get(
-            CompAboutViewModel::class.java
-        )
+        compAboutViewModel = ViewModelProvider(this).get(modelClass = CompAboutViewModel::class.java)
         compAboutViewModel!!.setCompetition(competition!!)
 
         binding = FragmentCompAboutBinding.inflate(inflater, container, false)
 
-        val recyclerView: RecyclerView = binding!!.compSuccessfulTeamList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        compSuccessfulTeamsAdapter = CompSuccessfulTeamsAdapter(requireContext(), competition!!.mostSuccessfulTeams!!)
-        recyclerView.adapter = compSuccessfulTeamsAdapter
-
-        descriptionsAdapter = DescriptionsAdapter(requireContext())
-        binding!!.descriptionList.adapter = descriptionsAdapter
-
-        compAboutViewModel!!.competition.observe(
-            viewLifecycleOwner,
-            { _: Competition? ->
-                competitionObserver()
-            })
-
         return binding!!.root
     }
-
-    private fun competitionObserver() { }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,12 +87,19 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
             binding!!.mostSuccessfulTeamLabel.visibility =View.GONE
         }
 
+        val recyclerView: RecyclerView = binding!!.compSuccessfulTeamList
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        compSuccessfulTeamsAdapter = CompSuccessfulTeamsAdapter(requireContext(), competition!!.mostSuccessfulTeams!!)
+        recyclerView.adapter = compSuccessfulTeamsAdapter
+
         firebaseStorageLoader!!.loadImage(
             activity,
             binding!!.competitionTrophy,
             competition!!.logoPath + "/" + competition!!.trophyFilename
         )
 
+        descriptionsAdapter = DescriptionsAdapter(requireContext())
+        binding!!.descriptionList.adapter = descriptionsAdapter
         descriptionsAdapter!!.setData(competition!!.descriptions!!)
     }
 

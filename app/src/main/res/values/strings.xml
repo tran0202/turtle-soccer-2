@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Turtle Soccer</string>
     <string name="title_home">Home</string>
+    <string name="title_tournaments">Tournaments</string>
     <string name="title_competitions">Competitions</string>
     <string name="title_confederations">Confederations</string>
     <string name="title_nations">Associations</string>
     <string name="toolbar_home">Home</string>
+    <string name="toolbar_tournaments">Tournaments</string>
     <string name="toolbar_competitions">Competitions</string>
     <string name="toolbar_confederations">FIFA &amp; Regional Confederations</string>
     <string name="toolbar_nations">National Associations</string>

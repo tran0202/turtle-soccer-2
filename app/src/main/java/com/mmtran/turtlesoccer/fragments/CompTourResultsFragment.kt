@@ -15,9 +15,6 @@ import com.mmtran.turtlesoccer.adapters.CompTourResultsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentCompTourResultsBinding
 import com.mmtran.turtlesoccer.models.CompTourResultsViewModel
 import com.mmtran.turtlesoccer.models.Competition
-import com.mmtran.turtlesoccer.models.NationListViewModel
-import com.mmtran.turtlesoccer.models.TeamListViewModel
-import com.mmtran.turtlesoccer.utils.TournamentUtil
 
 class CompTourResultsFragment(comp: Competition?) : Fragment() {
 
@@ -32,23 +29,16 @@ class CompTourResultsFragment(comp: Competition?) : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        compTourResultsViewModel = ViewModelProvider(this).get(
-            CompTourResultsViewModel::class.java
-        )
+        compTourResultsViewModel = ViewModelProvider(this).get(modelClass = CompTourResultsViewModel::class.java)
         compTourResultsViewModel!!.setCompetition(competition!!)
 
         binding = FragmentCompTourResultsBinding.inflate(inflater, container, false)
 
-        compTourResultsViewModel!!.competition.observe(
-            viewLifecycleOwner,
-            { competition: Competition? ->
-                competitionObserver(competition)
-            })
-
         return binding!!.root
     }
 
-    private fun competitionObserver(competition: Competition?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = binding!!.tourResultList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -62,10 +52,6 @@ class CompTourResultsFragment(comp: Competition?) : Fragment() {
         recyclerView.addItemDecoration(divider)
         compTourResultsAdapter = CompTourResultsAdapter(requireContext(), competition!!.tournamentList!!)
         recyclerView.adapter = compTourResultsAdapter
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

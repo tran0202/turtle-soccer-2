@@ -38,14 +38,11 @@ class ConfederationsFragment : Fragment() {
     ): View {
 
         val dataLoader = FirestoreLoader()
-        confederationListViewModel = ViewModelProvider(this).get(
-            ConfederationListViewModel::class.java
-        )
+
+        confederationListViewModel = ViewModelProvider(this).get(modelClass = ConfederationListViewModel::class.java)
         dataLoader.getConfederations(confederationListViewModel!!)
 
-        competitionListViewModel = ViewModelProvider(this).get(
-            CompetitionListViewModel::class.java
-        )
+        competitionListViewModel = ViewModelProvider(this).get(modelClass = CompetitionListViewModel::class.java)
         dataLoader.getCompetitions(competitionListViewModel!!)
 
         binding = FragmentConfederationsBinding.inflate(inflater, container, false)

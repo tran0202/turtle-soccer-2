@@ -22,28 +22,26 @@ class CompAllTimeStandingsFragment(comp: Competition?) : Fragment() {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        compAllTimeStandingsViewModel = ViewModelProvider(this).get(
-            CompAllTimeStandingsViewModel::class.java
-        )
+        compAllTimeStandingsViewModel = ViewModelProvider(this).get(modelClass = CompAllTimeStandingsViewModel::class.java)
         compAllTimeStandingsViewModel!!.setCompetition(competition!!)
 
         binding = FragmentCompAllTimeStandingsBinding.inflate(inflater, container, false)
+
+        return binding!!.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         compAllTimeStandingsViewModel!!.competition.observe(
             viewLifecycleOwner,
             { _: Competition? ->
                 competitionObserver()
             })
-
-        return binding!!.root
     }
 
     private fun competitionObserver() {
 
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {

@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_tournaments"
+        android:name="com.mmtran.turtlesoccer.fragments.TournamentsFragment"
+        android:label="@string/title_tournaments"
+        tools:layout="@layout/fragment_tournaments" />
+
+    <fragment
         android:id="@+id/navigation_competitions"
         android:name="com.mmtran.turtlesoccer.fragments.CompetitionsFragment"
         android:label="@string/title_competitions"

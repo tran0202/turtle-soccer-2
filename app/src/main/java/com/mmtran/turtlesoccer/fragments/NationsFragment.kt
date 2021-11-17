@@ -33,9 +33,8 @@ class NationsFragment : Fragment() {
     ): View {
 
         val dataLoader = FirestoreLoader()
-        nationListViewModel = ViewModelProvider(this).get(
-            NationListViewModel::class.java
-        )
+
+        nationListViewModel = ViewModelProvider(this).get(modelClass = NationListViewModel::class.java)
         dataLoader.getActiveNations(nationListViewModel!!)
 
         binding = FragmentNationsBinding.inflate(inflater, container, false)
