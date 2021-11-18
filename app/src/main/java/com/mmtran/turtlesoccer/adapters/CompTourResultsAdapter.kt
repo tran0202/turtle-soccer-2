@@ -26,6 +26,7 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
     private val _context = context
     private val _tournamentList: List<Tournament?> = tournamentList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
+    private var _clickListener: ItemClickListener? = null
     private var compTourThirdPlaceAdapter: CompTourThirdPlaceAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -146,7 +147,8 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
         return _tournamentList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowCompTourResultBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder internal constructor(binding: RowCompTourResultBinding) : RecyclerView.ViewHolder(binding.root),
+        View.OnClickListener {
 
         val root: View = binding.root
         var eraTextView: TextView = binding.era
@@ -168,5 +170,21 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
         var semiFinalistsColumnLinearLayout: LinearLayout = binding.semiFinalistsColumn
         var semiFinalist1FlagNameBinding: FragmentFlagNameNarrowBinding = binding.semiFinalist1FlagName
         var semiFinalist2FlagNameBinding: FragmentFlagNameNarrowBinding = binding.semiFinalist2FlagName
+
+        override fun onClick(view: View) {
+            if (_clickListener != null) _clickListener!!.onItemClick(view, _tournamentList, absoluteAdapterPosition)
+        }
+
+        init {
+            tournamentColumnLinearLayout.setOnClickListener(this)
+        }
+    }
+
+    fun setClickListener(itemClickListener: ItemClickListener?) {
+        _clickListener = itemClickListener
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int)
     }
 }

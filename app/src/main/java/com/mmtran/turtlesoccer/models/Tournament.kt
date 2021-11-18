@@ -1,8 +1,9 @@
 package com.mmtran.turtlesoccer.models
 
 import com.google.firebase.firestore.PropertyName
+import java.io.Serializable
 
-class TournamentDetails {
+class TournamentDetails: Serializable {
 
     var host: List<String?>? = emptyList()
 
@@ -156,7 +157,7 @@ class TournamentDetails {
     }
 }
 
-class HeroImage {
+class HeroImage: Serializable {
 
     var name: String? = null
     var filename: String? = null
@@ -165,7 +166,7 @@ class HeroImage {
     constructor()
 }
 
-class FinalStandings {
+class FinalStandings: Serializable {
 
     var champions: String? = null
     var championTeam: Team? = null
@@ -213,7 +214,7 @@ class FinalStandings {
     constructor()
 }
 
-class Statistics {
+class Statistics: Serializable {
 
     @get:PropertyName("total_matches")
     @set:PropertyName("total_matches")
@@ -245,7 +246,7 @@ class Statistics {
     constructor()
 }
 
-class Awards {
+class Awards: Serializable {
 
     @get:PropertyName("golden_boot")
     @set:PropertyName("golden_boot")
@@ -315,7 +316,7 @@ class Awards {
     constructor()
 }
 
-class Player {
+class Player: Serializable {
 
     var name: String? = null
     var team: String? = null
@@ -345,7 +346,7 @@ enum class ThirdPlaceDetermined(val value: Int) {
     HAS_SEMI_FINALISTS(1)
 }
 
-class Tournament {
+class Tournament: Serializable {
 
     var id: String? = null
     var year: String? = null

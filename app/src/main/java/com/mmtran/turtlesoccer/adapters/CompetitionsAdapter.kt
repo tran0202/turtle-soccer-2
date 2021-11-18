@@ -1,25 +1,29 @@
 package com.mmtran.turtlesoccer.adapters
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.activities.MainActivity
 import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
 import com.mmtran.turtlesoccer.databinding.RowCompetitionBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Competition
+import com.mmtran.turtlesoccer.models.Tournament
 import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
 
 class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>) :
-    RecyclerView.Adapter<CompetitionsAdapter.ViewHolder>() {
+    RecyclerView.Adapter<CompetitionsAdapter.ViewHolder>(), CompTournamentsAdapter.ItemClickListener {
 
     private val _context = context
     private var _competitionList: List<Competition?> = competitionList
@@ -97,7 +101,16 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         val numberOfColumns = 5
         recyclerView2.layoutManager = GridLayoutManager(_context, numberOfColumns)
         compTournamentsAdapter = CompTournamentsAdapter(_context, _competitionList[position]!!.tournamentList!!)
+        compTournamentsAdapter!!.setClickListener(this)
         recyclerView2.adapter = compTournamentsAdapter
+    }
+
+    override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
+
+        val args = Bundle()
+        args.putSerializable(EXTRA_TOURNAMENT, tournamentList[position]!!)
+        val navController = Navigation.findNavController(_context as MainActivity, R.id.nav_host_fragment_activity_main)
+        navController.navigate(R.id.navigation_tournaments, args)
     }
 
     override fun getItemCount(): Int {

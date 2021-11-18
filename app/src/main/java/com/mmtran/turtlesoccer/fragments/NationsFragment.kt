@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
-import androidx.core.content.ContextCompat
 import com.mmtran.turtlesoccer.activities.MainActivity
 import com.mmtran.turtlesoccer.adapters.NationsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentNationsBinding
 import com.mmtran.turtlesoccer.models.*
+import com.mmtran.turtlesoccer.utils.CommonUtil
 
 class NationsFragment : Fragment() {
 
@@ -56,14 +55,7 @@ class NationsFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding!!.nationList
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.divider_gray_5
-            )!!
-        )
-        recyclerView.addItemDecoration(divider)
+        CommonUtil.addDivider(recyclerView, requireContext())
         nationsAdapter = NationsAdapter(context, nationList!!)
         recyclerView.adapter = nationsAdapter
     }

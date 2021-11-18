@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,8 +15,8 @@ import com.mmtran.turtlesoccer.models.Confederation
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.models.Competition
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
-import androidx.core.content.ContextCompat
 import com.mmtran.turtlesoccer.activities.MainActivity
+import com.mmtran.turtlesoccer.utils.CommonUtil
 
 class ConfederationsFragment : Fragment() {
 
@@ -69,14 +68,7 @@ class ConfederationsFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding!!.confederationList
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.divider_gray_5
-            )!!
-        )
-        recyclerView.addItemDecoration(divider)
+        CommonUtil.addDivider(recyclerView, requireContext())
         confederationsAdapter = ConfederationsAdapter(context, confederationList!!)
         recyclerView.adapter = confederationsAdapter
     }

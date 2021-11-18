@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -24,6 +22,7 @@ import com.mmtran.turtlesoccer.adapters.EXTRA_COMPETITION
 import com.mmtran.turtlesoccer.databinding.FragmentCompetitionsBinding
 import com.mmtran.turtlesoccer.models.*
 import com.mmtran.turtlesoccer.utils.ActionBarUtil
+import com.mmtran.turtlesoccer.utils.CommonUtil
 import com.mmtran.turtlesoccer.utils.CompetitionUtil
 import com.mmtran.turtlesoccer.utils.TournamentUtil
 import kotlin.random.Random
@@ -149,14 +148,7 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
         val recyclerView: RecyclerView = binding!!.competitionList
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.divider_gray_5
-            )!!
-        )
-        recyclerView.addItemDecoration(divider)
+        CommonUtil.addDivider(recyclerView, requireContext())
         competitionsAdapter = CompetitionsAdapter(context, competitionList!!)
         competitionsAdapter!!.setClickListener(this)
         recyclerView.adapter = competitionsAdapter
@@ -183,14 +175,6 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
                 result = result + temp[i]
             }
         } else {
-//            var j = 5
-//            if (j > len) {
-//                j = len
-//            }
-//            for (i in j-5 until j) {
-//                temp[i]!!.competition = competition
-//                result = result + temp[i]
-//            }
             for (i in 1..5) {
                 val rIndex = Random.nextInt(temp.size)
                 val rTournament = temp[rIndex]

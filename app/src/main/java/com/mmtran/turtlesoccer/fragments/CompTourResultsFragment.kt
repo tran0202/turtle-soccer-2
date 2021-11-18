@@ -7,16 +7,20 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.activities.MainActivity
 import com.mmtran.turtlesoccer.adapters.CompTourResultsAdapter
+import com.mmtran.turtlesoccer.adapters.EXTRA_TOURNAMENT
 import com.mmtran.turtlesoccer.databinding.FragmentCompTourResultsBinding
 import com.mmtran.turtlesoccer.models.CompTourResultsViewModel
 import com.mmtran.turtlesoccer.models.Competition
+import com.mmtran.turtlesoccer.models.Tournament
 
-class CompTourResultsFragment(comp: Competition?) : Fragment() {
+class CompTourResultsFragment(comp: Competition?) : Fragment(), CompTourResultsAdapter.ItemClickListener {
 
     private var compTourResultsViewModel: CompTourResultsViewModel? = null
     private var competition: Competition? = comp
@@ -51,7 +55,16 @@ class CompTourResultsFragment(comp: Competition?) : Fragment() {
         )
         recyclerView.addItemDecoration(divider)
         compTourResultsAdapter = CompTourResultsAdapter(requireContext(), competition!!.tournamentList!!)
+        compTourResultsAdapter!!.setClickListener(this)
         recyclerView.adapter = compTourResultsAdapter
+    }
+
+    override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
+
+        val args = Bundle()
+        args.putSerializable(EXTRA_TOURNAMENT, tournamentList[position]!!)
+        val navController = Navigation.findNavController(context as MainActivity, R.id.nav_host_fragment_activity_main)
+        navController.navigate(R.id.navigation_tournaments, args)
     }
 
     override fun onDestroyView() {
