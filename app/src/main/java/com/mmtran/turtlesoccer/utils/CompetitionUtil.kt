@@ -1,9 +1,12 @@
 package com.mmtran.turtlesoccer.utils
 
-import com.mmtran.turtlesoccer.models.Champion
-import com.mmtran.turtlesoccer.models.Competition
-import com.mmtran.turtlesoccer.models.Nation
-import com.mmtran.turtlesoccer.models.Team
+import android.content.Context
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
+import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
+import com.mmtran.turtlesoccer.models.*
 
 object CompetitionUtil {
 
@@ -39,6 +42,30 @@ object CompetitionUtil {
             } else {
                 competition!!.lastChampions!!.team = team
             }
+        }
+    }
+
+    fun renderTeamCount(context: Context?, competition: Competition?): String {
+
+        if (competition!!.teamCount == null) return ""
+
+        return competition!!.teamCount.toString()
+    }
+
+    fun renderChampions(context: Context?, champion: Champion?, label: TextView, field: LinearLayout, flagNameBinding: FragmentFlagNameBinding, titleCount: TextView) {
+
+        if (champion !== null && champion.team !== null) {
+            label.visibility = View.VISIBLE
+            field.visibility = View.VISIBLE
+            TeamUtil.renderFlagName(context!!, flagNameBinding, champion.team)
+            if (champion.titleCount != null) {
+                titleCount.text = context.getString(R.string.competition_title_count, champion.titleCount.toString())
+            } else {
+                titleCount.visibility = View.GONE
+            }
+        } else {
+            label.visibility = View.GONE
+            field.visibility = View.GONE
         }
     }
 }

@@ -6,11 +6,14 @@ import java.io.Serializable
 class TournamentDetails: Serializable {
 
     var host: List<String?>? = emptyList()
+    var hostTeam: List<Team?>? = emptyList()
 
     @get:PropertyName("final_host")
     @set:PropertyName("final_host")
     @PropertyName("final_host")
     var finalHost: List<String?>? = emptyList()
+
+    var finalHostTeam: List<Team?>? = emptyList()
 
     @get:PropertyName("logo_filename")
     @set:PropertyName("logo_filename")
@@ -99,10 +102,10 @@ class TournamentDetails: Serializable {
     @PropertyName("final_team_count")
     var finalTeamCount: Int? = null
 
-    @get:PropertyName("tournament_team_count")
-    @set:PropertyName("tournament_team_count")
-    @PropertyName("tournament_team_count")
-    var tournamentTeamCount: Int? = null
+    @get:PropertyName("competition_team_count")
+    @set:PropertyName("competition_team_count")
+    @PropertyName("competition_team_count")
+    var competitionTeamCount: Int? = null
 
     @get:PropertyName("transfer_team_count")
     @set:PropertyName("transfer_team_count")

@@ -20,7 +20,8 @@ import com.mmtran.turtlesoccer.databinding.RowCompetitionBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Competition
 import com.mmtran.turtlesoccer.models.Tournament
-import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
+import com.mmtran.turtlesoccer.utils.CommonUtil
+import com.mmtran.turtlesoccer.utils.CompetitionUtil
 
 class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>) :
     RecyclerView.Adapter<CompetitionsAdapter.ViewHolder>(), CompTournamentsAdapter.ItemClickListener {
@@ -48,44 +49,18 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         )
 
         holder.competitionNameTextView.text = _competitionList[position]!!.name
-        if (_competitionList[position]!!.teamCount != null) {
-            holder.competitionTeamCountTextView.visibility = View.VISIBLE
-            holder.competitionTeamCountTextView.text = _context!!.getString(R.string.competition_team_count, _competitionList[position]!!.teamCount.toString())
-        } else {
-            holder.competitionTeamCountTextView.visibility = View.GONE
-        }
 
-        when {
-            _competitionList[position]!!.currentChampions !== null && _competitionList[position]!!.currentChampions!!.team !== null ->  {
-                holder.competitionCurrentChampionsLabelTextView.visibility = View.VISIBLE
-                holder.competitionCurrentChampionsLabelTextView.text = _context!!.getString(R.string.competition_current_champions_label)
-                holder.competitionCurrentChampionsLinearLayout.visibility = View.VISIBLE
-                renderFlagName(_context, holder.fragmentFlagNameBinding, _competitionList[position]!!.currentChampions!!.team)
-                if (_competitionList[position]!!.currentChampions!!.titleCount != null) {
-                    holder.titleCountTextView.text = _context.getString(R.string.competition_title_count, _competitionList[position]!!.currentChampions!!.titleCount.toString())
-                } else {
-                    holder.titleCountTextView.visibility = View.GONE
-                }
-            }
-            _competitionList[position]!!.lastChampions !== null && _competitionList[position]!!.lastChampions!!.team !== null ->  {
-                holder.competitionCurrentChampionsLabelTextView.visibility = View.VISIBLE
-                holder.competitionCurrentChampionsLabelTextView.text = _context!!.getString(R.string.competition_last_champions_label)
-                holder.competitionCurrentChampionsLinearLayout.visibility = View.VISIBLE
-                renderFlagName(_context, holder.fragmentFlagNameBinding, _competitionList[position]!!.lastChampions!!.team)
-                if (_competitionList[position]!!.lastChampions!!.titleCount != null) {
-                    holder.titleCountTextView.text = _context.getString(R.string.competition_title_count, _competitionList[position]!!.lastChampions!!.titleCount.toString())
-                } else {
-                    holder.titleCountTextView.visibility = View.GONE
-                }
-            }
-            else -> {
-                holder.competitionCurrentChampionsLabelTextView.visibility = View.GONE
-                holder.competitionCurrentChampionsLinearLayout.visibility = View.GONE
-            }
-        }
+        val teamCount = CompetitionUtil.renderTeamCount(_context, _competitionList[position]!!)
+        CommonUtil.renderLabelField(teamCount, holder.competitionTeamCountLabelTextView, holder.competitionTeamCountTextView)
+
+        CompetitionUtil.renderChampions(_context, _competitionList[position]!!.currentChampions, holder.competitionCurrentChampionsLabelTextView,
+            holder.competitionCurrentChampionsLinearLayout, holder.currentChampionsFragmentFlagNameBinding, holder.currentChampionsTitleCountTextView)
+
+        CompetitionUtil.renderChampions(_context, _competitionList[position]!!.lastChampions, holder.competitionLastChampionsLabelTextView,
+            holder.competitionLastChampionsLinearLayout, holder.lastChampionsFragmentFlagNameBinding, holder.lastChampionsTitleCountTextView)
 
         if (!_competitionList[position]!!.mostSuccessfulTeams.isNullOrEmpty()) {
-            holder.mostSuccessfulTeamLabelTextView.text = _context!!.getString(R.string.competition_most_successful_team_label)
+            holder.mostSuccessfulTeamLabelTextView.visibility = View.VISIBLE
         } else {
             holder.mostSuccessfulTeamLabelTextView.visibility = View.GONE
         }
@@ -123,11 +98,16 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         val root: View = binding.root
         var competitionTrophyImageView: ImageView = binding.competitionTrophy
         var competitionNameTextView: TextView = binding.competitionName
+        var competitionTeamCountLabelTextView: TextView = binding.competitionTeamCountLabel
         var competitionTeamCountTextView: TextView = binding.competitionTeamCount
         var competitionCurrentChampionsLabelTextView: TextView = binding.competitionCurrentChampionsLabel
         var competitionCurrentChampionsLinearLayout: LinearLayout = binding.competitionCurrentChampions
-        var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
-        var titleCountTextView: TextView = binding.titleCount
+        var currentChampionsFragmentFlagNameBinding: FragmentFlagNameBinding = binding.currentChampionsFlagName
+        var currentChampionsTitleCountTextView: TextView = binding.currentChampionsTitleCount
+        var competitionLastChampionsLabelTextView: TextView = binding.competitionLastChampionsLabel
+        var competitionLastChampionsLinearLayout: LinearLayout = binding.competitionLastChampions
+        var lastChampionsFragmentFlagNameBinding: FragmentFlagNameBinding = binding.lastChampionsFlagName
+        var lastChampionsTitleCountTextView: TextView = binding.lastChampionsTitleCount
         var mostSuccessfulTeamLabelTextView: TextView = binding.mostSuccessfulTeamLabel
         var compSuccessfulTeamListRecyclerView: RecyclerView = binding.compSuccessfulTeamList
         var descriptionTextView: TextView = binding.description

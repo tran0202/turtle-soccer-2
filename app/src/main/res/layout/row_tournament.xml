@@ -36,7 +36,8 @@
                 android:layout_marginEnd="20dp"
                 android:textAlignment="viewStart"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/blue" />
 
             <TextView
                 android:id="@+id/tournament_dates"
@@ -65,32 +66,77 @@
                 android:textAlignment="viewStart"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/tournament_team_count"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:textAlignment="viewStart"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/total_team_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:textAlignment="viewStart"
-                android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/team_count_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/tournament_team_count_label"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/total_plus_transfer_team_count"
+                <TextView
+                    android:id="@+id/team_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:textAlignment="viewStart"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/total_team_count_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/tournament_team_count_label"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/total_team_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/total_plus_transfer_team_count_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/tournament_team_count_label"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/total_plus_transfer_team_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/champions_label"
@@ -115,27 +161,6 @@
                     android:layout_marginEnd="5dp" />
 
             </LinearLayout>
-
-<!--            <TextView-->
-<!--                android:id="@+id/most_successful_team_label"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:layout_marginEnd="20dp"-->
-<!--                android:textAlignment="viewStart"-->
-<!--                android:textSize="20sp" />-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginBottom="10dp">-->
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/comp_successful_team_list"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--            </LinearLayout>-->
 
         </TableLayout>
 

@@ -8,13 +8,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
 
 import com.mmtran.turtlesoccer.databinding.RowTournamentBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
-import com.mmtran.turtlesoccer.models.Competition
 import com.mmtran.turtlesoccer.models.Tournament
+import com.mmtran.turtlesoccer.utils.CommonUtil
 import com.mmtran.turtlesoccer.utils.TeamUtil
 import com.mmtran.turtlesoccer.utils.TournamentUtil
 
@@ -44,50 +43,22 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         holder.tournamentNameTextView.text = _tournamentList[position]!!.name
 
         val tournamentDates = TournamentUtil.renderDates(_context, _tournamentList[position])
-        if (!tournamentDates.isNullOrEmpty()) {
-            holder.tournamentDatesTextView.visibility = View.VISIBLE
-            holder.tournamentDatesTextView.text = tournamentDates
-        } else {
-            holder.tournamentDatesTextView.visibility = View.GONE
-        }
+        CommonUtil.renderField(tournamentDates, holder.tournamentDatesTextView)
 
         val competitionDates = TournamentUtil.renderQualifyingCompetitionDates(_context, _tournamentList[position])
-        if (!competitionDates.isNullOrEmpty()) {
-            holder.competitionDatesTextView.visibility = View.VISIBLE
-            holder.competitionDatesTextView.text = competitionDates
-        } else {
-            holder.competitionDatesTextView.visibility = View.GONE
-        }
+        CommonUtil.renderField(competitionDates, holder.competitionDatesTextView)
 
         val finalDates = TournamentUtil.renderLeagueFinalDates(_context, _tournamentList[position])
-        if (!finalDates.isNullOrEmpty()) {
-            holder.finalDatesTextView.visibility = View.VISIBLE
-            holder.finalDatesTextView.text = finalDates
-        } else {
-            holder.finalDatesTextView.visibility = View.GONE
-        }
+        CommonUtil.renderField(finalDates, holder.finalDatesTextView)
 
-        if (_tournamentList[position]!!.details!!.teamCount != null) {
-            holder.tournamentTeamCountTextView.visibility = View.VISIBLE
-            holder.tournamentTeamCountTextView.text = _context!!.getString(R.string.tournament_team_count, _tournamentList[position]!!.details!!.teamCount.toString())
-        } else {
-            holder.tournamentTeamCountTextView.visibility = View.GONE
-        }
+        val teamCount = TournamentUtil.renderTeamCount(_context, _tournamentList[position])
+        CommonUtil.renderLabelField(teamCount, holder.teamCountLabelTextView, holder.teamCountTextView)
 
-        if (_tournamentList[position]!!.details!!.totalTeamCount != null && _tournamentList[position]!!.details!!.totalTransferTeamCount == null) {
-            holder.totalTeamCountTextView.visibility = View.VISIBLE
-            holder.totalTeamCountTextView.text = _context!!.getString(R.string.tournament_team_count, _tournamentList[position]!!.details!!.totalTeamCount.toString())
-        } else {
-            holder.totalTeamCountTextView.visibility = View.GONE
-        }
+        val totalTeamCount = TournamentUtil.renderTotalTeamCount(_context, _tournamentList[position])
+        CommonUtil.renderLabelField(totalTeamCount, holder.totalTeamCountLabelTextView, holder.totalTeamCountTextView)
 
         val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(_context, _tournamentList[position])
-        if (!totalPlusTransferTeamCount.isNullOrEmpty()) {
-            holder.totalPlusTransferTeamCountTextView.visibility = View.VISIBLE
-            holder.totalPlusTransferTeamCountTextView.text = totalPlusTransferTeamCount
-        } else {
-            holder.totalPlusTransferTeamCountTextView.visibility = View.GONE
-        }
+        CommonUtil.renderLabelField(totalPlusTransferTeamCount, holder.totalPlusTransferTeamCountLabelTextView, holder.totalPlusTransferTeamCountTextView)
 
         if (_tournamentList[position]!!.finalStandings!!.championTeam != null) {
             holder.championsLabelTextView.visibility = View.VISIBLE
@@ -116,8 +87,11 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         var tournamentDatesTextView: TextView = binding.tournamentDates
         var competitionDatesTextView: TextView = binding.competitionDates
         var finalDatesTextView: TextView = binding.finalDates
-        var tournamentTeamCountTextView: TextView = binding.tournamentTeamCount
+        var teamCountLabelTextView: TextView = binding.teamCountLabel
+        var teamCountTextView: TextView = binding.teamCount
+        var totalTeamCountLabelTextView: TextView = binding.totalTeamCountLabel
         var totalTeamCountTextView: TextView = binding.totalTeamCount
+        var totalPlusTransferTeamCountLabelTextView: TextView = binding.totalPlusTransferTeamCountLabel
         var totalPlusTransferTeamCountTextView: TextView = binding.totalPlusTransferTeamCount
         var championsLabelTextView: TextView = binding.championsLabel
         var championsLinearLayout: LinearLayout = binding.champions

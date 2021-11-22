@@ -32,6 +32,40 @@ object TournamentUtil {
         }
     }
 
+    fun processTeams(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (tournament == null) return
+
+        processFinalStandings(tournament, nationList, teamList)
+        processHosts(tournament, nationList, teamList)
+    }
+
+    private fun processHosts(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (tournament == null) return
+
+        if (tournament.details != null) {
+            val hostList = tournament.details!!.host
+            val finalHostList = tournament.details!!.finalHost
+
+            tournament.details!!.hostTeam = emptyList()
+            for (hostId: String? in hostList!!) {
+                val team = TeamUtil.getTeam(hostId, nationList, teamList)
+                if (team != null) {
+                    tournament.details!!.hostTeam = tournament.details!!.hostTeam?.plus(team)
+                }
+            }
+            tournament.details!!.finalHostTeam = emptyList()
+            for (hostId: String? in finalHostList!!) {
+                val team = TeamUtil.getTeam(hostId, nationList, teamList)
+                if (team != null) {
+                    tournament.details!!.finalHostTeam = tournament.details!!.finalHostTeam?.plus(team)
+                }
+            }
+        }
+
+    }
+
     fun processFinalStandings(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (tournament == null) return
@@ -93,61 +127,150 @@ object TournamentUtil {
     }
 
     fun renderDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startDate, tournament.details!!.endDate)
+    }
 
-        if (tournament!!.details!!.startDate.isNullOrEmpty() || tournament.details!!.endDate.isNullOrEmpty()) return ""
+    fun renderQualifyingDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startQualifyingDate, tournament.details!!.endQualifyingDate)
+    }
+
+    fun renderCompetitionDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startCompetitionDate, tournament.details!!.endCompetitionDate)
+    }
+
+    fun renderQualifyingCompetitionDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startQualifyingDate, tournament.details!!.endCompetitionDate)
+    }
+
+    fun renderLeagueDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startLeagueDate, tournament.details!!.endLeagueDate)
+    }
+
+    fun renderFinalDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startFinalDate, tournament.details!!.endFinalDate)
+    }
+
+    fun renderLeagueFinalDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startLeagueDate, tournament.details!!.endFinalDate)
+    }
+
+    fun renderRelegationDates(context: Context?, tournament: Tournament?): String {
+        if (tournament?.details == null) return ""
+        return renderStartEndDates(context, tournament.details!!.startRelegationDate, tournament.details!!.endRelegationDate)
+    }
+
+    private fun renderStartEndDates(context: Context?, startDate: String?, endDate: String?): String {
+
+        if (startDate.isNullOrEmpty() || endDate.isNullOrEmpty()) return ""
 
         val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-        val startDate = LocalDate.parse(tournament.details!!.startDate, DateTimeFormatter.ISO_DATE)
-        val formattedStartDate = startDate.format(formatter)
-        val endDate = LocalDate.parse(tournament.details!!.endDate, DateTimeFormatter.ISO_DATE)
-        val formattedEndDate = endDate.format(formatter)
+        val start = LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE)
+        val formattedStartDate = start.format(formatter)
+        val end = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE)
+        val formattedEndDate = end.format(formatter)
 
         return context!!.getString(R.string.tournament_dates, formattedStartDate, formattedEndDate)
     }
 
-    fun renderQualifyingDates(context: Context?, tournament: Tournament?): String {
+    fun renderTeamCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.startQualifyingDate.isNullOrEmpty() || tournament.details!!.endQualifyingDate.isNullOrEmpty()) return ""
+        if (tournament!!.details!!.teamCount == null) return ""
 
-        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-        val startQualifyingDate = LocalDate.parse(tournament.details!!.startQualifyingDate, DateTimeFormatter.ISO_DATE)
-        val formattedQualifyingStartDate = startQualifyingDate.format(formatter)
-        val endQualifyingDate = LocalDate.parse(tournament.details!!.endQualifyingDate, DateTimeFormatter.ISO_DATE)
-        val formattedQualifyingEndDate = endQualifyingDate.format(formatter)
-
-        return context!!.getString(R.string.tournament_dates, formattedQualifyingEndDate, formattedQualifyingEndDate)
+        return if (tournament.details!!.confedCount != null) {
+            context!!.getString(
+                R.string.team_count_with_confed,
+                tournament.details!!.teamCount.toString(),
+                tournament.details!!.confedCount.toString()
+            )
+        } else tournament.details!!.teamCount.toString()
     }
 
-    fun renderQualifyingCompetitionDates(context: Context?, tournament: Tournament?): String {
+    fun renderCompetitionTeamCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.startQualifyingDate.isNullOrEmpty() || tournament.details!!.endCompetitionDate.isNullOrEmpty()) return ""
+        if (tournament!!.details!!.competitionTeamCount == null) return ""
 
-        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-        val startQualifyingDate = LocalDate.parse(tournament.details!!.startQualifyingDate, DateTimeFormatter.ISO_DATE)
-        val formattedQualifyingStartDate = startQualifyingDate.format(formatter)
-        val endCompetitionDate = LocalDate.parse(tournament.details!!.endCompetitionDate, DateTimeFormatter.ISO_DATE)
-        val formattedCompetitionEndDate = endCompetitionDate.format(formatter)
+        if (tournament!!.details!!.competitionTeamCount != null && tournament.details!!.transferTeamCount != null) return ""
 
-        return context!!.getString(R.string.tournament_dates, formattedQualifyingStartDate, formattedCompetitionEndDate)
+        return tournament.details!!.competitionTeamCount.toString()
     }
 
-    fun renderLeagueFinalDates(context: Context?, tournament: Tournament?): String {
+    fun renderCompetitionPlusTransferTeamCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.startLeagueDate.isNullOrEmpty() || tournament.details!!.endFinalDate.isNullOrEmpty()) return ""
+        if (tournament!!.details!!.competitionTeamCount == null || tournament.details!!.transferTeamCount == null) return ""
 
-        val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-        val startLeagueDate = LocalDate.parse(tournament.details!!.startLeagueDate, DateTimeFormatter.ISO_DATE)
-        val formattedLeagueStartDate = startLeagueDate.format(formatter)
-        val endFinalDate = LocalDate.parse(tournament.details!!.endFinalDate, DateTimeFormatter.ISO_DATE)
-        val formattedFinalEndDate = endFinalDate.format(formatter)
+        return context!!.getString(R.string.total_plus_transfer_team_count, tournament.details!!.competitionTeamCount.toString(), tournament.details!!.transferTeamCount.toString())
+    }
 
-        return context!!.getString(R.string.tournament_dates, formattedLeagueStartDate, formattedFinalEndDate)
+    fun renderTotalTeamCount(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.details!!.totalTeamCount == null) return ""
+
+        if (tournament!!.details!!.totalTeamCount != null && tournament.details!!.totalTransferTeamCount != null) return ""
+
+        return if (tournament.details!!.nationCount != null) {
+            context!!.getString(
+                R.string.total_team_count_with_association,
+                tournament.details!!.totalTeamCount.toString(),
+                tournament.details!!.nationCount.toString()
+            )
+        } else tournament.details!!.totalTeamCount.toString()
     }
 
     fun renderTotalPlusTransferTeamCount(context: Context?, tournament: Tournament?): String {
 
         if (tournament!!.details!!.totalTeamCount == null || tournament.details!!.totalTransferTeamCount == null) return ""
 
-        return context!!.getString(R.string.total_plus_transfer_team_count, tournament!!.details!!.totalTeamCount.toString(), tournament.details!!.totalTransferTeamCount.toString())
+        return if (tournament.details!!.nationCount != null) {
+            context!!.getString(
+                R.string.total_plus_transfer_team_count_with_association,
+                tournament.details!!.totalTeamCount.toString(),
+                tournament.details!!.totalTransferTeamCount.toString(),
+                tournament.details!!.nationCount.toString()
+            )
+        } else context!!.getString(
+            R.string.total_plus_transfer_team_count,
+            tournament.details!!.totalTeamCount.toString(),
+            tournament.details!!.totalTransferTeamCount.toString()
+        )
+    }
+
+    fun renderFinalTeamCount(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.details!!.finalTeamCount == null) return ""
+
+        return tournament.details!!.finalTeamCount.toString()
+    }
+
+    fun renderVenueCount(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.details!!.venueCount == null) return ""
+
+        return if (tournament.details!!.cityCount != null) {
+            context!!.getString(
+                R.string.venue_count_with_cities,
+                tournament.details!!.venueCount.toString(),
+                tournament.details!!.cityCount.toString()
+            )
+        } else tournament.details!!.venueCount.toString()
+    }
+
+    fun renderFinalVenueCount(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.details!!.finalVenueCount == null) return ""
+
+        return if (tournament.details!!.finalCityCount != null) {
+            context!!.getString(
+                R.string.venue_count_with_cities,
+                tournament.details!!.finalVenueCount.toString(),
+                tournament.details!!.finalCityCount.toString()
+            )
+        } else tournament.details!!.finalVenueCount.toString()
     }
 }

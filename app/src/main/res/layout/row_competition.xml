@@ -43,16 +43,32 @@
                 android:layout_marginEnd="20dp"
                 android:textAlignment="viewStart"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="@color/blue" />
 
-            <TextView
-                android:id="@+id/competition_team_count"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:textAlignment="viewStart"
-                android:textSize="20sp" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/competition_team_count_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/tournament_team_count_label"
+                    android:textAlignment="viewStart"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/competition_team_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/competition_current_champions_label"
@@ -60,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:text="@string/competition_current_champions_label"
                 android:textAlignment="viewStart"
                 android:textSize="20sp" />
 
@@ -68,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <include
-                    android:id="@+id/flag_name"
+                    android:id="@+id/current_champions_flag_name"
                     layout="@layout/fragment_flag_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,7 +93,38 @@
                     android:layout_marginEnd="5dp" />
 
                 <TextView
-                    android:id="@+id/title_count"
+                    android:id="@+id/current_champions_title_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="bottom"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/competition_last_champions_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/competition_last_champions_label"
+                android:textAlignment="viewStart"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:id="@+id/competition_last_champions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <include
+                    android:id="@+id/last_champions_flag_name"
+                    layout="@layout/fragment_flag_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="5dp" />
+
+                <TextView
+                    android:id="@+id/last_champions_title_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -90,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:text="@string/competition_most_successful_team_label"
                 android:textAlignment="viewStart"
                 android:textSize="20sp" />
 

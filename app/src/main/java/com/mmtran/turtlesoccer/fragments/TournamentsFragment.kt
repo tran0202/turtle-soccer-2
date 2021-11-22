@@ -10,10 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.activities.MainActivity
 import com.mmtran.turtlesoccer.adapters.EXTRA_TOURNAMENT
+import com.mmtran.turtlesoccer.adapters.TournamentPagerAdapter
 import com.mmtran.turtlesoccer.adapters.TournamentsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentTournamentsBinding
 import com.mmtran.turtlesoccer.models.*
@@ -32,6 +36,8 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
     private var binding: FragmentTournamentsBinding? = null
     private var tournament: Tournament? = null
     private var latestTournamentsList: List<Tournament?>? = emptyList()
+    private var tourViewPager: ViewPager2? = null
+    private var tournamentPagerAdapter: TournamentPagerAdapter? = null
     private var tournamentsAdapter: TournamentsAdapter? = null
 
     override fun onCreateView(
@@ -51,7 +57,11 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
         val actionBar = (activity as AppCompatActivity?)!!.supportActionBar
         buildActionBar(layoutInflater, actionBar, R.layout.toolbar_tournaments)
-        actionBar!!.setTitle(R.string.toolbar_tournaments)
+        if (isRenderTournamentList()) {
+            actionBar!!.setTitle(R.string.toolbar_tournaments)
+        } else {
+            actionBar!!.title = tournament!!.name
+        }
 
         (activity as MainActivity).nationListViewModel!!.nationList.observe(
             viewLifecycleOwner,
@@ -95,11 +105,29 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun renderTournament() {
 
+        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+
+        val compList = competitionList!!.filter { it!!.id == tournament!!.competitionId }
+        tournament!!.competition = if (compList.isNotEmpty()) compList[0]!! else null
+        TournamentUtil.processTeams(tournament, nationList, teamList)
+
+        tourViewPager = binding!!.tournamentViewPager
+        tournamentPagerAdapter = TournamentPagerAdapter.newInstance(parentFragmentManager, lifecycle)
+        tournamentPagerAdapter!!.setTournament(tournament!!)
+        tourViewPager!!.adapter = tournamentPagerAdapter
+
+        TabLayoutMediator(
+            binding!!.tournamentTabLayout, tourViewPager!!
+        ) { tab: TabLayout.Tab, position: Int ->
+            tab.setText(
+                TAB_RES[position]
+            )
+        }.attach()
     }
 
     private fun renderTournamentList() {
 
-        if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
+        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         for (competition: Competition? in competitionList!!) {
             val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
@@ -135,5 +163,10 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    companion object {
+        private val TAB_RES =
+            intArrayOf(R.string.tournament_about, R.string.tournament_matches, R.string.tournament_groups, R.string.tournament_final_standings)
     }
 }
