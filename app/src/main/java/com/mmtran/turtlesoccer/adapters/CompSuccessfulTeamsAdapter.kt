@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
 import com.mmtran.turtlesoccer.databinding.RowCompSuccessfulTeamBinding
 import com.mmtran.turtlesoccer.models.Champion
 import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
@@ -50,7 +50,7 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
 
         val root: View = binding.root
         var successfulTeamsLinearLayout: LinearLayout = binding.successfulTeams
-        var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
+        var fragmentFlagNameBinding: FragmentTeamFlagNameBinding = binding.flagName
         var titleCountTextView: TextView = binding.titleCount
     }
 }

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameNarrowBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
 import com.mmtran.turtlesoccer.databinding.RowThirdPlaceNarrowBinding
 
 import com.mmtran.turtlesoccer.models.Team
@@ -36,6 +36,6 @@ class CompTourThirdPlaceAdapter(context: Context?, teamList: List<Team?>) :
     inner class ViewHolder internal constructor(binding: RowThirdPlaceNarrowBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
-        var thirdPlaceFlagNameNarrowBinding: FragmentFlagNameNarrowBinding = binding.thirdPlaceFlagNameNarrow
+        var thirdPlaceFlagNameNarrowBinding: FragmentTeamFlagNameNarrowBinding = binding.thirdPlaceFlagNameNarrow
     }
 }

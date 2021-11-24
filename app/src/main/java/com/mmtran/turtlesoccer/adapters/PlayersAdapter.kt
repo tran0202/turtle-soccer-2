@@ -6,42 +6,43 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.RowPlayerBinding
 import com.mmtran.turtlesoccer.databinding.RowTeamBinding
+import com.mmtran.turtlesoccer.models.Player
 import com.mmtran.turtlesoccer.models.Team
 import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
 
-class PlayersAdapter(context: Context?, teamList: List<Team?>) :
+class PlayersAdapter(context: Context?, playerList: List<Player?>) :
     RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
 
     private val _context = context
-    private val _teamList: List<Team?> = teamList
+    private val _playerList: List<Player?> = playerList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowTeamBinding = RowTeamBinding.inflate(_inflater, parent, false)
+        val binding: RowPlayerBinding = RowPlayerBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (_teamList[position] != null) {
-            holder.teamsLinearLayout.visibility = View.VISIBLE
-            renderFlagName(_context, holder.fragmentFlagNameBinding, _teamList[position])
+        if (_playerList[position] != null) {
+            holder.playerLinearLayout.visibility = View.VISIBLE
+//            renderFlagName(_context, holder.fragmentFlagNameBinding, _playerList[position])
         } else {
-            holder.teamsLinearLayout.visibility = View.GONE
+            holder.playerLinearLayout.visibility = View.GONE
         }
     }
 
     override fun getItemCount(): Int {
-        return _teamList.size
+        return _playerList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowTeamBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder internal constructor(binding: RowPlayerBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
-        var teamsLinearLayout: LinearLayout = binding.teams
-        var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
+        var playerLinearLayout: LinearLayout = binding.player
+//        var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
     }
 }

@@ -2,15 +2,15 @@ package com.mmtran.turtlesoccer.utils
 
 import android.content.Context
 import android.view.View
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameNarrowBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Nation
 import com.mmtran.turtlesoccer.models.Team
 
 object TeamUtil {
 
-    fun renderFlagName(context: Context?, binding: FragmentFlagNameBinding?, team: Team?) {
+    fun renderFlagName(context: Context?, binding: FragmentTeamFlagNameBinding?, team: Team?) {
 
         if (team == null) return
 
@@ -54,7 +54,7 @@ object TeamUtil {
         }
     }
 
-    fun renderFlagNameNarrow(context: Context?, binding: FragmentFlagNameNarrowBinding?, team: Team?) {
+    fun renderFlagNameNarrow(context: Context?, binding: FragmentTeamFlagNameNarrowBinding?, team: Team?) {
 
         val firebaseStorageLoader = FirebaseStorageLoader(context)
 

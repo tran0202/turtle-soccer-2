@@ -11,7 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameNarrowBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
 import com.mmtran.turtlesoccer.databinding.RowCompTourResultBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.SectionHeader
@@ -145,17 +145,17 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
         var shortYearTextView: TextView = binding.shortYear
         var championColumnLinearLayout: LinearLayout = binding.championColumn
         var championColumnInnerLayout: LinearLayout = binding.championColumnInner
-        var championFlagNameBinding: FragmentFlagNameNarrowBinding = binding.championFlagName
+        var championFlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.championFlagName
         var runnerUpColumnLinearLayout: LinearLayout = binding.runnerUpColumn
         var runnerUpColumnInnerLinearLayout: LinearLayout = binding.runnerUpColumnInner
-        var runnerUpFlagNameBinding: FragmentFlagNameNarrowBinding = binding.runnerUpFlagName
+        var runnerUpFlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.runnerUpFlagName
         var thirdPlaceColumnLinearLayout: LinearLayout = binding.thirdPlaceColumn
         var thirdPlaceListRecyclerView: RecyclerView = binding.thirdPlaceList
         var fourthPlaceColumnLinearLayout: LinearLayout = binding.fourthPlaceColumn
-        var fourthPlaceFlagNameBinding: FragmentFlagNameNarrowBinding = binding.fourthPlaceFlagName
+        var fourthPlaceFlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.fourthPlaceFlagName
         var semiFinalistsColumnLinearLayout: LinearLayout = binding.semiFinalistsColumn
-        var semiFinalist1FlagNameBinding: FragmentFlagNameNarrowBinding = binding.semiFinalist1FlagName
-        var semiFinalist2FlagNameBinding: FragmentFlagNameNarrowBinding = binding.semiFinalist2FlagName
+        var semiFinalist1FlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.semiFinalist1FlagName
+        var semiFinalist2FlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.semiFinalist2FlagName
 
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _tournamentList, absoluteAdapterPosition)

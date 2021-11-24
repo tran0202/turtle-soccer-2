@@ -451,7 +451,7 @@
                     android:layout_height="wrap_content">
                     <include
                         android:id="@+id/champions_flag_name"
-                        layout="@layout/fragment_flag_name"
+                        layout="@layout/fragment_team_flag_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp" />
@@ -482,7 +482,7 @@
                     android:layout_height="wrap_content">
                     <include
                         android:id="@+id/runners_up_flag_name"
-                        layout="@layout/fragment_flag_name"
+                        layout="@layout/fragment_team_flag_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp" />
@@ -542,7 +542,7 @@
                     android:layout_height="wrap_content">
                     <include
                         android:id="@+id/fourth_place_flag_name"
-                        layout="@layout/fragment_flag_name"
+                        layout="@layout/fragment_team_flag_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp" />

@@ -5,8 +5,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameNarrowBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
 import com.mmtran.turtlesoccer.models.*
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -385,7 +385,7 @@ object TournamentUtil {
         } else tournament.details!!.finalVenueCount.toString()
     }
 
-    fun renderFinalStandings(context: Context?, team: Team?, label: TextView, field: LinearLayout, flagNameBinding: FragmentFlagNameBinding) {
+    fun renderFinalStandings(context: Context?, team: Team?, label: TextView, field: LinearLayout, flagNameBinding: FragmentTeamFlagNameBinding) {
 
         if (team != null && team.isValid()) {
             label.visibility = View.VISIBLE
@@ -397,7 +397,7 @@ object TournamentUtil {
         }
     }
 
-    fun renderFinalStandingsNarrow(context: Context?, team: Team?, field: LinearLayout, flagNameBinding: FragmentFlagNameNarrowBinding) {
+    fun renderFinalStandingsNarrow(context: Context?, team: Team?, field: LinearLayout, flagNameBinding: FragmentTeamFlagNameNarrowBinding) {
 
         if (team != null && team.isValid()) {
             field.visibility = View.VISIBLE

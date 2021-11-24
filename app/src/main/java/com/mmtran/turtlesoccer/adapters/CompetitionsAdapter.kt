@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.activities.MainActivity
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
 import com.mmtran.turtlesoccer.databinding.RowCompetitionBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Competition
@@ -109,11 +109,11 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         var competitionTeamCountTextView: TextView = binding.competitionTeamCount
         var competitionCurrentChampionsLabelTextView: TextView = binding.competitionCurrentChampionsLabel
         var competitionCurrentChampionsLinearLayout: LinearLayout = binding.competitionCurrentChampions
-        var currentChampionsFragmentFlagNameBinding: FragmentFlagNameBinding = binding.currentChampionsFlagName
+        var currentChampionsFragmentFlagNameBinding: FragmentTeamFlagNameBinding = binding.currentChampionsFlagName
         var currentChampionsTitleCountTextView: TextView = binding.currentChampionsTitleCount
         var competitionLastChampionsLabelTextView: TextView = binding.competitionLastChampionsLabel
         var competitionLastChampionsLinearLayout: LinearLayout = binding.competitionLastChampions
-        var lastChampionsFragmentFlagNameBinding: FragmentFlagNameBinding = binding.lastChampionsFlagName
+        var lastChampionsFragmentFlagNameBinding: FragmentTeamFlagNameBinding = binding.lastChampionsFlagName
         var lastChampionsTitleCountTextView: TextView = binding.lastChampionsTitleCount
         var mostSuccessfulTeamLabelTextView: TextView = binding.mostSuccessfulTeamLabel
         var mostSuccessfulTeamsLabelTextView: TextView = binding.mostSuccessfulTeamsLabel

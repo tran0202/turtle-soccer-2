@@ -169,7 +169,7 @@
                         android:orientation="vertical">
                         <include
                             android:id="@+id/champion_flag_name"
-                            layout="@layout/fragment_flag_name_narrow"
+                            layout="@layout/fragment_team_flag_name_narrow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -194,7 +194,7 @@
                         android:orientation="vertical">
                         <include
                             android:id="@+id/runner_up_flag_name"
-                            layout="@layout/fragment_flag_name_narrow"
+                            layout="@layout/fragment_team_flag_name_narrow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -234,7 +234,7 @@
 
                     <include
                         android:id="@+id/fourth_place_flag_name"
-                        layout="@layout/fragment_flag_name_narrow"
+                        layout="@layout/fragment_team_flag_name_narrow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -254,7 +254,7 @@
 
                     <include
                         android:id="@+id/semi_finalist1_flag_name"
-                        layout="@layout/fragment_flag_name_narrow"
+                        layout="@layout/fragment_team_flag_name_narrow"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content" />
 
@@ -268,7 +268,7 @@
 
                     <include
                         android:id="@+id/semi_finalist2_flag_name"
-                        layout="@layout/fragment_flag_name_narrow"
+                        layout="@layout/fragment_team_flag_name_narrow"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content" />
 

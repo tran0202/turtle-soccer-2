@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
 
 import com.mmtran.turtlesoccer.databinding.RowTournamentBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
@@ -84,7 +84,7 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         var totalPlusTransferTeamCountTextView: TextView = binding.totalPlusTransferTeamCount
         var championsLabelTextView: TextView = binding.championsLabel
         var championsLinearLayout: LinearLayout = binding.champions
-        var championsFlagNameBinding: FragmentFlagNameBinding = binding.championsFlagName
+        var championsFlagNameBinding: FragmentTeamFlagNameBinding = binding.championsFlagName
 
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _tournamentList, absoluteAdapterPosition)

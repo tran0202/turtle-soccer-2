@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
 import com.mmtran.turtlesoccer.models.*
 
 object CompetitionUtil {
@@ -52,7 +52,7 @@ object CompetitionUtil {
         return competition.teamCount.toString()
     }
 
-    fun renderChampions(context: Context?, champion: Champion?, label: TextView, field: LinearLayout, flagNameBinding: FragmentFlagNameBinding, titleCount: TextView) {
+    fun renderChampions(context: Context?, champion: Champion?, label: TextView, field: LinearLayout, flagNameBinding: FragmentTeamFlagNameBinding, titleCount: TextView) {
 
         if (champion !== null && champion.team !== null) {
             label.visibility = View.VISIBLE
