@@ -83,7 +83,8 @@
             <LinearLayout
                 android:id="@+id/competition_current_champions"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
                 <include
                     android:id="@+id/current_champions_flag_name"
                     layout="@layout/fragment_flag_name"
@@ -96,8 +97,8 @@
                     android:id="@+id/current_champions_title_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="bottom"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -127,8 +128,8 @@
                     android:id="@+id/last_champions_title_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="bottom"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -139,6 +140,16 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:text="@string/competition_most_successful_team_label"
+                android:textAlignment="viewStart"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/most_successful_teams_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/competition_most_successful_teams_label"
                 android:textAlignment="viewStart"
                 android:textSize="20sp" />
 

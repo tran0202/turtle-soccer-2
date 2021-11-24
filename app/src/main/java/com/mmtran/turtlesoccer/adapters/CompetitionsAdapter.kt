@@ -50,7 +50,7 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
 
         holder.competitionNameTextView.text = _competitionList[position]!!.name
 
-        val teamCount = CompetitionUtil.renderTeamCount(_context, _competitionList[position]!!)
+        val teamCount = CompetitionUtil.renderTeamCount(_competitionList[position]!!)
         CommonUtil.renderLabelField(teamCount, holder.competitionTeamCountLabelTextView, holder.competitionTeamCountTextView)
 
         CompetitionUtil.renderChampions(_context, _competitionList[position]!!.currentChampions, holder.competitionCurrentChampionsLabelTextView,
@@ -60,9 +60,16 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
             holder.competitionLastChampionsLinearLayout, holder.lastChampionsFragmentFlagNameBinding, holder.lastChampionsTitleCountTextView)
 
         if (!_competitionList[position]!!.mostSuccessfulTeams.isNullOrEmpty()) {
-            holder.mostSuccessfulTeamLabelTextView.visibility = View.VISIBLE
+            if (_competitionList[position]!!.mostSuccessfulTeams!!.size == 1) {
+                holder.mostSuccessfulTeamLabelTextView.visibility = View.VISIBLE
+                holder.mostSuccessfulTeamsLabelTextView.visibility = View.GONE
+            } else {
+                holder.mostSuccessfulTeamLabelTextView.visibility = View.GONE
+                holder.mostSuccessfulTeamsLabelTextView.visibility = View.VISIBLE
+            }
         } else {
             holder.mostSuccessfulTeamLabelTextView.visibility = View.GONE
+            holder.mostSuccessfulTeamsLabelTextView.visibility = View.GONE
         }
 
         val recyclerView1: RecyclerView = holder.compSuccessfulTeamListRecyclerView
@@ -109,6 +116,7 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         var lastChampionsFragmentFlagNameBinding: FragmentFlagNameBinding = binding.lastChampionsFlagName
         var lastChampionsTitleCountTextView: TextView = binding.lastChampionsTitleCount
         var mostSuccessfulTeamLabelTextView: TextView = binding.mostSuccessfulTeamLabel
+        var mostSuccessfulTeamsLabelTextView: TextView = binding.mostSuccessfulTeamsLabel
         var compSuccessfulTeamListRecyclerView: RecyclerView = binding.compSuccessfulTeamList
         var descriptionTextView: TextView = binding.description
         var compTournamentListRecyclerView: RecyclerView = binding.compTournamentList

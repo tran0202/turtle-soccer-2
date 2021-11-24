@@ -68,7 +68,7 @@ class ConfederationsFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding!!.confederationList
         recyclerView.layoutManager = LinearLayoutManager(context)
-        CommonUtil.addDivider(recyclerView, requireContext())
+        CommonUtil.addDivider(recyclerView, requireContext(), R.drawable.divider_gray_5)
         confederationsAdapter = ConfederationsAdapter(context, confederationList!!)
         recyclerView.adapter = confederationsAdapter
     }

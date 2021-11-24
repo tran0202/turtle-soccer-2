@@ -6,19 +6,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.R
 
 object CommonUtil {
 
-    fun addDivider(recyclerView: RecyclerView, context: Context) {
+    fun addDivider(recyclerView: RecyclerView, context: Context, _drawable: Int ) {
 
         val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(
-            ContextCompat.getDrawable(
-                context,
-                R.drawable.divider_gray_5
-            )!!
-        )
+        divider.setDrawable(ContextCompat.getDrawable(context, _drawable)!!)
         recyclerView.addItemDecoration(divider)
     }
 

@@ -45,7 +45,7 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
 
         firebaseStorageLoader = FirebaseStorageLoader(requireContext())
 
-        val teamCount = CompetitionUtil.renderTeamCount(requireContext(), competition!!)
+        val teamCount = CompetitionUtil.renderTeamCount(competition!!)
         CommonUtil.renderLabelField(teamCount, binding!!.competitionTeamCountLabel, binding!!.competitionTeamCount)
 
         CompetitionUtil.renderChampions(requireContext(), competition!!.currentChampions, binding!!.competitionCurrentChampionsLabel,
@@ -55,9 +55,16 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
             binding!!.competitionLastChampions, binding!!.lastChampionsFlagName, binding!!.lastChampionsTitleCount)
 
         if (!competition!!.mostSuccessfulTeams.isNullOrEmpty()) {
-            binding!!.mostSuccessfulTeamLabel.visibility =View.VISIBLE
+            if (competition!!.mostSuccessfulTeams!!.size == 1) {
+                binding!!.mostSuccessfulTeamLabel.visibility =View.VISIBLE
+                binding!!.mostSuccessfulTeamsLabel.visibility =View.GONE
+            } else {
+                binding!!.mostSuccessfulTeamLabel.visibility =View.GONE
+                binding!!.mostSuccessfulTeamsLabel.visibility =View.VISIBLE
+            }
         } else {
             binding!!.mostSuccessfulTeamLabel.visibility =View.GONE
+            binding!!.mostSuccessfulTeamsLabel.visibility =View.GONE
         }
 
         val recyclerView: RecyclerView = binding!!.compSuccessfulTeamList

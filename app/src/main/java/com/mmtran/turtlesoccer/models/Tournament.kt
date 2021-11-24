@@ -314,7 +314,9 @@ class Awards: Serializable {
     @get:PropertyName("fair_play_team")
     @set:PropertyName("fair_play_team")
     @PropertyName("fair_play_team")
-    var fairPlayTeam: List<String?>? = emptyList()
+    var fairPlay: List<String?>? = emptyList()
+
+    var fairPlayTeam: List<Team?>? = emptyList()
 
     constructor()
 }
@@ -323,8 +325,11 @@ class Player: Serializable {
 
     var name: String? = null
     var team: String? = null
+    var teamT: Team? = null
     var club: String? = null
+    var clubT: Team? = null
     var club2: String? = null
+    var club2T: Team? = null
     var goals: Int? = null
     var assists: Int? = null
     var minutes: Int? = null

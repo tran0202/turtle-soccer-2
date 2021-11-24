@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <include
-        android:id="@+id/third_place_flag_name"
+        android:id="@+id/third_place_flag_name_narrow"
         layout="@layout/fragment_flag_name_narrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

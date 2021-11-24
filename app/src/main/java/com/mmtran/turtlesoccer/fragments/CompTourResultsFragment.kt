@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
@@ -19,6 +17,7 @@ import com.mmtran.turtlesoccer.databinding.FragmentCompTourResultsBinding
 import com.mmtran.turtlesoccer.models.CompTourResultsViewModel
 import com.mmtran.turtlesoccer.models.Competition
 import com.mmtran.turtlesoccer.models.Tournament
+import com.mmtran.turtlesoccer.utils.CommonUtil
 
 class CompTourResultsFragment(comp: Competition?) : Fragment(), CompTourResultsAdapter.ItemClickListener {
 
@@ -46,14 +45,7 @@ class CompTourResultsFragment(comp: Competition?) : Fragment(), CompTourResultsA
 
         val recyclerView: RecyclerView = binding!!.tourResultList
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(
-            ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.no_divider
-            )!!
-        )
-        recyclerView.addItemDecoration(divider)
+        CommonUtil.addDivider(recyclerView, requireContext(), R.drawable.no_divider)
         compTourResultsAdapter = CompTourResultsAdapter(requireContext(), competition!!.tournamentList!!)
         compTourResultsAdapter!!.setClickListener(this)
         recyclerView.adapter = compTourResultsAdapter

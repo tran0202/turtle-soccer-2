@@ -14,7 +14,6 @@ import com.mmtran.turtlesoccer.databinding.RowTournamentBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Tournament
 import com.mmtran.turtlesoccer.utils.CommonUtil
-import com.mmtran.turtlesoccer.utils.TeamUtil
 import com.mmtran.turtlesoccer.utils.TournamentUtil
 
 class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
@@ -60,18 +59,8 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(_context, _tournamentList[position])
         CommonUtil.renderLabelField(totalPlusTransferTeamCount, holder.totalPlusTransferTeamCountLabelTextView, holder.totalPlusTransferTeamCountTextView)
 
-        if (_tournamentList[position]!!.finalStandings!!.championTeam != null) {
-            holder.championsLabelTextView.visibility = View.VISIBLE
-            holder.championsLinearLayout.visibility = View.VISIBLE
-            TeamUtil.renderFlagName(
-                _context,
-                holder.fragmentFlagNameBinding,
-                _tournamentList[position]!!.finalStandings!!.championTeam
-            )
-        } else {
-            holder.championsLabelTextView.visibility = View.GONE
-            holder.championsLinearLayout.visibility = View.GONE
-        }
+        TournamentUtil.renderFinalStandings(_context, _tournamentList[position]!!.finalStandings!!.championTeam,
+            holder.championsLabelTextView, holder.championsLinearLayout, holder.championsFlagNameBinding)
     }
 
     override fun getItemCount(): Int {
@@ -95,7 +84,7 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         var totalPlusTransferTeamCountTextView: TextView = binding.totalPlusTransferTeamCount
         var championsLabelTextView: TextView = binding.championsLabel
         var championsLinearLayout: LinearLayout = binding.champions
-        var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
+        var championsFlagNameBinding: FragmentFlagNameBinding = binding.championsFlagName
 
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _tournamentList, absoluteAdapterPosition)

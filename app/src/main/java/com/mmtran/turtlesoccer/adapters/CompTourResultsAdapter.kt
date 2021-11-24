@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
@@ -18,7 +16,9 @@ import com.mmtran.turtlesoccer.databinding.RowCompTourResultBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.SectionHeader
 import com.mmtran.turtlesoccer.models.Tournament
+import com.mmtran.turtlesoccer.utils.CommonUtil
 import com.mmtran.turtlesoccer.utils.TeamUtil
+import com.mmtran.turtlesoccer.utils.TournamentUtil
 
 class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?>) :
     RecyclerView.Adapter<CompTourResultsAdapter.ViewHolder>() {
@@ -93,29 +93,15 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
 
         if (tournament.finalStandings != null) {
 
-            if (tournament.finalStandings!!.championTeam != null) {
-                holder.championColumnInnerLayout.visibility = View.VISIBLE
-                TeamUtil.renderFlagNameNarrow(_context, holder.championFlagNameBinding, tournament.finalStandings!!.championTeam)
-            } else {
-                holder.championColumnInnerLayout.visibility = View.GONE
-            }
-            if (tournament.finalStandings!!.runnersUpTeam != null) {
-                holder.runnerUpColumnInnerLinearLayout.visibility = View.VISIBLE
-                TeamUtil.renderFlagNameNarrow(_context, holder.runnerUpFlagNameBinding, tournament.finalStandings!!.runnersUpTeam)
-            } else {
-                holder.runnerUpColumnInnerLinearLayout.visibility = View.GONE
-            }
+            TournamentUtil.renderFinalStandingsNarrow(_context, tournament.finalStandings!!.championTeam,
+                holder.championColumnInnerLayout, holder.championFlagNameBinding)
+
+            TournamentUtil.renderFinalStandingsNarrow(_context, tournament.finalStandings!!.runnersUpTeam,
+                holder.runnerUpColumnInnerLinearLayout, holder.runnerUpFlagNameBinding)
 
             val recyclerView: RecyclerView = holder.thirdPlaceListRecyclerView
             recyclerView.layoutManager = LinearLayoutManager(_context)
-            val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-            divider.setDrawable(
-                ContextCompat.getDrawable(
-                    _context,
-                    R.drawable.no_divider
-                )!!
-            )
-            recyclerView.addItemDecoration(divider)
+            CommonUtil.addDivider(recyclerView, _context, R.drawable.no_divider)
             compTourThirdPlaceAdapter = CompTourThirdPlaceAdapter(_context, tournament.finalStandings!!.thirdPlaceTeam!!)
             recyclerView.adapter = compTourThirdPlaceAdapter
 

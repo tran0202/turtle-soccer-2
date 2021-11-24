@@ -45,11 +45,11 @@ object CompetitionUtil {
         }
     }
 
-    fun renderTeamCount(context: Context?, competition: Competition?): String {
+    fun renderTeamCount(competition: Competition?): String {
 
         if (competition!!.teamCount == null) return ""
 
-        return competition!!.teamCount.toString()
+        return competition.teamCount.toString()
     }
 
     fun renderChampions(context: Context?, champion: Champion?, label: TextView, field: LinearLayout, flagNameBinding: FragmentFlagNameBinding, titleCount: TextView) {

@@ -148,7 +148,7 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
         val recyclerView: RecyclerView = binding!!.competitionList
         recyclerView.layoutManager = LinearLayoutManager(context)
-        CommonUtil.addDivider(recyclerView, requireContext())
+        CommonUtil.addDivider(recyclerView, requireContext(), R.drawable.divider_gray_5)
         competitionsAdapter = CompetitionsAdapter(context, competitionList!!)
         competitionsAdapter!!.setClickListener(this)
         recyclerView.adapter = competitionsAdapter

@@ -151,9 +151,10 @@
             <LinearLayout
                 android:id="@+id/champions"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
                 <include
-                    android:id="@+id/flag_name"
+                    android:id="@+id/champions_flag_name"
                     layout="@layout/fragment_flag_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

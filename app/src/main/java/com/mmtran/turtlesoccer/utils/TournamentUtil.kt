@@ -1,10 +1,17 @@
 package com.mmtran.turtlesoccer.utils
 
 import android.content.Context
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.databinding.FragmentFlagNameBinding
+import com.mmtran.turtlesoccer.databinding.FragmentFlagNameNarrowBinding
 import com.mmtran.turtlesoccer.models.*
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 object TournamentUtil {
 
@@ -36,8 +43,9 @@ object TournamentUtil {
 
         if (tournament == null) return
 
-        processFinalStandings(tournament, nationList, teamList)
         processHosts(tournament, nationList, teamList)
+        processFinalStandings(tournament, nationList, teamList)
+        processAwards(tournament, nationList, teamList)
     }
 
     private fun processHosts(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
@@ -108,6 +116,94 @@ object TournamentUtil {
         }
     }
 
+    private fun processAwards(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (tournament == null) return
+
+        if (tournament.awards != null) {
+
+            for (player: Player? in tournament.awards!!.goldenBoot!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.silverBoot!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.bronzeBoot!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.finalTopScorer!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.goldenBall!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.finalBestPlayer!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.bestYoungPlayer!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.finalBestYoungPlayer!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.goldenGlove!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.bestForward!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.bestMidfielder!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            for (player: Player? in tournament.awards!!.bestDefender!!) {
+                processPlayer(player, nationList, teamList)
+            }
+
+            tournament.awards!!.fairPlayTeam = emptyList()
+            for (fairPlayId: String? in tournament.awards!!.fairPlay!!) {
+                val team = TeamUtil.getTeam(fairPlayId, nationList, teamList)
+                if (team != null) {
+                    tournament.awards!!.fairPlayTeam = tournament.awards!!.fairPlayTeam?.plus(team)
+                }
+            }
+        }
+    }
+
+    private fun processPlayer(player: Player?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (player == null || player.team.isNullOrEmpty()) return
+
+        var team = TeamUtil.getTeam(player.team, nationList, teamList)
+        if (team != null) {
+            player.teamT = team
+        }
+
+        if (!player.club.isNullOrEmpty()) {
+            team = TeamUtil.getTeam(player.club, nationList, teamList)
+            if (team != null) {
+                player.clubT = team
+            }
+        }
+
+        if (!player.club2.isNullOrEmpty()) {
+            team = TeamUtil.getTeam(player.club2, nationList, teamList)
+            if (team != null) {
+                player.club2T = team
+            }
+        }
+    }
+
     fun processFinalStandings(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (competition!!.tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
@@ -123,6 +219,21 @@ object TournamentUtil {
 
         for (tournament: Tournament? in tournamentList) {
             tournament!!.competition = competition
+        }
+    }
+
+    fun renderHostLabel(host: List<String?>?, singleLabel: TextView, pluralLabel: TextView) {
+        if (!host.isNullOrEmpty()) {
+            if (host.size == 1) {
+                singleLabel.visibility = View.VISIBLE
+                pluralLabel.visibility = View.GONE
+            } else {
+                singleLabel.visibility = View.GONE
+                pluralLabel.visibility = View.VISIBLE
+            }
+        } else {
+            singleLabel.visibility = View.GONE
+            pluralLabel.visibility = View.GONE
         }
     }
 
@@ -272,5 +383,92 @@ object TournamentUtil {
                 tournament.details!!.finalCityCount.toString()
             )
         } else tournament.details!!.finalVenueCount.toString()
+    }
+
+    fun renderFinalStandings(context: Context?, team: Team?, label: TextView, field: LinearLayout, flagNameBinding: FragmentFlagNameBinding) {
+
+        if (team != null && team.isValid()) {
+            label.visibility = View.VISIBLE
+            field.visibility = View.VISIBLE
+            TeamUtil.renderFlagName(context, flagNameBinding, team)
+        } else {
+            label.visibility = View.GONE
+            field.visibility = View.GONE
+        }
+    }
+
+    fun renderFinalStandingsNarrow(context: Context?, team: Team?, field: LinearLayout, flagNameBinding: FragmentFlagNameNarrowBinding) {
+
+        if (team != null && team.isValid()) {
+            field.visibility = View.VISIBLE
+            TeamUtil.renderFlagNameNarrow(context, flagNameBinding, team)
+        } else {
+            field.visibility = View.GONE
+        }
+    }
+
+    fun renderGoalsScored(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.statistics!!.totalGoals == null) return ""
+
+        return if (tournament.statistics!!.totalMatches != null && tournament.statistics!!.totalMatches != 0) {
+            context!!.getString(
+                R.string.goals_scored_per_match,
+                tournament.statistics!!.totalGoals.toString(),
+                getGoalsPerMatch(tournament.statistics!!.totalGoals!!, tournament.statistics!!.totalMatches!!)
+            )
+        } else tournament.statistics!!.totalGoals.toString()
+    }
+
+    fun renderFinalGoalsScored(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.statistics!!.finalGoals == null) return ""
+
+        return if (tournament.statistics!!.finalMatches != null && tournament.statistics!!.finalMatches != 0) {
+            context!!.getString(
+                R.string.goals_scored_per_match,
+                tournament.statistics!!.finalGoals.toString(),
+                getGoalsPerMatch(tournament.statistics!!.finalGoals!!, tournament.statistics!!.finalMatches!!)
+            )
+        } else tournament.statistics!!.totalGoals.toString()
+    }
+
+    private fun getGoalsPerMatch(goals: Int?, matches: Int?) : String {
+        val goalsPerMatch: Double = goals!!.toDouble() / matches!! * 100
+        val goalsPerMatchRounded = goalsPerMatch.roundToInt()
+        return (goalsPerMatchRounded.toDouble() / 100).toString()
+    }
+
+    fun renderAttendance(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.statistics!!.attendance == null) return ""
+
+        return if (tournament.statistics!!.totalMatches != null && tournament.statistics!!.totalMatches != 0) {
+            val nf = NumberFormat.getInstance()
+            context!!.getString(
+                R.string.attendance_per_match,
+                nf.format(tournament.statistics!!.attendance),
+                getAttendancePerMatch(tournament.statistics!!.attendance!!, tournament.statistics!!.totalMatches!!)
+            )
+        } else tournament.statistics!!.attendance.toString()
+    }
+
+    fun renderFinalAttendance(context: Context?, tournament: Tournament?): String {
+
+        if (tournament!!.statistics!!.finalAttendance == null) return ""
+
+        return if (tournament.statistics!!.finalMatches != null && tournament.statistics!!.finalMatches != 0) {
+            val nf = NumberFormat.getInstance()
+            context!!.getString(
+                R.string.attendance_per_match,
+                nf.format(tournament.statistics!!.finalAttendance),
+                getAttendancePerMatch(tournament.statistics!!.finalAttendance!!, tournament.statistics!!.finalMatches!!)
+            )
+        } else tournament.statistics!!.finalAttendance.toString()
+    }
+
+    private fun getAttendancePerMatch(attendance: Int?, matches: Int?) : String {
+        val nf = NumberFormat.getInstance()
+        return nf.format((attendance!!.toDouble() / matches!!).roundToInt())
     }
 }

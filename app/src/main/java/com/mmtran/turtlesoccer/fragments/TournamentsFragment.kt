@@ -142,7 +142,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
         val recyclerView: RecyclerView = binding!!.tournamentList
         recyclerView.layoutManager = LinearLayoutManager(context)
-        CommonUtil.addDivider(recyclerView, requireContext())
+        CommonUtil.addDivider(recyclerView, requireContext(), R.drawable.divider_gray_5)
         tournamentsAdapter = TournamentsAdapter(context, latestTournamentsList!!)
         tournamentsAdapter!!.setClickListener(this)
         recyclerView.adapter = tournamentsAdapter
