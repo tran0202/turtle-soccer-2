@@ -42,6 +42,6 @@ class TeamsAdapter(context: Context?, teamList: List<Team?>) :
 
         val root: View = binding.root
         var teamLinearLayout: LinearLayout = binding.team
-        var fragmentFlagNameBinding: FragmentTeamFlagNameBinding = binding.flagName
+        var fragmentFlagNameBinding: FragmentTeamFlagNameBinding = binding.teamFlagName
     }
 }

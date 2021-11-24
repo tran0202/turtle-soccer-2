@@ -57,7 +57,7 @@
                     android:layout_marginStart="20dp"
                     android:text="@string/tournament_team_count_label"
                     android:textAlignment="viewStart"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/competition_team_count"
@@ -66,7 +66,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="20dp"
                     android:textAlignment="viewStart"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -78,7 +78,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/competition_current_champions_label"
                 android:textAlignment="viewStart"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/competition_current_champions"
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <TextView
@@ -110,7 +110,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/competition_last_champions_label"
                 android:textAlignment="viewStart"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/competition_last_champions"
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <TextView
@@ -141,7 +141,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/competition_most_successful_team_label"
                 android:textAlignment="viewStart"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/most_successful_teams_label"
@@ -151,7 +151,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="@string/competition_most_successful_teams_label"
                 android:textAlignment="viewStart"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -176,7 +176,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         android:textAlignment="viewStart"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.adapters.PlayersAdapter
 import com.mmtran.turtlesoccer.adapters.TeamsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentTourAboutBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
@@ -27,6 +28,7 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
     private var hostsAdapter: TeamsAdapter? = null
     private var finalHostsAdapter: TeamsAdapter? = null
     private var tournamentThirdPlaceAdapter: TeamsAdapter? = null
+    private var goldenBootAdapter: PlayersAdapter? = null
     private var fairPlayAdapter: TeamsAdapter? = null
 
     override fun onCreateView(
@@ -153,11 +155,11 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
                 binding!!.goldenBootLabel.visibility = View.GONE
                 binding!!.goldenBootsLabel.visibility = View.VISIBLE
             }
-//            val recyclerView: RecyclerView = binding!!.thirdPlaceList
-//            recyclerView.layoutManager = LinearLayoutManager(context)
-//            CommonUtil.addDivider(recyclerView, requireContext(), R.drawable.no_divider)
-//            tournamentThirdPlaceAdapter = TournamentThirdPlaceAdapter(context, tournament!!.finalStandings!!.thirdPlaceTeam!!)
-//            recyclerView.adapter = tournamentThirdPlaceAdapter
+            val goldenBootRecyclerView: RecyclerView = binding!!.goldenBootList
+            goldenBootRecyclerView.layoutManager = LinearLayoutManager(context)
+            CommonUtil.addDivider(goldenBootRecyclerView, requireContext(), R.drawable.no_divider)
+            goldenBootAdapter = PlayersAdapter(context, tournament!!.awards!!.goldenBoot!!)
+            goldenBootRecyclerView.adapter = goldenBootAdapter
         } else {
             binding!!.goldenBootLabel.visibility = View.GONE
             binding!!.goldenBootsLabel.visibility = View.GONE

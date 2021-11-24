@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.mmtran.turtlesoccer.databinding.FragmentPlayerFlagNameBinding
 import com.mmtran.turtlesoccer.databinding.RowPlayerBinding
-import com.mmtran.turtlesoccer.databinding.RowTeamBinding
 import com.mmtran.turtlesoccer.models.Player
-import com.mmtran.turtlesoccer.models.Team
-import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
+import com.mmtran.turtlesoccer.utils.PlayerUtil.renderPlayerFlagName
 
 class PlayersAdapter(context: Context?, playerList: List<Player?>) :
     RecyclerView.Adapter<PlayersAdapter.ViewHolder>() {
@@ -29,7 +28,7 @@ class PlayersAdapter(context: Context?, playerList: List<Player?>) :
 
         if (_playerList[position] != null) {
             holder.playerLinearLayout.visibility = View.VISIBLE
-//            renderFlagName(_context, holder.fragmentFlagNameBinding, _playerList[position])
+            renderPlayerFlagName(_context, holder.fragmentFlagNameBinding, _playerList[position])
         } else {
             holder.playerLinearLayout.visibility = View.GONE
         }
@@ -43,6 +42,6 @@ class PlayersAdapter(context: Context?, playerList: List<Player?>) :
 
         val root: View = binding.root
         var playerLinearLayout: LinearLayout = binding.player
-//        var fragmentFlagNameBinding: FragmentFlagNameBinding = binding.flagName
+        var fragmentFlagNameBinding: FragmentPlayerFlagNameBinding = binding.playerFlagName
     }
 }

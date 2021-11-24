@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone" />
 
@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_first_row_first_cell"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
                     android:text="@string/_1st"
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_comp_result_header_gold"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
                     android:text="@string/_2nd"
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_comp_result_header_silver"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
                     android:text="@string/_3rd"
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_comp_result_header_bronze"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
                     android:text="@string/_4th"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_comp_result_header_fourth"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_first_row_first_cell"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
                     android:text="@string/_1st"
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_comp_result_header_gold"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
                     android:text="@string/_2nd"
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_comp_result_header_silver"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                 <TextView
                     android:text="@string/_3rd"
@@ -111,7 +111,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_comp_result_header_bronze"
                     android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </TableRow>

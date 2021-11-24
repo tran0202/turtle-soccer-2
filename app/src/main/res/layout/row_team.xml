@@ -8,7 +8,7 @@
     android:gravity="bottom">
 
     <include
-        android:id="@+id/flag_name"
+        android:id="@+id/team_flag_name"
         layout="@layout/fragment_team_flag_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
