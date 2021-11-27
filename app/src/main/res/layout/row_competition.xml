@@ -46,124 +46,29 @@
                 android:textStyle="bold"
                 android:textColor="@color/blue" />
 
-            <LinearLayout
+            <include
+                android:id="@+id/competition_team_count"
+                layout="@layout/fragment_wrap_label_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/competition_team_count_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/tournament_team_count_label"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/competition_team_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/competition_current_champions_label"
+            <include
+                android:id="@+id/current_champions"
+                layout="@layout/fragment_label_team_title_count"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/competition_current_champions_label"
-                android:textAlignment="viewStart"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:id="@+id/competition_current_champions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-                <include
-                    android:id="@+id/current_champions_flag_name"
-                    layout="@layout/fragment_team_flag_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="5dp" />
-
-                <TextView
-                    android:id="@+id/current_champions_title_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/competition_last_champions_label"
+            <include
+                android:id="@+id/last_champions"
+                layout="@layout/fragment_label_team_title_count"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/competition_last_champions_label"
-                android:textAlignment="viewStart"
-                android:textSize="18sp" />
+                android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:id="@+id/competition_last_champions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <include
-                    android:id="@+id/last_champions_flag_name"
-                    layout="@layout/fragment_team_flag_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="5dp" />
-
-                <TextView
-                    android:id="@+id/last_champions_title_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/most_successful_team_label"
+            <include
+                android:id="@+id/most_successful_teams"
+                layout="@layout/fragment_label_list_2_lines"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/competition_most_successful_team_label"
-                android:textAlignment="viewStart"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/most_successful_teams_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="@string/competition_most_successful_teams_label"
-                android:textAlignment="viewStart"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/comp_successful_team_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
         </TableLayout>
     </LinearLayout>

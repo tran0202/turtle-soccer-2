@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
-import com.mmtran.turtlesoccer.databinding.RowThirdPlaceNarrowBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagCodeCellBinding
+import com.mmtran.turtlesoccer.databinding.RowTeamCodeBinding
 
 import com.mmtran.turtlesoccer.models.Team
-import com.mmtran.turtlesoccer.utils.TeamUtil
+import com.mmtran.turtlesoccer.utils.CommonUtil
 
 class CompTourThirdPlaceAdapter(context: Context?, teamList: List<Team?>) :
     RecyclerView.Adapter<CompTourThirdPlaceAdapter.ViewHolder>() {
@@ -20,22 +20,22 @@ class CompTourThirdPlaceAdapter(context: Context?, teamList: List<Team?>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowThirdPlaceNarrowBinding = RowThirdPlaceNarrowBinding.inflate(_inflater, parent, false)
+        val binding: RowTeamCodeBinding = RowTeamCodeBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        TeamUtil.renderFlagNameNarrow(_context, holder.thirdPlaceFlagNameNarrowBinding, _teamList[position])
+        CommonUtil.renderTeamFlagCodeCell(_context, _teamList[position], holder.flagCodeCellBinding)
     }
 
     override fun getItemCount(): Int {
         return _teamList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowThirdPlaceNarrowBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder internal constructor(binding: RowTeamCodeBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
-        var thirdPlaceFlagNameNarrowBinding: FragmentTeamFlagNameNarrowBinding = binding.thirdPlaceFlagNameNarrow
+        var flagCodeCellBinding: FragmentTeamFlagCodeCellBinding = binding.teamCodeCell
     }
 }

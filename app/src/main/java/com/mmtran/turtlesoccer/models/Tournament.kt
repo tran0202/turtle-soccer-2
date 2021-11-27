@@ -341,6 +341,14 @@ class Player: Serializable {
     var rejectedNotes: String? = null
 
     constructor()
+
+    fun isMultipleClubs(): Boolean {
+        return clubT != null && club2T != null
+    }
+
+    fun isClubPlayer(): Boolean {
+        return clubT != null
+    }
 }
 
 enum class SectionHeader(val value: Int) {

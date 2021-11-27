@@ -5,7 +5,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:minWidth="48dp"
-    android:gravity="bottom">
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <include
         android:id="@+id/player_flag_name"
@@ -13,5 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp" />
+
+    <TextView
+        android:id="@+id/goals_assists_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18sp" />
 
 </LinearLayout>

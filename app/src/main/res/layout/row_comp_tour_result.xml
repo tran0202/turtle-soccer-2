@@ -152,52 +152,42 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/champion_column"
+                    android:id="@+id/champions_column"
                     android:layout_width="68dp"
                     android:layout_height="fill_parent"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
                     android:background="@drawable/border_other_row_other_cell">
 
-                    <LinearLayout
-                        android:id="@+id/champion_column_inner"
+                    <include
+                        android:id="@+id/champions"
+                        layout="@layout/fragment_team_flag_code_cell"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-                        <include
-                            android:id="@+id/champion_flag_name"
-                            layout="@layout/fragment_team_flag_name_narrow"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/runner_up_column"
+                    android:id="@+id/runners_up_column"
                     android:layout_width="68dp"
                     android:layout_height="fill_parent"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
                     android:background="@drawable/border_other_row_other_cell">
 
-                    <LinearLayout
-                        android:id="@+id/runner_up_column_inner"
+                    <include
+                        android:id="@+id/runners_up"
+                        layout="@layout/fragment_team_flag_code_cell"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-                        <include
-                            android:id="@+id/runner_up_flag_name"
-                            layout="@layout/fragment_team_flag_name_narrow"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -233,8 +223,8 @@
                     android:background="@drawable/border_other_row_other_cell">
 
                     <include
-                        android:id="@+id/fourth_place_flag_name"
-                        layout="@layout/fragment_team_flag_name_narrow"
+                        android:id="@+id/fourth_place"
+                        layout="@layout/fragment_team_flag_code_cell"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -254,7 +244,7 @@
 
                     <include
                         android:id="@+id/semi_finalist1_flag_name"
-                        layout="@layout/fragment_team_flag_name_narrow"
+                        layout="@layout/fragment_team_flag_code"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content" />
 
@@ -268,7 +258,7 @@
 
                     <include
                         android:id="@+id/semi_finalist2_flag_name"
-                        layout="@layout/fragment_team_flag_name_narrow"
+                        layout="@layout/fragment_team_flag_code"
                         android:layout_width="48dp"
                         android:layout_height="wrap_content" />
 

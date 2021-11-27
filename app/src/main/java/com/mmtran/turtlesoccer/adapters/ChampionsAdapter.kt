@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
-import com.mmtran.turtlesoccer.databinding.RowCompSuccessfulTeamBinding
+import com.mmtran.turtlesoccer.databinding.RowTeamTitleCountBinding
 import com.mmtran.turtlesoccer.models.Champion
 import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
 
-class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?>) :
-    RecyclerView.Adapter<CompSuccessfulTeamsAdapter.ViewHolder>() {
+class ChampionsAdapter(context: Context?, championList: List<Champion?>) :
+    RecyclerView.Adapter<ChampionsAdapter.ViewHolder>() {
 
     private val _context = context
     private val _championList: List<Champion?> = championList
@@ -22,14 +22,14 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowCompSuccessfulTeamBinding = RowCompSuccessfulTeamBinding.inflate(_inflater, parent, false)
+        val binding: RowTeamTitleCountBinding = RowTeamTitleCountBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if (_championList[position]!!.team != null) {
-            holder.successfulTeamsLinearLayout.visibility = View.VISIBLE
+            holder.teamLinearLayout.visibility = View.VISIBLE
             renderFlagName(_context, holder.fragmentFlagNameBinding, _championList[position]!!.team)
             if (_championList[position]!!.titleCount != null) {
                 holder.titleCountTextView.visibility = View.VISIBLE
@@ -38,7 +38,7 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
                 holder.titleCountTextView.visibility = View.GONE
             }
         } else {
-            holder.successfulTeamsLinearLayout.visibility = View.GONE
+            holder.teamLinearLayout.visibility = View.GONE
         }
     }
 
@@ -46,10 +46,10 @@ class CompSuccessfulTeamsAdapter(context: Context?, championList: List<Champion?
         return _championList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowCompSuccessfulTeamBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder internal constructor(binding: RowTeamTitleCountBinding) : RecyclerView.ViewHolder(binding.root) {
 
         val root: View = binding.root
-        var successfulTeamsLinearLayout: LinearLayout = binding.successfulTeams
+        var teamLinearLayout: LinearLayout = binding.team
         var fragmentFlagNameBinding: FragmentTeamFlagNameBinding = binding.flagName
         var titleCountTextView: TextView = binding.titleCount
     }

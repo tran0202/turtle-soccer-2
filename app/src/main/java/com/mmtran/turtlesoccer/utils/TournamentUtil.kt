@@ -1,12 +1,7 @@
 package com.mmtran.turtlesoccer.utils
 
 import android.content.Context
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
-import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
 import com.mmtran.turtlesoccer.models.*
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -222,21 +217,6 @@ object TournamentUtil {
         }
     }
 
-    fun renderHostLabel(host: List<String?>?, singleLabel: TextView, pluralLabel: TextView) {
-        if (!host.isNullOrEmpty()) {
-            if (host.size == 1) {
-                singleLabel.visibility = View.VISIBLE
-                pluralLabel.visibility = View.GONE
-            } else {
-                singleLabel.visibility = View.GONE
-                pluralLabel.visibility = View.VISIBLE
-            }
-        } else {
-            singleLabel.visibility = View.GONE
-            pluralLabel.visibility = View.GONE
-        }
-    }
-
     fun renderDates(context: Context?, tournament: Tournament?): String {
         if (tournament?.details == null) return ""
         return renderStartEndDates(context, tournament.details!!.startDate, tournament.details!!.endDate)
@@ -303,11 +283,11 @@ object TournamentUtil {
         } else tournament.details!!.teamCount.toString()
     }
 
-    fun renderCompetitionTeamCount(context: Context?, tournament: Tournament?): String {
+    fun renderCompetitionTeamCount(tournament: Tournament?): String {
 
         if (tournament!!.details!!.competitionTeamCount == null) return ""
 
-        if (tournament!!.details!!.competitionTeamCount != null && tournament.details!!.transferTeamCount != null) return ""
+        if (tournament.details!!.competitionTeamCount != null && tournament.details!!.transferTeamCount != null) return ""
 
         return tournament.details!!.competitionTeamCount.toString()
     }
@@ -323,7 +303,7 @@ object TournamentUtil {
 
         if (tournament!!.details!!.totalTeamCount == null) return ""
 
-        if (tournament!!.details!!.totalTeamCount != null && tournament.details!!.totalTransferTeamCount != null) return ""
+        if (tournament.details!!.totalTeamCount != null && tournament.details!!.totalTransferTeamCount != null) return ""
 
         return if (tournament.details!!.nationCount != null) {
             context!!.getString(
@@ -352,7 +332,7 @@ object TournamentUtil {
         )
     }
 
-    fun renderFinalTeamCount(context: Context?, tournament: Tournament?): String {
+    fun renderFinalTeamCount(tournament: Tournament?): String {
 
         if (tournament!!.details!!.finalTeamCount == null) return ""
 
@@ -383,28 +363,6 @@ object TournamentUtil {
                 tournament.details!!.finalCityCount.toString()
             )
         } else tournament.details!!.finalVenueCount.toString()
-    }
-
-    fun renderFinalStandings(context: Context?, team: Team?, label: TextView, field: LinearLayout, flagNameBinding: FragmentTeamFlagNameBinding) {
-
-        if (team != null && team.isValid()) {
-            label.visibility = View.VISIBLE
-            field.visibility = View.VISIBLE
-            TeamUtil.renderFlagName(context, flagNameBinding, team)
-        } else {
-            label.visibility = View.GONE
-            field.visibility = View.GONE
-        }
-    }
-
-    fun renderFinalStandingsNarrow(context: Context?, team: Team?, field: LinearLayout, flagNameBinding: FragmentTeamFlagNameNarrowBinding) {
-
-        if (team != null && team.isValid()) {
-            field.visibility = View.VISIBLE
-            TeamUtil.renderFlagNameNarrow(context, flagNameBinding, team)
-        } else {
-            field.visibility = View.GONE
-        }
     }
 
     fun renderGoalsScored(context: Context?, tournament: Tournament?): String {

@@ -1,11 +1,5 @@
 package com.mmtran.turtlesoccer.utils
 
-import android.content.Context
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
-import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
 import com.mmtran.turtlesoccer.models.*
 
 object CompetitionUtil {
@@ -50,22 +44,5 @@ object CompetitionUtil {
         if (competition!!.teamCount == null) return ""
 
         return competition.teamCount.toString()
-    }
-
-    fun renderChampions(context: Context?, champion: Champion?, label: TextView, field: LinearLayout, flagNameBinding: FragmentTeamFlagNameBinding, titleCount: TextView) {
-
-        if (champion !== null && champion.team !== null) {
-            label.visibility = View.VISIBLE
-            field.visibility = View.VISIBLE
-            TeamUtil.renderFlagName(context!!, flagNameBinding, champion.team)
-            if (champion.titleCount != null) {
-                titleCount.text = context.getString(R.string.competition_title_count, champion.titleCount.toString())
-            } else {
-                titleCount.visibility = View.GONE
-            }
-        } else {
-            label.visibility = View.GONE
-            field.visibility = View.GONE
-        }
     }
 }

@@ -6,11 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.adapters.PlayersAdapter
-import com.mmtran.turtlesoccer.adapters.TeamsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentTourAboutBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.TourAboutViewModel
@@ -25,11 +21,6 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
 
     private var binding: FragmentTourAboutBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
-    private var hostsAdapter: TeamsAdapter? = null
-    private var finalHostsAdapter: TeamsAdapter? = null
-    private var tournamentThirdPlaceAdapter: TeamsAdapter? = null
-    private var goldenBootAdapter: PlayersAdapter? = null
-    private var fairPlayAdapter: TeamsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,126 +46,99 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
             tournament!!.competition!!.logoPath + "/" + tournament!!.details!!.logoFilename
         )
 
-        TournamentUtil.renderHostLabel(tournament!!.details!!.host, binding!!.hostLabel, binding!!.hostsLabel)
-        val hostRecyclerView: RecyclerView = binding!!.hostList
-        hostRecyclerView.layoutManager = LinearLayoutManager(context)
-        hostsAdapter = TeamsAdapter(context, tournament!!.details!!.hostTeam!!)
-        hostRecyclerView.adapter = hostsAdapter
+//        if (tournament!!.heroImages != null && tournament!!.heroImages!!.isNotEmpty()) {
+//            firebaseStorageLoader!!.loadImage(
+//                activity,
+//                binding!!.heroImage,
+//                "tournaments/" + tournament!!.id + "/" + tournament!!.heroImages!![0]!!.filename
+//            )
+//        }
+
+        CommonUtil.renderTeamListWithPlural(context, tournament!!.details!!.hostTeam!!, binding!!.host,
+            R.string.host_label, R.string.hosts_label)
 
         val tournamentDates = TournamentUtil.renderDates(context, tournament)
-        CommonUtil.renderLabelField(tournamentDates, binding!!.tournamentDatesLabel, binding!!.tournamentDates)
+        CommonUtil.renderLabelField(context, tournamentDates, binding!!.tournamentDates, R.string.tournament_dates_label)
 
         val qualifyingDates = TournamentUtil.renderQualifyingDates(context, tournament)
-        CommonUtil.renderLabelField(qualifyingDates, binding!!.qualifyingDatesLabel, binding!!.qualifyingDates)
+        CommonUtil.renderLabelField(context, qualifyingDates, binding!!.qualifyingDates, R.string.qualifying_dates_label)
 
         val competitionDates = TournamentUtil.renderCompetitionDates(context, tournament)
-        CommonUtil.renderLabelField(competitionDates, binding!!.competitionDatesLabel, binding!!.competitionDates)
+        CommonUtil.renderLabelField(context, competitionDates, binding!!.competitionDates, R.string.competition_dates_label)
 
         val leagueDates = TournamentUtil.renderLeagueDates(context, tournament)
-        CommonUtil.renderLabelField(leagueDates, binding!!.leagueDatesLabel, binding!!.leagueDates)
+        CommonUtil.renderLabelField(context, leagueDates, binding!!.leagueDates, R.string.league_dates_label)
 
         val finalDates = TournamentUtil.renderFinalDates(context, tournament)
-        CommonUtil.renderLabelField(finalDates, binding!!.finalDatesLabel, binding!!.finalDates)
+        CommonUtil.renderLabelField(context, finalDates, binding!!.finalDates, R.string.final_dates_label)
 
         val relegationDates = TournamentUtil.renderRelegationDates(context, tournament)
-        CommonUtil.renderLabelField(relegationDates, binding!!.relegationDatesLabel, binding!!.relegationDates)
+        CommonUtil.renderLabelField(context, relegationDates, binding!!.relegationDates, R.string.relegation_dates_label)
 
         val teamCount = TournamentUtil.renderTeamCount(context, tournament)
-        CommonUtil.renderLabelField(teamCount, binding!!.teamCountLabel, binding!!.teamCount)
+        CommonUtil.renderLabelField(context, teamCount, binding!!.teamCount, R.string.tournament_team_count_label)
 
-        val competitionTeamCount = TournamentUtil.renderCompetitionTeamCount(context, tournament)
-        CommonUtil.renderLabelField(competitionTeamCount, binding!!.competitionTeamCountLabel, binding!!.competitionTeamCount)
+        val competitionTeamCount = TournamentUtil.renderCompetitionTeamCount(tournament)
+        CommonUtil.renderLabelField(context, competitionTeamCount, binding!!.competitionTeamCount, R.string.competition_team_count_label)
 
         val competitionPlusTransferTeamCount = TournamentUtil.renderCompetitionPlusTransferTeamCount(context, tournament)
-        CommonUtil.renderLabelField(competitionPlusTransferTeamCount, binding!!.competitionPlusTransferTeamCountLabel, binding!!.competitionPlusTransferTeamCount)
+        CommonUtil.renderLabelField(context, competitionPlusTransferTeamCount, binding!!.competitionPlusTransferTeamCount, R.string.competition_team_count_label)
 
         val totalTeamCount = TournamentUtil.renderTotalTeamCount(context, tournament)
-        CommonUtil.renderLabelField(totalTeamCount, binding!!.totalTeamCountLabel, binding!!.totalTeamCount)
+        CommonUtil.renderLabelField(context, totalTeamCount, binding!!.totalTeamCount, R.string.total_team_count_label)
 
         val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(context, tournament)
-        CommonUtil.renderLabelField(totalPlusTransferTeamCount, binding!!.totalPlusTransferTeamCountLabel, binding!!.totalPlusTransferTeamCount)
+        CommonUtil.renderLabelField(context, totalPlusTransferTeamCount, binding!!.totalPlusTransferTeamCount, R.string.total_team_count_label)
 
         val venueCount = TournamentUtil.renderVenueCount(context, tournament)
-        CommonUtil.renderLabelField(venueCount, binding!!.venueCountLabel, binding!!.venueCount)
+        CommonUtil.renderLabelField(context, venueCount, binding!!.venues, R.string.venue_count_label)
 
-        TournamentUtil.renderHostLabel(tournament!!.details!!.finalHost, binding!!.finalHostLabel, binding!!.finalHostsLabel)
-        val finalHostRecyclerView: RecyclerView = binding!!.finalHostList
-        finalHostRecyclerView.layoutManager = LinearLayoutManager(context)
-        finalHostsAdapter = TeamsAdapter(context, tournament!!.details!!.finalHostTeam!!)
-        finalHostRecyclerView.adapter = finalHostsAdapter
+        CommonUtil.renderTeamListWithPlural(context, tournament!!.details!!.finalHostTeam!!, binding!!.finalHost,
+            R.string.final_host_label, R.string.final_hosts_label)
 
-        val finalTeamCount = TournamentUtil.renderFinalTeamCount(context, tournament)
-        CommonUtil.renderLabelField(finalTeamCount, binding!!.finalTeamCountLabel, binding!!.finalTeamCount)
+        val finalTeamCount = TournamentUtil.renderFinalTeamCount(tournament)
+        CommonUtil.renderLabelField(context, finalTeamCount, binding!!.finalTeamCount, R.string.final_team_count_label)
 
         val finalVenueCount = TournamentUtil.renderFinalVenueCount(context, tournament)
-        CommonUtil.renderLabelField(finalVenueCount, binding!!.finalVenueCountLabel, binding!!.finalVenueCount)
+        CommonUtil.renderLabelField(context, finalVenueCount, binding!!.finalVenues, R.string.final_venue_count_label)
 
-        TournamentUtil.renderFinalStandings(context, tournament!!.finalStandings!!.championTeam,
-            binding!!.championsLabel, binding!!.champions, binding!!.championsFlagName)
+        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.championTeam, binding!!.champions, R.string.champions_label)
 
-        TournamentUtil.renderFinalStandings(context, tournament!!.finalStandings!!.runnersUpTeam,
-            binding!!.runnersUpLabel, binding!!.runnersUp, binding!!.runnersUpFlagName)
+        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.runnersUpTeam, binding!!.runnersUp, R.string.runners_up_label)
 
-        if (tournament!!.finalStandings!!.thirdPlaceTeam!!.isNotEmpty()) {
-            binding!!.thirdPlaceLabel.visibility = View.VISIBLE
-            val recyclerView: RecyclerView = binding!!.thirdPlaceList
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            CommonUtil.addDivider(recyclerView, requireContext(), R.drawable.no_divider)
-            tournamentThirdPlaceAdapter = TeamsAdapter(context, tournament!!.finalStandings!!.thirdPlaceTeam!!)
-            recyclerView.adapter = tournamentThirdPlaceAdapter
-        } else {
-            binding!!.thirdPlaceLabel.visibility = View.GONE
-        }
+        CommonUtil.renderTeamList(context, tournament!!.finalStandings!!.thirdPlaceTeam!!, binding!!.thirdPlace, R.string.third_place_label)
 
-        TournamentUtil.renderFinalStandings(context, tournament!!.finalStandings!!.fourthPlaceTeam,
-            binding!!.fourthPlaceLabel, binding!!.fourthPlace, binding!!.fourthPlaceFlagName)
+        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.fourthPlaceTeam, binding!!.fourthPlace, R.string.fourth_place_label)
 
         val matchesPlayed = if (tournament!!.statistics!!.totalMatches != null) tournament!!.statistics!!.totalMatches.toString() else ""
-        CommonUtil.renderLabelField(matchesPlayed, binding!!.matchesPlayedLabel, binding!!.matchesPlayed)
+        CommonUtil.renderLabelField(context, matchesPlayed, binding!!.matchesPlayed, R.string.matches_played_label)
 
         val finalMatchesPlayed = if (tournament!!.statistics!!.finalMatches != null) tournament!!.statistics!!.finalMatches.toString() else ""
-        CommonUtil.renderLabelField(finalMatchesPlayed, binding!!.finalMatchesPlayedLabel, binding!!.finalMatchesPlayed)
+        CommonUtil.renderLabelField(context, finalMatchesPlayed, binding!!.finalMatchesPlayed, R.string.final_matches_played_label)
 
         val goalsScored = TournamentUtil.renderGoalsScored(context, tournament)
-        CommonUtil.renderLabelField(goalsScored, binding!!.goalsScoredLabel, binding!!.goalsScored)
+        CommonUtil.renderLabelField(context, goalsScored, binding!!.goalsScored, R.string.goals_scored_label)
 
         val finalGoalsScored = TournamentUtil.renderFinalGoalsScored(context, tournament)
-        CommonUtil.renderLabelField(finalGoalsScored, binding!!.finalGoalsScoredLabel, binding!!.finalGoalsScored)
+        CommonUtil.renderLabelField(context, finalGoalsScored, binding!!.finalGoalsScored, R.string.final_goals_scored_label)
 
         val attendance = TournamentUtil.renderAttendance(context, tournament)
-        CommonUtil.renderLabelField(attendance, binding!!.attendanceLabel, binding!!.attendance)
+        CommonUtil.renderLabelField(context, attendance, binding!!.attendance, R.string.attendance_label)
 
         val finalAttendance = TournamentUtil.renderFinalAttendance(context, tournament)
-        CommonUtil.renderLabelField(finalAttendance, binding!!.finalAttendanceLabel, binding!!.finalAttendance)
+        CommonUtil.renderLabelField(context, finalAttendance, binding!!.finalAttendance, R.string.final_attendance_label)
 
-        if (tournament!!.awards!!.goldenBoot!!.isNotEmpty()) {
-            if (tournament!!.awards!!.goldenBoot!!.size == 1) {
-                binding!!.goldenBootLabel.visibility = View.VISIBLE
-                binding!!.goldenBootsLabel.visibility = View.GONE
-            } else {
-                binding!!.goldenBootLabel.visibility = View.GONE
-                binding!!.goldenBootsLabel.visibility = View.VISIBLE
-            }
-            val goldenBootRecyclerView: RecyclerView = binding!!.goldenBootList
-            goldenBootRecyclerView.layoutManager = LinearLayoutManager(context)
-            CommonUtil.addDivider(goldenBootRecyclerView, requireContext(), R.drawable.no_divider)
-            goldenBootAdapter = PlayersAdapter(context, tournament!!.awards!!.goldenBoot!!)
-            goldenBootRecyclerView.adapter = goldenBootAdapter
-        } else {
-            binding!!.goldenBootLabel.visibility = View.GONE
-            binding!!.goldenBootsLabel.visibility = View.GONE
-        }
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.goldenBoot!!, binding!!.goldenBoot,
+            R.string.golden_boot_label, R.string.golden_boots_label)
 
-        if (tournament!!.awards!!.fairPlayTeam!!.isNotEmpty()) {
-            binding!!.fairPlayLabel.visibility = View.VISIBLE
-            val fairPlayRecyclerView: RecyclerView = binding!!.fairPlayList
-            fairPlayRecyclerView.layoutManager = LinearLayoutManager(context)
-            CommonUtil.addDivider(fairPlayRecyclerView, requireContext(), R.drawable.no_divider)
-            fairPlayAdapter = TeamsAdapter(context, tournament!!.awards!!.fairPlayTeam!!)
-            fairPlayRecyclerView.adapter = fairPlayAdapter
-        } else {
-            binding!!.fairPlayLabel.visibility = View.GONE
-        }
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.silverBoot!!, binding!!.silverBoot,
+            R.string.silver_boot_label, R.string.silver_boots_label)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.bronzeBoot!!, binding!!.bronzeBoot,
+            R.string.bronze_boot_label, R.string.bronze_boots_label)
+
+        CommonUtil.renderTeamList(context, tournament!!.awards!!.fairPlayTeam!!, binding!!.fairPlay,
+            R.string.fair_play_label)
     }
 
     override fun onDestroyView() {

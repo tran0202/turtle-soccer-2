@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.adapters.CompSuccessfulTeamsAdapter
+import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.adapters.DescriptionsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentCompAboutBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
@@ -24,7 +22,6 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
 
     private var binding: FragmentCompAboutBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
-    private var compSuccessfulTeamsAdapter: CompSuccessfulTeamsAdapter? = null
     private var descriptionsAdapter: DescriptionsAdapter? = null
 
     override fun onCreateView(
@@ -46,31 +43,14 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
         firebaseStorageLoader = FirebaseStorageLoader(requireContext())
 
         val teamCount = CompetitionUtil.renderTeamCount(competition!!)
-        CommonUtil.renderLabelField(teamCount, binding!!.competitionTeamCountLabel, binding!!.competitionTeamCount)
+        CommonUtil.renderWrapLabelField(requireContext(), teamCount, binding!!.competitionTeamCount, R.string.tournament_team_count_label)
 
-        CompetitionUtil.renderChampions(requireContext(), competition!!.currentChampions, binding!!.competitionCurrentChampionsLabel,
-            binding!!.competitionCurrentChampions, binding!!.currentChampionsFlagName, binding!!.currentChampionsTitleCount)
+        CommonUtil.renderLabelTeamTitleCount(requireContext(), competition!!.currentChampions, binding!!.currentChampions, R.string.competition_current_champions_label)
 
-        CompetitionUtil.renderChampions(requireContext(), competition!!.lastChampions, binding!!.competitionLastChampionsLabel,
-            binding!!.competitionLastChampions, binding!!.lastChampionsFlagName, binding!!.lastChampionsTitleCount)
+        CommonUtil.renderLabelTeamTitleCount(requireContext(), competition!!.lastChampions, binding!!.lastChampions, R.string.competition_last_champions_label)
 
-        if (!competition!!.mostSuccessfulTeams.isNullOrEmpty()) {
-            if (competition!!.mostSuccessfulTeams!!.size == 1) {
-                binding!!.mostSuccessfulTeamLabel.visibility =View.VISIBLE
-                binding!!.mostSuccessfulTeamsLabel.visibility =View.GONE
-            } else {
-                binding!!.mostSuccessfulTeamLabel.visibility =View.GONE
-                binding!!.mostSuccessfulTeamsLabel.visibility =View.VISIBLE
-            }
-        } else {
-            binding!!.mostSuccessfulTeamLabel.visibility =View.GONE
-            binding!!.mostSuccessfulTeamsLabel.visibility =View.GONE
-        }
-
-        val recyclerView: RecyclerView = binding!!.compSuccessfulTeamList
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        compSuccessfulTeamsAdapter = CompSuccessfulTeamsAdapter(requireContext(), competition!!.mostSuccessfulTeams!!)
-        recyclerView.adapter = compSuccessfulTeamsAdapter
+        CommonUtil.renderChampionList(requireContext(), competition!!.mostSuccessfulTeams!!, binding!!.mostSuccessfulTeams,
+            R.string.competition_most_successful_team_label, R.string.competition_most_successful_teams_label)
 
         firebaseStorageLoader!!.loadImage(
             activity,

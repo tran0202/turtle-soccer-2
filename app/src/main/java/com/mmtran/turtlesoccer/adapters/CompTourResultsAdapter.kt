@@ -11,14 +11,14 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagCodeBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagCodeCellBinding
 import com.mmtran.turtlesoccer.databinding.RowCompTourResultBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.SectionHeader
 import com.mmtran.turtlesoccer.models.Tournament
 import com.mmtran.turtlesoccer.utils.CommonUtil
 import com.mmtran.turtlesoccer.utils.TeamUtil
-import com.mmtran.turtlesoccer.utils.TournamentUtil
 
 class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?>) :
     RecyclerView.Adapter<CompTourResultsAdapter.ViewHolder>() {
@@ -63,15 +63,15 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
 
         if (tournament.compTourResultEvenRow) {
             holder.tournamentColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_comp_result_even_row_first_cell, null)
-            holder.championColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
-            holder.runnerUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
+            holder.championsColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
+            holder.runnersUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
             holder.thirdPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
             holder.fourthPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
             holder.semiFinalistsColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_comp_result_even_row_other_cell, null)
         } else {
             holder.tournamentColumnLinearLayout.background = ResourcesCompat.getDrawable(_context!!.resources, R.drawable.border_other_row_first_cell, null)
-            holder.championColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
-            holder.runnerUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
+            holder.championsColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
+            holder.runnersUpColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
             holder.thirdPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
             holder.fourthPlaceColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
             holder.semiFinalistsColumnLinearLayout.background = ResourcesCompat.getDrawable(_context.resources, R.drawable.border_other_row_other_cell, null)
@@ -93,11 +93,9 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
 
         if (tournament.finalStandings != null) {
 
-            TournamentUtil.renderFinalStandingsNarrow(_context, tournament.finalStandings!!.championTeam,
-                holder.championColumnInnerLayout, holder.championFlagNameBinding)
+            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.championTeam, holder.championsFlagCodeCellBinding)
 
-            TournamentUtil.renderFinalStandingsNarrow(_context, tournament.finalStandings!!.runnersUpTeam,
-                holder.runnerUpColumnInnerLinearLayout, holder.runnerUpFlagNameBinding)
+            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.runnersUpTeam, holder.runnersUpFlagCodeCellBinding)
 
             val recyclerView: RecyclerView = holder.thirdPlaceListRecyclerView
             recyclerView.layoutManager = LinearLayoutManager(_context)
@@ -105,22 +103,14 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
             compTourThirdPlaceAdapter = CompTourThirdPlaceAdapter(_context, tournament.finalStandings!!.thirdPlaceTeam!!)
             recyclerView.adapter = compTourThirdPlaceAdapter
 
-            if (tournament.finalStandings!!.fourthPlaceTeam!!.isValid()) {
-                holder.fourthPlaceFlagNameBinding.flag.visibility = View.VISIBLE
-                holder.fourthPlaceFlagNameBinding.clubLogo.visibility = View.VISIBLE
-                TeamUtil.renderFlagNameNarrow(_context, holder.fourthPlaceFlagNameBinding, tournament.finalStandings!!.fourthPlaceTeam)
-            } else {
-                holder.fourthPlaceFlagNameBinding.flag.visibility = View.GONE
-                holder.fourthPlaceFlagNameBinding.clubLogo.visibility = View.GONE
-                holder.fourthPlaceFlagNameBinding.code.text = ""
-            }
+            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.fourthPlaceTeam, holder.fourthPlaceFlagCodeCellBinding)
 
             if (tournament.finalStandings!!.semiFinalist1Team!!.isValid() && tournament.finalStandings!!.semiFinalist2Team!!.isValid()) {
                 holder.semiFinalistsColumnLinearLayout.visibility = View.VISIBLE
                 holder.thirdPlaceColumnLinearLayout.visibility = View.GONE
                 holder.fourthPlaceColumnLinearLayout.visibility = View.GONE
-                TeamUtil.renderFlagNameNarrow(_context, holder.semiFinalist1FlagNameBinding, tournament.finalStandings!!.semiFinalist1Team)
-                TeamUtil.renderFlagNameNarrow(_context, holder.semiFinalist2FlagNameBinding, tournament.finalStandings!!.semiFinalist2Team)
+                TeamUtil.renderFlagCode(_context, tournament.finalStandings!!.semiFinalist1Team, holder.semiFinalist1FlagCodeBinding)
+                TeamUtil.renderFlagCode(_context, tournament.finalStandings!!.semiFinalist2Team, holder.semiFinalist2FlagCodeBinding)
             } else {
                 holder.semiFinalistsColumnLinearLayout.visibility = View.GONE
                 holder.thirdPlaceColumnLinearLayout.visibility = View.VISIBLE
@@ -143,19 +133,17 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
         var tournamentColumnLinearLayout: LinearLayout = binding.tournamentColumn
         var tournamentLogoImageView: ImageView = binding.tournamentLogo
         var shortYearTextView: TextView = binding.shortYear
-        var championColumnLinearLayout: LinearLayout = binding.championColumn
-        var championColumnInnerLayout: LinearLayout = binding.championColumnInner
-        var championFlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.championFlagName
-        var runnerUpColumnLinearLayout: LinearLayout = binding.runnerUpColumn
-        var runnerUpColumnInnerLinearLayout: LinearLayout = binding.runnerUpColumnInner
-        var runnerUpFlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.runnerUpFlagName
+        var championsColumnLinearLayout: LinearLayout = binding.championsColumn
+        var championsFlagCodeCellBinding: FragmentTeamFlagCodeCellBinding = binding.champions
+        var runnersUpColumnLinearLayout: LinearLayout = binding.runnersUpColumn
+        var runnersUpFlagCodeCellBinding: FragmentTeamFlagCodeCellBinding = binding.runnersUp
         var thirdPlaceColumnLinearLayout: LinearLayout = binding.thirdPlaceColumn
         var thirdPlaceListRecyclerView: RecyclerView = binding.thirdPlaceList
         var fourthPlaceColumnLinearLayout: LinearLayout = binding.fourthPlaceColumn
-        var fourthPlaceFlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.fourthPlaceFlagName
+        var fourthPlaceFlagCodeCellBinding: FragmentTeamFlagCodeCellBinding = binding.fourthPlace
         var semiFinalistsColumnLinearLayout: LinearLayout = binding.semiFinalistsColumn
-        var semiFinalist1FlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.semiFinalist1FlagName
-        var semiFinalist2FlagNameBinding: FragmentTeamFlagNameNarrowBinding = binding.semiFinalist2FlagName
+        var semiFinalist1FlagCodeBinding: FragmentTeamFlagCodeBinding = binding.semiFinalist1FlagName
+        var semiFinalist2FlagCodeBinding: FragmentTeamFlagCodeBinding = binding.semiFinalist2FlagName
 
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _tournamentList, absoluteAdapterPosition)

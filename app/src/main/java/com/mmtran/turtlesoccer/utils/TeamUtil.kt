@@ -3,7 +3,7 @@ package com.mmtran.turtlesoccer.utils
 import android.content.Context
 import android.view.View
 import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
-import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameNarrowBinding
+import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagCodeBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Nation
 import com.mmtran.turtlesoccer.models.Team
@@ -34,6 +34,8 @@ object TeamUtil {
                     binding.flag,
                     "flags/" + team.nation!!.flagFilename
                 )
+                val factor: Float = context!!.resources.displayMetrics.density
+                binding.flag.layoutParams.width = (24 * factor).toInt()
             } else {
                 binding.flag.visibility = View.GONE
             }
@@ -54,13 +56,11 @@ object TeamUtil {
         }
     }
 
-    fun renderFlagNameNarrow(context: Context?, binding: FragmentTeamFlagNameNarrowBinding?, team: Team?) {
+    fun renderFlagCode(context: Context?, team: Team?, binding: FragmentTeamFlagCodeBinding?) {
 
         val firebaseStorageLoader = FirebaseStorageLoader(context)
 
         if (team?.nation == null) return
-
-        val factor: Float = context!!.resources.displayMetrics.density
 
         if (team.teamTypeId.equals("CLUB")) {
             if (!team.logoFilename.isNullOrEmpty()) {
@@ -80,7 +80,8 @@ object TeamUtil {
                     binding.flag,
                     "flags/" + team.nation!!.flagFilename
                 )
-                binding.flag.layoutParams.width = (18 * factor).toInt()
+                val factor: Float = context!!.resources.displayMetrics.density
+                binding.flag.layoutParams.width = (24 * factor).toInt()
             } else {
                 binding.flag.visibility = View.GONE
             }

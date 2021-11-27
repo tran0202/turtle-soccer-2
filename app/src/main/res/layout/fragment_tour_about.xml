@@ -16,401 +16,15 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <TableLayout
-                    android:id="@+id/tournament_info"
-                    android:layout_width="275dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <TextView
-                        android:id="@+id/host_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/host_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/hosts_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/hosts_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/host_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tournament_dates_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/tournament_dates_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/tournament_dates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/qualifying_dates_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/qualifying_dates_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/qualifying_dates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/competition_dates_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/competition_dates_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/competition_dates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/league_dates_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/league_dates_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/league_dates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/final_dates_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/final_dates_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/final_dates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/relegation_dates_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/relegation_dates_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/relegation_dates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/team_count_label"
-                            android:layout_width="70dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/tournament_team_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/team_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginTop="5dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/competition_team_count_label"
-                            android:layout_width="170dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/competition_team_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/competition_team_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginTop="5dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/competition_plus_transfer_team_count_label"
-                            android:layout_width="170dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/competition_team_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/competition_plus_transfer_team_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginTop="5dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/total_team_count_label"
-                            android:layout_width="170dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/total_team_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/total_team_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginTop="5dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/total_plus_transfer_team_count_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="5dp"
-                            android:text="@string/total_team_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/total_plus_transfer_team_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginTop="5dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/venue_count_label"
-                            android:layout_width="70dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="@string/venue_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/venue_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/final_host_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/final_host_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/final_hosts_label"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
-                        android:layout_marginTop="5dp"
-                        android:text="@string/final_hosts_label"
-                        android:textAlignment="viewStart"
-                        android:textSize="18sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/final_host_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/final_team_count_label"
-                            android:layout_width="115dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="@string/final_team_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/final_team_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
-
-                        <TextView
-                            android:id="@+id/final_venue_count_label"
-                            android:layout_width="115dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="@string/final_venue_count_label"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/final_venue_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="20dp"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp" />
-
-                    </LinearLayout>
-
-                </TableLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
                 <ImageView
                     android:id="@+id/tournament_logo"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:adjustViewBounds="true"
@@ -418,7 +32,115 @@
                     android:scaleType="fitCenter"
                     tools:ignore="ContentDescription" />
 
+                <ImageView
+                    android:id="@+id/hero_image"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:scaleType="fitCenter"
+                    tools:ignore="ContentDescription" />
+
             </LinearLayout>
+
+            <include
+                android:id="@+id/host"
+                layout="@layout/fragment_label_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/tournament_dates"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/qualifying_dates"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/competition_dates"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/league_dates"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/final_dates"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/relegation_dates"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/team_count"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/competition_team_count"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/competition_plus_transfer_team_count"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/total_team_count"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/total_plus_transfer_team_count"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/venues"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/final_host"
+                layout="@layout/fragment_label_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/final_team_count"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/final_venues"
+                layout="@layout/fragment_label_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
@@ -428,128 +150,29 @@
                 android:layout_marginRight="20dp"
                 android:background="@color/gray5" />
 
-            <LinearLayout
+            <include
+                android:id="@+id/champions"
+                layout="@layout/fragment_label_team"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/champions_label"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/champions_label"
-                    android:textSize="18sp" />
-
-
-                <LinearLayout
-                    android:id="@+id/champions"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content">
-                    <include
-                        android:id="@+id/champions_flag_name"
-                        layout="@layout/fragment_team_flag_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/runners_up"
+                layout="@layout/fragment_label_team"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/runners_up_label"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/runners_up_label"
-                    android:textSize="18sp" />
-
-
-                <LinearLayout
-                    android:id="@+id/runners_up"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content">
-                    <include
-                        android:id="@+id/runners_up_flag_name"
-                        layout="@layout/fragment_team_flag_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/third_place"
+                layout="@layout/fragment_label_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/third_place_label"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/third_place_label"
-                    android:textSize="18sp" />
-
-                <LinearLayout
-                    android:id="@+id/third_place"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/third_place_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/fourth_place"
+                layout="@layout/fragment_label_team"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/fourth_place_label"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/fourth_place_label"
-                    android:textSize="18sp" />
-
-
-                <LinearLayout
-                    android:id="@+id/fourth_place"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content">
-                    <include
-                        android:id="@+id/fourth_place_flag_name"
-                        layout="@layout/fragment_team_flag_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
@@ -559,235 +182,75 @@
                 android:layout_marginRight="20dp"
                 android:background="@color/gray5" />
 
-            <LinearLayout
+            <include
+                android:id="@+id/matches_played"
+                layout="@layout/fragment_label_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/matches_played_label"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/matches_played_label"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/matches_played"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/goals_scored"
+                layout="@layout/fragment_label_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/goals_scored_label"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/goals_scored_label"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/goals_scored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/attendance"
+                layout="@layout/fragment_label_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/attendance_label"
-                    android:layout_width="140dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="@string/attendance_label"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/attendance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/final_matches_played"
+                layout="@layout/fragment_label_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/final_matches_played_label"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/final_matches_played_label"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/final_matches_played"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="5dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/final_goals_scored"
+                layout="@layout/fragment_label_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/final_goals_scored_label"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/final_goals_scored_label"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/final_goals_scored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="5dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <include
+                android:id="@+id/final_attendance"
+                layout="@layout/fragment_label_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/final_attendance_label"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/final_attendance_label"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/final_attendance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="5dp"
-                    android:textAlignment="viewStart"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:background="@color/gray5" />
 
-            <LinearLayout
+            <include
+                android:id="@+id/golden_boot"
+                layout="@layout/fragment_label_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/silver_boot"
+                layout="@layout/fragment_label_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/bronze_boot"
+                layout="@layout/fragment_label_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                android:id="@+id/fair_play"
+                layout="@layout/fragment_label_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/golden_boot_label"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/golden_boot_label"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/golden_boots_label"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/golden_boots_label"
-                    android:textSize="18sp" />
-
-                <LinearLayout
-                    android:id="@+id/golden_boot"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/golden_boot_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/fair_play_label"
-                    android:layout_width="115dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/fair_play_label"
-                    android:textSize="18sp" />
-
-                <LinearLayout
-                    android:id="@+id/fair_play"
-                    android:layout_width="240dp"
-                    android:layout_height="wrap_content">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/fair_play_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_marginBottom="10dp" />
 
         </LinearLayout>
 

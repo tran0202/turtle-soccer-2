@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
+import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.databinding.FragmentLabelTeam2LinesBinding
+import com.mmtran.turtlesoccer.databinding.FragmentWrapLabelFieldBinding
 
 import com.mmtran.turtlesoccer.databinding.RowTournamentBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
@@ -51,16 +52,16 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         CommonUtil.renderField(finalDates, holder.finalDatesTextView)
 
         val teamCount = TournamentUtil.renderTeamCount(_context, _tournamentList[position])
-        CommonUtil.renderLabelField(teamCount, holder.teamCountLabelTextView, holder.teamCountTextView)
+        CommonUtil.renderWrapLabelField(_context, teamCount, holder.teamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
         val totalTeamCount = TournamentUtil.renderTotalTeamCount(_context, _tournamentList[position])
-        CommonUtil.renderLabelField(totalTeamCount, holder.totalTeamCountLabelTextView, holder.totalTeamCountTextView)
+        CommonUtil.renderWrapLabelField(_context, totalTeamCount, holder.totalTeamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
         val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(_context, _tournamentList[position])
-        CommonUtil.renderLabelField(totalPlusTransferTeamCount, holder.totalPlusTransferTeamCountLabelTextView, holder.totalPlusTransferTeamCountTextView)
+        CommonUtil.renderWrapLabelField(_context, totalPlusTransferTeamCount, holder.totalPlusTransferTeamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        TournamentUtil.renderFinalStandings(_context, _tournamentList[position]!!.finalStandings!!.championTeam,
-            holder.championsLabelTextView, holder.championsLinearLayout, holder.championsFlagNameBinding)
+        CommonUtil.renderLabelTeam2Lines(_context, _tournamentList[position]!!.finalStandings!!.championTeam,
+            holder.championsFragmentLabelTeam2LinesBinding, R.string.champions_label)
     }
 
     override fun getItemCount(): Int {
@@ -76,15 +77,10 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         var tournamentDatesTextView: TextView = binding.tournamentDates
         var competitionDatesTextView: TextView = binding.competitionDates
         var finalDatesTextView: TextView = binding.finalDates
-        var teamCountLabelTextView: TextView = binding.teamCountLabel
-        var teamCountTextView: TextView = binding.teamCount
-        var totalTeamCountLabelTextView: TextView = binding.totalTeamCountLabel
-        var totalTeamCountTextView: TextView = binding.totalTeamCount
-        var totalPlusTransferTeamCountLabelTextView: TextView = binding.totalPlusTransferTeamCountLabel
-        var totalPlusTransferTeamCountTextView: TextView = binding.totalPlusTransferTeamCount
-        var championsLabelTextView: TextView = binding.championsLabel
-        var championsLinearLayout: LinearLayout = binding.champions
-        var championsFlagNameBinding: FragmentTeamFlagNameBinding = binding.championsFlagName
+        var teamCountFragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding = binding.teamCount
+        var totalTeamCountFragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding = binding.totalTeamCount
+        var totalPlusTransferTeamCountFragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding = binding.totalPlusTransferTeamCount
+        var championsFragmentLabelTeam2LinesBinding: FragmentLabelTeam2LinesBinding = binding.champions
 
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _tournamentList, absoluteAdapterPosition)

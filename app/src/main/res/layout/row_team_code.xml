@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <include
-        android:id="@+id/third_place_flag_name_narrow"
-        layout="@layout/fragment_team_flag_name_narrow"
+        android:id="@+id/team_code_cell"
+        layout="@layout/fragment_team_flag_code_cell"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
