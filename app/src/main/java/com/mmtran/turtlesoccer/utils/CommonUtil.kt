@@ -2,7 +2,6 @@ package com.mmtran.turtlesoccer.utils
 
 import android.content.Context
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,21 +12,14 @@ import com.mmtran.turtlesoccer.adapters.ChampionsAdapter
 import com.mmtran.turtlesoccer.adapters.PlayersAdapter
 import com.mmtran.turtlesoccer.adapters.TeamsAdapter
 import com.mmtran.turtlesoccer.databinding.*
-import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Champion
 import com.mmtran.turtlesoccer.models.Player
 import com.mmtran.turtlesoccer.models.Team
 
 object CommonUtil {
 
-    fun addDivider(recyclerView: RecyclerView, context: Context, _drawable: Int ) {
-
-        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-        divider.setDrawable(ContextCompat.getDrawable(context, _drawable)!!)
-        recyclerView.addItemDecoration(divider)
-    }
-
     fun renderField(value: String?, field: TextView) {
+
         if (!value.isNullOrEmpty()) {
             field.visibility = View.VISIBLE
             field.text = value
@@ -47,6 +39,7 @@ object CommonUtil {
     }
 
     fun renderWrapLabelField(context: Context?, value: String?, fragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding?, label: Int) {
+
         if (!value.isNullOrEmpty()) {
             fragmentWrapLabelFieldBinding!!.container.visibility = View.VISIBLE
             fragmentWrapLabelFieldBinding.label.visibility = View.VISIBLE
@@ -59,6 +52,7 @@ object CommonUtil {
     }
 
     fun renderLabelField(context: Context?, value: String?, fragmentLabelFieldBinding: FragmentLabelFieldBinding?, label: Int) {
+
         if (!value.isNullOrEmpty()) {
             fragmentLabelFieldBinding!!.container.visibility = View.VISIBLE
             fragmentLabelFieldBinding.label.visibility = View.VISIBLE
@@ -111,6 +105,52 @@ object CommonUtil {
             }
         } else {
             fragmentLabelTeamTitleCountBinding!!.container.visibility = View.GONE
+        }
+    }
+
+    fun renderGoldenBall(context: Context?, players: List<Player?>?, goldenBallBinding: FragmentLabelPlayerBinding?,
+                         silverBallBinding: FragmentLabelPlayerBinding?, bronzeBallBinding: FragmentLabelPlayerBinding?) {
+
+        if (players != null && players.isNotEmpty()) {
+            goldenBallBinding!!.container.visibility = View.VISIBLE
+            renderPlayer(context, players[0], goldenBallBinding, R.string.golden_ball_label)
+            if (players.size > 1) {
+                renderPlayer(context, players[1], silverBallBinding, R.string.silver_ball_label)
+                silverBallBinding!!.container.visibility = View.VISIBLE
+            } else {
+                silverBallBinding!!.container.visibility = View.GONE
+            }
+            if (players.size > 2) {
+                renderPlayer(context, players[2], bronzeBallBinding, R.string.bronze_ball_label)
+                bronzeBallBinding!!.container.visibility = View.VISIBLE
+            } else {
+                bronzeBallBinding!!.container.visibility = View.GONE
+            }
+        } else {
+            goldenBallBinding!!.container.visibility = View.GONE
+            silverBallBinding!!.container.visibility = View.GONE
+            bronzeBallBinding!!.container.visibility = View.GONE
+        }
+    }
+
+    private fun renderPlayer(context: Context?, player: Player?, binding: FragmentLabelPlayerBinding?, label: Int) {
+
+        if (player != null) {
+            binding!!.container.visibility = View.VISIBLE
+            binding.label.visibility = View.VISIBLE
+            binding.label.text = context!!.getString(label)
+            PlayerUtil.renderPlayerFlagName(context, binding.flagName, player)
+        } else {
+            binding!!.container.visibility = View.GONE
+        }
+    }
+
+    fun renderPlayerDivider(players: List<Player?>?, divider: View?) {
+
+        if (players != null && players.isNotEmpty()) {
+            divider!!.visibility = View.VISIBLE
+        } else {
+            divider!!.visibility = View.GONE
         }
     }
 
@@ -225,5 +265,12 @@ object CommonUtil {
             fragmentLabelListBinding.label.visibility = View.GONE
             fragmentLabelListBinding.pluralLabel.visibility = View.GONE
         }
+    }
+
+    fun addDivider(recyclerView: RecyclerView, context: Context, _drawable: Int ) {
+
+        val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
+        divider.setDrawable(ContextCompat.getDrawable(context, _drawable)!!)
+        recyclerView.addItemDecoration(divider)
     }
 }

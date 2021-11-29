@@ -130,12 +130,45 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
 
         CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.goldenBoot!!, binding!!.goldenBoot,
             R.string.golden_boot_label, R.string.golden_boots_label)
-
         CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.silverBoot!!, binding!!.silverBoot,
             R.string.silver_boot_label, R.string.silver_boots_label)
-
         CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.bronzeBoot!!, binding!!.bronzeBoot,
             R.string.bronze_boot_label, R.string.bronze_boots_label)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.finalTopScorer!!, binding!!.finalTopScorer,
+            R.string.final_top_scorer_label, R.string.final_top_scorers_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.finalTopScorer!!, binding!!.finalTopScorerDivider)
+
+        CommonUtil.renderGoldenBall(context, tournament!!.awards!!.goldenBall!!, binding!!.goldenBall, binding!!.silverBall, binding!!.bronzeBall)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.goldenBall!!, binding!!.goldenBallDivider)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.finalBestPlayer!!, binding!!.finalBestPlayer,
+            R.string.final_best_player_label, R.string.final_best_players_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.finalBestPlayer!!, binding!!.finalBestPlayerDivider)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.bestYoungPlayer!!, binding!!.bestYoungPlayer,
+            R.string.best_young_player_label, R.string.best_young_players_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.bestYoungPlayer!!, binding!!.bestYoungPlayerDivider)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.finalBestYoungPlayer!!, binding!!.finalBestYoungPlayer,
+            R.string.final_best_young_player_label, R.string.final_best_young_players_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.finalBestYoungPlayer!!, binding!!.finalBestYoungPlayerDivider)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.goldenGlove!!, binding!!.goldenGlove,
+            R.string.golden_glove_label, R.string.golden_gloves_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.goldenGlove!!, binding!!.goldenGloveDivider)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.bestForward!!, binding!!.bestForward,
+            R.string.best_forward_label, R.string.best_forwards_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.bestForward!!, binding!!.bestForwardDivider)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.bestMidfielder!!, binding!!.bestMidfielder,
+            R.string.best_midfielder_label, R.string.best_midfielders_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.bestMidfielder!!, binding!!.bestMidfielderDivider)
+
+        CommonUtil.renderPlayerListWithPlural(context, tournament!!.awards!!.bestDefender!!, binding!!.bestDefender,
+            R.string.best_defender_label, R.string.best_defenders_label)
+        CommonUtil.renderPlayerDivider(tournament!!.awards!!.bestDefender!!, binding!!.bestDefenderDivider)
 
         CommonUtil.renderTeamList(context, tournament!!.awards!!.fairPlayTeam!!, binding!!.fairPlay,
             R.string.fair_play_label)

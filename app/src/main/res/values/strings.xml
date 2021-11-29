@@ -49,9 +49,9 @@
     <string name="goals_scored_per_match">%1$s (%2$s per match)</string>
     <string name="attendance_label"><b>Attendance: </b></string>
     <string name="attendance_per_match">%1$s (%2$s per match)</string>
-    <string name="final_matches_played_label"><b>F Matches: </b></string>
-    <string name="final_goals_scored_label"><b>F Goals: </b></string>
-    <string name="final_attendance_label"><b>F Attendance: </b></string>
+    <string name="final_matches_played_label"><b>Final Matches: </b></string>
+    <string name="final_goals_scored_label"><b>Final Goals: </b></string>
+    <string name="final_attendance_label"><b>Final Attendance: </b></string>
     <string name="golden_boot_label">Golden Boot:</string>
     <string name="golden_boots_label">Golden Boots:</string>
     <string name="silver_boot_label">Silver Boot:</string>
@@ -59,11 +59,8 @@
     <string name="bronze_boot_label">Bronze Boot:</string>
     <string name="bronze_boots_label">Bronze Boots:</string>
     <string name="golden_ball_label">Golden Ball:</string>
-    <string name="golden_balls_label">Golden Balls:</string>
     <string name="silver_ball_label">Silver Ball:</string>
-    <string name="silver_balls_label">Silver Balls:</string>
     <string name="bronze_ball_label">Bronze Ball:</string>
-    <string name="bronze_balls_label">Bronze Balls:</string>
     <string name="best_young_player_label">Best Young Player:</string>
     <string name="best_young_players_label">Best Young Players:</string>
     <string name="golden_glove_label">Golden Glove:</string>
