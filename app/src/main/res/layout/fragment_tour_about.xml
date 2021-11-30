@@ -32,25 +32,112 @@
                     android:scaleType="fitCenter"
                     tools:ignore="ContentDescription" />
 
-                <ImageView
-                    android:id="@+id/hero_image"
-                    android:layout_width="250dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:adjustViewBounds="true"
-                    android:cropToPadding="true"
-                    android:scaleType="fitCenter"
-                    tools:ignore="ContentDescription" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tournament_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/previous"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp">
+
+                        <ImageView
+                            android:id="@+id/left_arrow"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/icons8_left_arrow_30"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:cropToPadding="true"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/previous_tournament"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:textSize="18sp"
+                            android:textColor="@color/green"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/competition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="18sp"
+                        android:textColor="@color/green"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/next"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp">
+
+                        <TextView
+                            android:id="@+id/next_tournament"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="18sp"
+                            android:textColor="@color/green"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/right_arrow"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/icons8_right_arrow_30"
+                            android:scaleType="fitCenter"
+                            android:adjustViewBounds="true"
+                            android:cropToPadding="true"
+                            tools:ignore="ContentDescription" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/hero_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:scaleType="fitCenter"
+                tools:ignore="ContentDescription" />
+
             <include
                 android:id="@+id/host"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
 
             <include
                 android:id="@+id/tournament_dates"
@@ -126,7 +213,7 @@
 
             <include
                 android:id="@+id/final_host"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -165,7 +252,7 @@
 
             <include
                 android:id="@+id/third_place"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -230,19 +317,19 @@
 
             <include
                 android:id="@+id/golden_boot"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/silver_boot"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/bronze_boot"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -257,7 +344,7 @@
 
             <include
                 android:id="@+id/final_top_scorer"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -304,7 +391,7 @@
 
             <include
                 android:id="@+id/final_best_player"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -320,7 +407,7 @@
 
             <include
                 android:id="@+id/best_young_player"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -336,7 +423,7 @@
 
             <include
                 android:id="@+id/final_best_young_player"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -352,7 +439,7 @@
 
             <include
                 android:id="@+id/golden_glove"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -368,7 +455,7 @@
 
             <include
                 android:id="@+id/best_forward"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -384,7 +471,7 @@
 
             <include
                 android:id="@+id/best_midfielder"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -400,7 +487,7 @@
 
             <include
                 android:id="@+id/best_defender"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -416,7 +503,7 @@
 
             <include
                 android:id="@+id/fair_play"
-                layout="@layout/fragment_label_list"
+                layout="@layout/fragment_label_team_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp" />

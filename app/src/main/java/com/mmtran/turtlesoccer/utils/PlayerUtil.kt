@@ -13,6 +13,7 @@ object PlayerUtil {
         if (player == null) return
 
         val firebaseStorageLoader = FirebaseStorageLoader(context)
+        val factor: Float = context!!.resources.displayMetrics.density
 
         if (!player.isMultipleClubs()) {
             binding!!.singleClubLogo.visibility = View.VISIBLE
@@ -61,8 +62,9 @@ object PlayerUtil {
                 "flags/" + player.teamT!!.nation!!.flagFilename
             )
             if (player.isClubPlayer()) {
-                val factor: Float = context!!.resources.displayMetrics.density
                 binding.flag.layoutParams.width = (24 * factor).toInt()
+            } else {
+                binding.flag.layoutParams.width = (36 * factor).toInt()
             }
         } else {
             binding.flag.visibility = View.GONE

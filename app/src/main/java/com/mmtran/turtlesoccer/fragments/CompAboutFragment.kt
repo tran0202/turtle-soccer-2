@@ -45,9 +45,9 @@ class CompAboutFragment(comp: Competition?) : Fragment() {
         val teamCount = CompetitionUtil.renderTeamCount(competition!!)
         CommonUtil.renderWrapLabelField(requireContext(), teamCount, binding!!.competitionTeamCount, R.string.tournament_team_count_label)
 
-        CommonUtil.renderLabelTeamTitleCount(requireContext(), competition!!.currentChampions, binding!!.currentChampions, R.string.competition_current_champions_label)
+        CommonUtil.renderLabelChampion(requireContext(), competition!!.currentChampions, binding!!.currentChampions, R.string.competition_current_champions_label)
 
-        CommonUtil.renderLabelTeamTitleCount(requireContext(), competition!!.lastChampions, binding!!.lastChampions, R.string.competition_last_champions_label)
+        CommonUtil.renderLabelChampion(requireContext(), competition!!.lastChampions, binding!!.lastChampions, R.string.competition_last_champions_label)
 
         CommonUtil.renderChampionList(requireContext(), competition!!.mostSuccessfulTeams!!, binding!!.mostSuccessfulTeams,
             R.string.competition_most_successful_team_label, R.string.competition_most_successful_teams_label)

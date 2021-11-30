@@ -18,7 +18,6 @@ import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.SectionHeader
 import com.mmtran.turtlesoccer.models.Tournament
 import com.mmtran.turtlesoccer.utils.CommonUtil
-import com.mmtran.turtlesoccer.utils.TeamUtil
 
 class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?>) :
     RecyclerView.Adapter<CompTourResultsAdapter.ViewHolder>() {
@@ -109,8 +108,8 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
                 holder.semiFinalistsColumnLinearLayout.visibility = View.VISIBLE
                 holder.thirdPlaceColumnLinearLayout.visibility = View.GONE
                 holder.fourthPlaceColumnLinearLayout.visibility = View.GONE
-                TeamUtil.renderFlagCode(_context, tournament.finalStandings!!.semiFinalist1Team, holder.semiFinalist1FlagCodeBinding)
-                TeamUtil.renderFlagCode(_context, tournament.finalStandings!!.semiFinalist2Team, holder.semiFinalist2FlagCodeBinding)
+                CommonUtil.renderTeamFlagCode(_context, tournament.finalStandings!!.semiFinalist1Team, holder.semiFinalist1FlagCodeBinding)
+                CommonUtil.renderTeamFlagCode(_context, tournament.finalStandings!!.semiFinalist2Team, holder.semiFinalist2FlagCodeBinding)
             } else {
                 holder.semiFinalistsColumnLinearLayout.visibility = View.GONE
                 holder.thirdPlaceColumnLinearLayout.visibility = View.VISIBLE

@@ -1,5 +1,11 @@
 package com.mmtran.turtlesoccer.utils
 
+import android.app.Activity
+import android.os.Bundle
+import androidx.navigation.Navigation
+import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.activities.MainActivity
+import com.mmtran.turtlesoccer.adapters.EXTRA_COMPETITION
 import com.mmtran.turtlesoccer.models.*
 
 object CompetitionUtil {
@@ -44,5 +50,12 @@ object CompetitionUtil {
         if (competition!!.teamCount == null) return ""
 
         return competition.teamCount.toString()
+    }
+
+    fun browseToCompetition(context: Activity, competition: Competition?) {
+        val args = Bundle()
+        args.putSerializable(EXTRA_COMPETITION, competition)
+        val navController = Navigation.findNavController(context as MainActivity, R.id.nav_host_fragment_activity_main)
+        navController.navigate(R.id.navigation_competitions, args)
     }
 }

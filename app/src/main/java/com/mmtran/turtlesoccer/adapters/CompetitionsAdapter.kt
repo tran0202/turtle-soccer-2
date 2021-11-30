@@ -1,13 +1,11 @@
 package com.mmtran.turtlesoccer.adapters
 
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -19,6 +17,7 @@ import com.mmtran.turtlesoccer.models.Competition
 import com.mmtran.turtlesoccer.models.Tournament
 import com.mmtran.turtlesoccer.utils.CommonUtil
 import com.mmtran.turtlesoccer.utils.CompetitionUtil
+import com.mmtran.turtlesoccer.utils.TournamentUtil
 
 class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>) :
     RecyclerView.Adapter<CompetitionsAdapter.ViewHolder>(), CompTournamentsAdapter.ItemClickListener {
@@ -49,13 +48,13 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         val teamCount = CompetitionUtil.renderTeamCount(_competitionList[position]!!)
         CommonUtil.renderWrapLabelField(_context, teamCount, holder.competitionCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        CommonUtil.renderLabelTeamTitleCount(_context, _competitionList[position]!!.currentChampions, holder.currentChampionsFragmentLabelTeamTitleCountBinding,
+        CommonUtil.renderLabelChampion(_context, _competitionList[position]!!.currentChampions, holder.currentChampionsFragmentLabelChampionBinding,
             R.string.competition_current_champions_label)
 
-        CommonUtil.renderLabelTeamTitleCount(_context, _competitionList[position]!!.lastChampions, holder.lastChampionsFragmentLabelTeamTitleCountBinding,
+        CommonUtil.renderLabelChampion(_context, _competitionList[position]!!.lastChampions, holder.lastChampionsFragmentLabelChampionBinding,
             R.string.competition_last_champions_label)
 
-        CommonUtil.renderChampionList(_context, _competitionList[position]!!.mostSuccessfulTeams!!, holder.mostSuccessfulTeamFragmentLabelList2LinesBinding,
+        CommonUtil.renderChampionList(_context, _competitionList[position]!!.mostSuccessfulTeams!!, holder.mostSuccessfulTeamFragmentLabelChampionListBinding,
             R.string.competition_most_successful_team_label, R.string.competition_most_successful_teams_label)
 
         holder.descriptionTextView.text = if (_competitionList[position]!!.descriptions!!.isNotEmpty()) _competitionList[position]!!.descriptions!![0] else ""
@@ -70,10 +69,7 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
 
     override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
 
-        val args = Bundle()
-        args.putSerializable(EXTRA_TOURNAMENT, tournamentList[position]!!)
-        val navController = Navigation.findNavController(_context as MainActivity, R.id.nav_host_fragment_activity_main)
-        navController.navigate(R.id.navigation_tournaments, args)
+        TournamentUtil.browseToTournament(_context as MainActivity, tournamentList[position]!!)
     }
 
     override fun getItemCount(): Int {
@@ -87,9 +83,9 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
         var competitionTrophyImageView: ImageView = binding.competitionTrophy
         var competitionNameTextView: TextView = binding.competitionName
         var competitionCountFragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding = binding.competitionTeamCount
-        var currentChampionsFragmentLabelTeamTitleCountBinding: FragmentLabelTeamTitleCountBinding = binding.currentChampions
-        var lastChampionsFragmentLabelTeamTitleCountBinding: FragmentLabelTeamTitleCountBinding = binding.lastChampions
-        var mostSuccessfulTeamFragmentLabelList2LinesBinding: FragmentLabelList2LinesBinding = binding.mostSuccessfulTeams
+        var currentChampionsFragmentLabelChampionBinding: FragmentLabelChampionBinding = binding.currentChampions
+        var lastChampionsFragmentLabelChampionBinding: FragmentLabelChampionBinding = binding.lastChampions
+        var mostSuccessfulTeamFragmentLabelChampionListBinding: FragmentLabelChampionListBinding = binding.mostSuccessfulTeams
         var descriptionTextView: TextView = binding.description
         var compTournamentListRecyclerView: RecyclerView = binding.compTournamentList
 

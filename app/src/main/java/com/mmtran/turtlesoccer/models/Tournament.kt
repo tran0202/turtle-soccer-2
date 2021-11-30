@@ -449,6 +449,8 @@ class Tournament: Serializable {
     var compTourResultEvenRow: Boolean = false
     var thirdPlaceDetermined: ThirdPlaceDetermined = ThirdPlaceDetermined.HAS_THIRD_PLACE
     var competition: Competition? = Competition()
+    var previousTournament: Tournament? = null
+    var nextTournament: Tournament? = null
 
     constructor()
     constructor(id: String?, year: String?, name: String?, competitionId: String?, active: Boolean?,

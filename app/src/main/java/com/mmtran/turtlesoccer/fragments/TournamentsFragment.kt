@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -109,7 +108,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
         val compList = competitionList!!.filter { it!!.id == tournament!!.competitionId }
         tournament!!.competition = if (compList.isNotEmpty()) compList[0]!! else null
-        TournamentUtil.processTeams(tournament, nationList, teamList)
+        TournamentUtil.processTeams(tournament, tournamentList, nationList, teamList)
 
         tourViewPager = binding!!.tournamentViewPager
         tournamentPagerAdapter = TournamentPagerAdapter.newInstance(parentFragmentManager, lifecycle)
@@ -154,10 +153,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
 
-        val args = Bundle()
-        args.putSerializable(EXTRA_TOURNAMENT, tournamentList[position]!!)
-        val navController = Navigation.findNavController(context as MainActivity, R.id.nav_host_fragment_activity_main)
-        navController.navigate(R.id.navigation_tournaments, args)
+        TournamentUtil.browseToTournament(context as MainActivity, tournamentList[position]!!)
     }
 
     override fun onDestroyView() {

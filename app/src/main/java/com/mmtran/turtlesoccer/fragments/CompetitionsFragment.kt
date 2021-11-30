@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -160,10 +159,7 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
     override fun onItemClick(view: View?, competitionList: List<Competition?>, position: Int) {
 
-        val args = Bundle()
-        args.putSerializable(EXTRA_COMPETITION, competitionList[position]!!)
-        val navController = Navigation.findNavController(context as MainActivity, R.id.nav_host_fragment_activity_main)
-        navController.navigate(R.id.navigation_competitions, args)
+        CompetitionUtil.browseToCompetition(context as MainActivity, competitionList[position]!!)
     }
 
     private fun createRandomTournamentList(tourList: List<Tournament?>) : List<Tournament?> {

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.R
-import com.mmtran.turtlesoccer.databinding.FragmentLabelTeam2LinesBinding
+import com.mmtran.turtlesoccer.databinding.FragmentLabelTeam2Binding
 import com.mmtran.turtlesoccer.databinding.FragmentWrapLabelFieldBinding
 
 import com.mmtran.turtlesoccer.databinding.RowTournamentBinding
@@ -60,8 +60,8 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(_context, _tournamentList[position])
         CommonUtil.renderWrapLabelField(_context, totalPlusTransferTeamCount, holder.totalPlusTransferTeamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        CommonUtil.renderLabelTeam2Lines(_context, _tournamentList[position]!!.finalStandings!!.championTeam,
-            holder.championsFragmentLabelTeam2LinesBinding, R.string.champions_label)
+        CommonUtil.renderLabelTeam2(_context, _tournamentList[position]!!.finalStandings!!.championTeam,
+            holder.championsFragmentLabelTeam2Binding, R.string.champions_label)
     }
 
     override fun getItemCount(): Int {
@@ -80,7 +80,7 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         var teamCountFragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding = binding.teamCount
         var totalTeamCountFragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding = binding.totalTeamCount
         var totalPlusTransferTeamCountFragmentWrapLabelFieldBinding: FragmentWrapLabelFieldBinding = binding.totalPlusTransferTeamCount
-        var championsFragmentLabelTeam2LinesBinding: FragmentLabelTeam2LinesBinding = binding.champions
+        var championsFragmentLabelTeam2Binding: FragmentLabelTeam2Binding = binding.champions
 
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _tournamentList, absoluteAdapterPosition)

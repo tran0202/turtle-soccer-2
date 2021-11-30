@@ -30,15 +30,17 @@
     <string name="final_dates_label"><b>Final:</b></string>
     <string name="relegation_dates_label"><b>Relegation:</b></string>
     <string name="tournament_team_count_label"><b>Teams: </b></string>
-    <string name="team_count_with_confed">%1$s (%2$s)</string>
+    <string name="team_count_with_confeds">%1$s (%2$s confeds)</string>
+    <string name="team_count_with_one_confed">%1$s (%2$s confed)</string>
     <string name="competition_team_count_label"><b>Comp Teams: </b></string>
     <string name="final_team_count_label"><b>Final Teams: </b></string>
     <string name="total_team_count_label"><b>Total Teams: </b></string>
-    <string name="total_team_count_with_association">%1$s (%2$s)</string>
+    <string name="total_team_count_with_association">%1$s (%2$s associations)</string>
     <string name="total_plus_transfer_team_count">%1$s + %2$s</string>
-    <string name="total_plus_transfer_team_count_with_association">%1$s + %2$s (%3$s)</string>
+    <string name="total_plus_transfer_team_count_with_association">%1$s + %2$s (%3$s associations)</string>
     <string name="venue_count_label"><b>Venues: </b></string>
-    <string name="venue_count_with_cities">%1$s (%2$s)</string>
+    <string name="venue_count_with_cities">%1$s (%2$s cities)</string>
+    <string name="venue_count_with_one_city">%1$s (%2$s city)</string>
     <string name="final_venue_count_label"><b>Final Venues: </b></string>
     <string name="champions_label"><b>Champions: </b></string>
     <string name="runners_up_label"><b>Runners-up: </b></string>
@@ -95,7 +97,8 @@
 
     <string name="competition_current_champions_label"><b>Current Champions: </b></string>
     <string name="competition_last_champions_label"><b>Last Champions: </b></string>
-    <string name="competition_title_count">(%1$s)</string>
+    <string name="competition_titles">(%1$s titles)</string>
+    <string name="competition_one_title">(%1$s title)</string>
     <string name="competition_most_successful_team_label"><b>Most successful team: </b></string>
     <string name="competition_most_successful_teams_label"><b>Most successful teams: </b></string>
 </resources>

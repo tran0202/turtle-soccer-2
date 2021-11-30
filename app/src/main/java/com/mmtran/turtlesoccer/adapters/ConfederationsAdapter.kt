@@ -1,22 +1,20 @@
 package com.mmtran.turtlesoccer.adapters
 
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.activities.MainActivity
 
 import com.mmtran.turtlesoccer.models.Confederation
 import com.mmtran.turtlesoccer.databinding.RowConfederationBinding
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Competition
+import com.mmtran.turtlesoccer.utils.CompetitionUtil
 
 class ConfederationsAdapter(context: Context?, confederationList: List<Confederation?>) :
     RecyclerView.Adapter<ConfederationsAdapter.ViewHolder>(), ConfCompetitionsAdapter.ItemClickListener {
@@ -64,10 +62,7 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
 
     override fun onItemClick(view: View?, competitionList: List<Competition?>, position: Int) {
 
-        val args = Bundle()
-        args.putSerializable(EXTRA_COMPETITION, competitionList[position]!!)
-        val navController = Navigation.findNavController(_context as MainActivity, R.id.nav_host_fragment_activity_main)
-        navController.navigate(R.id.navigation_competitions, args)
+        CompetitionUtil.browseToCompetition(_context as MainActivity, competitionList[position]!!)
     }
 
     override fun getItemCount(): Int {

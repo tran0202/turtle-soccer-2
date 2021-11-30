@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.databinding.FragmentTeamFlagNameBinding
 import com.mmtran.turtlesoccer.databinding.RowTeamBinding
 import com.mmtran.turtlesoccer.models.Team
-import com.mmtran.turtlesoccer.utils.TeamUtil.renderFlagName
+import com.mmtran.turtlesoccer.utils.CommonUtil
 
 class TeamsAdapter(context: Context?, teamList: List<Team?>) :
     RecyclerView.Adapter<TeamsAdapter.ViewHolder>() {
@@ -28,7 +28,7 @@ class TeamsAdapter(context: Context?, teamList: List<Team?>) :
 
         if (_teamList[position] != null) {
             holder.teamLinearLayout.visibility = View.VISIBLE
-            renderFlagName(_context, holder.fragmentFlagNameBinding, _teamList[position])
+            CommonUtil.renderTeamFlagName(_context, _teamList[position], holder.fragmentFlagNameBinding)
         } else {
             holder.teamLinearLayout.visibility = View.GONE
         }

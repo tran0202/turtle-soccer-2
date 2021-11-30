@@ -24,19 +24,9 @@
 
         <include
             android:id="@+id/flag_name"
-            layout="@layout/fragment_team_flag_name"
+            layout="@layout/fragment_champion_flag_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="5dp" />
-
-        <TextView
-            android:id="@+id/title_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textSize="18sp" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

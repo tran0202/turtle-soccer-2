@@ -54,19 +54,19 @@
 
             <include
                 android:id="@+id/current_champions"
-                layout="@layout/fragment_label_team_title_count"
+                layout="@layout/fragment_label_champion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/last_champions"
-                layout="@layout/fragment_label_team_title_count"
+                layout="@layout/fragment_label_champion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/most_successful_teams"
-                layout="@layout/fragment_label_list_2_lines"
+                layout="@layout/fragment_label_champion_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

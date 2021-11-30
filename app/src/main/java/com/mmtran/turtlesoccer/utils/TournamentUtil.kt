@@ -1,7 +1,11 @@
 package com.mmtran.turtlesoccer.utils
 
+import android.app.Activity
 import android.content.Context
+import android.os.Bundle
+import androidx.navigation.Navigation
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.adapters.EXTRA_TOURNAMENT
 import com.mmtran.turtlesoccer.models.*
 import java.text.NumberFormat
 import java.time.LocalDate
@@ -34,13 +38,27 @@ object TournamentUtil {
         }
     }
 
-    fun processTeams(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    fun processTeams(tournament: Tournament?, tournamentList: List<Tournament?>?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (tournament == null) return
 
+        processPreviousNextTournaments(tournament, tournamentList)
         processHosts(tournament, nationList, teamList)
         processFinalStandings(tournament, nationList, teamList)
         processAwards(tournament, nationList, teamList)
+    }
+
+    private fun processPreviousNextTournaments(tournament: Tournament?, tournamentList: List<Tournament?>?) {
+
+        if (tournament == null) return
+
+        val tourList = tournamentList!!.filter { it!!.competitionId == tournament.competitionId }
+        if (tourList.isNotEmpty()) {
+            tourList.sortedBy { tour -> tour!!.details!!.startDate }
+            val index = tourList.indexOf(tournament)
+            tournament.previousTournament = if (index > 0) tourList[index - 1] else null
+            tournament.nextTournament = if (index < tourList.size - 1) tourList[index + 1] else null
+        }
     }
 
     private fun processHosts(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
@@ -108,6 +126,15 @@ object TournamentUtil {
             if (team6 != null) {
                 tournament.finalStandings!!.semiFinalist2Team = team6
             }
+        }
+    }
+
+    fun processFinalStandings(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (competition!!.tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+
+        for (tournament: Tournament? in competition.tournamentList!!) {
+            processFinalStandings(tournament, nationList, teamList)
         }
     }
 
@@ -199,15 +226,6 @@ object TournamentUtil {
         }
     }
 
-    fun processFinalStandings(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
-
-        if (competition!!.tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
-
-        for (tournament: Tournament? in competition.tournamentList!!) {
-            processFinalStandings(tournament, nationList, teamList)
-        }
-    }
-
     fun attachCompetition(tournamentList: List<Tournament?>?, competition: Competition?) {
 
         if (tournamentList.isNullOrEmpty()) return
@@ -274,12 +292,20 @@ object TournamentUtil {
 
         if (tournament!!.details!!.teamCount == null) return ""
 
-        return if (tournament.details!!.confedCount != null) {
-            context!!.getString(
-                R.string.team_count_with_confed,
-                tournament.details!!.teamCount.toString(),
-                tournament.details!!.confedCount.toString()
-            )
+        return if (tournament.details!!.confedCount != null && tournament.details!!.confedCount!! > 0) {
+            if (tournament.details!!.confedCount == 1) {
+                context!!.getString(
+                    R.string.team_count_with_one_confed,
+                    tournament.details!!.teamCount.toString(),
+                    tournament.details!!.confedCount.toString()
+                )
+            } else {
+                context!!.getString(
+                    R.string.team_count_with_confeds,
+                    tournament.details!!.teamCount.toString(),
+                    tournament.details!!.confedCount.toString()
+                )
+            }
         } else tournament.details!!.teamCount.toString()
     }
 
@@ -343,12 +369,20 @@ object TournamentUtil {
 
         if (tournament!!.details!!.venueCount == null) return ""
 
-        return if (tournament.details!!.cityCount != null) {
-            context!!.getString(
-                R.string.venue_count_with_cities,
-                tournament.details!!.venueCount.toString(),
-                tournament.details!!.cityCount.toString()
-            )
+        return if (tournament.details!!.cityCount != null && tournament.details!!.cityCount!! > 0) {
+            if (tournament.details!!.cityCount!! == 1) {
+                context!!.getString(
+                    R.string.venue_count_with_one_city,
+                    tournament.details!!.venueCount.toString(),
+                    tournament.details!!.cityCount.toString()
+                )
+            } else {
+                context!!.getString(
+                    R.string.venue_count_with_cities,
+                    tournament.details!!.venueCount.toString(),
+                    tournament.details!!.cityCount.toString()
+                )
+            }
         } else tournament.details!!.venueCount.toString()
     }
 
@@ -428,5 +462,13 @@ object TournamentUtil {
     private fun getAttendancePerMatch(attendance: Int?, matches: Int?) : String {
         val nf = NumberFormat.getInstance()
         return nf.format((attendance!!.toDouble() / matches!!).roundToInt())
+    }
+
+    fun browseToTournament(context: Activity, tournament: Tournament?) {
+
+        val args = Bundle()
+        args.putSerializable(EXTRA_TOURNAMENT, tournament)
+        val navController = Navigation.findNavController(context, R.id.nav_host_fragment_activity_main)
+        navController.navigate(R.id.navigation_tournaments, args)
     }
 }

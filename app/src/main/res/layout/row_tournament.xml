@@ -86,7 +86,7 @@
 
             <include
                 android:id="@+id/champions"
-                layout="@layout/fragment_label_team_2_lines"
+                layout="@layout/fragment_label_team2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
