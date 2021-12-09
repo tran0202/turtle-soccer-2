@@ -230,15 +230,15 @@ object CommonUtil {
 
     fun renderTeamList(context: Context?, teamList: List<Team?>?, binding: FragmentLabelTeamListBinding?, label: Int, pluralLabel: Int) {
 
-        if (teamList == null) {
-            binding!!.container.visibility = View.GONE
+        if (teamList == null || teamList.isEmpty()) {
+            binding!!.root.visibility = View.GONE
             return
         }
 
-        binding!!.container.visibility = View.VISIBLE
+        binding!!.root.visibility = View.VISIBLE
 
         if (teamList.isNotEmpty()) {
-            if (teamList.size == 1 || pluralLabel == 0) {
+            if (teamList.size == 1) {
                 binding.label.visibility = View.VISIBLE
                 binding.label.text = context!!.getString(label)
                 binding.pluralLabel.visibility = View.GONE
@@ -288,14 +288,14 @@ object CommonUtil {
         }
     }
 
-    fun renderPlayerList(context: Context?, playerList: List<Player?>?, binding: FragmentLabelTeamListBinding?, label: Int, pluralLabel: Int) {
+    fun renderPlayerList(context: Context?, playerList: List<Player?>?, binding: FragmentLabelPlayerListBinding?, label: Int, pluralLabel: Int) {
 
-        if (playerList == null) {
-            binding!!.container.visibility = View.GONE
+        if (playerList == null || playerList.isEmpty()) {
+            binding!!.root.visibility = View.GONE
             return
         }
 
-        binding!!.container.visibility = View.VISIBLE
+        binding!!.root.visibility = View.VISIBLE
 
         if (playerList.isNotEmpty()) {
             if (playerList.size == 1) {
@@ -318,12 +318,12 @@ object CommonUtil {
         }
     }
 
-    fun renderGoldenBall(context: Context?, playerList: List<Player?>?, goldenBallBinding: FragmentLabelPlayerBinding?,
+    fun renderGoldenBall(context: Context?, playerList: List<Player?>?, goldenBallLabel: Int, goldenBallBinding: FragmentLabelPlayerBinding?,
                          silverBallBinding: FragmentLabelPlayerBinding?, bronzeBallBinding: FragmentLabelPlayerBinding?) {
 
         if (playerList != null && playerList.isNotEmpty()) {
             goldenBallBinding!!.container.visibility = View.VISIBLE
-            renderPlayer(context, playerList[0], goldenBallBinding, R.string.golden_ball_label)
+            renderPlayer(context, playerList[0], goldenBallBinding, goldenBallLabel)
             if (playerList.size > 1) {
                 renderPlayer(context, playerList[1], silverBallBinding, R.string.silver_ball_label)
                 silverBallBinding!!.container.visibility = View.VISIBLE

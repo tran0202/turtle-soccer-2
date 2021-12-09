@@ -90,13 +90,15 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
             binding!!.next.visibility = View.GONE
         }
 
-//        if (tournament!!.heroImages != null && tournament!!.heroImages!!.isNotEmpty()) {
-//            firebaseStorageLoader!!.loadImage(
-//                activity,
-//                binding!!.heroImage,
-//                "tournaments/" + tournament!!.id + "/" + tournament!!.heroImages!![0]!!.filename
-//            )
-//        }
+        if (tournament!!.heroImages != null && tournament!!.heroImages!!.isNotEmpty()) {
+            firebaseStorageLoader!!.loadImage(
+                activity,
+                binding!!.heroImage,
+                "tournaments/" + tournament!!.id + "/" + tournament!!.heroImages!![0]!!.filename
+            )
+        }
+
+        CommonUtil.renderLabelField(context, tournament!!.originalName, binding!!.originalName, R.string.original_name_label)
 
         CommonUtil.renderTeamList(context, tournament!!.details!!.hostTeam!!, binding!!.host,
             R.string.host_label, R.string.hosts_label)
@@ -146,45 +148,41 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
         val finalVenueCount = TournamentUtil.renderFinalVenueCount(context, tournament)
         CommonUtil.renderLabelField(context, finalVenueCount, binding!!.finalVenues, R.string.final_venue_count_label)
 
-        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.championTeam, binding!!.champions, R.string.champions_label)
-
-        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.runnersUpTeam, binding!!.runnersUp, R.string.runners_up_label)
-
-        CommonUtil.renderTeamList(context, tournament!!.finalStandings!!.thirdPlaceTeam!!, binding!!.thirdPlace,
-            R.string.third_place_label,0)
-
+        val championsLabels = TournamentUtil.getChampionsLabel(tournament!!)
+        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.championTeam, binding!!.champions, championsLabels[0])
+        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.runnersUpTeam, binding!!.runnersUp, championsLabels[1])
+        CommonUtil.renderTeamList(context, tournament!!.finalStandings!!.thirdPlaceTeam!!, binding!!.thirdPlace, championsLabels[2], championsLabels[2])
         CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.fourthPlaceTeam, binding!!.fourthPlace, R.string.fourth_place_label)
 
         val matchesPlayed = if (tournament!!.statistics!!.totalMatches != null) tournament!!.statistics!!.totalMatches.toString() else ""
         CommonUtil.renderLabelField(context, matchesPlayed, binding!!.matchesPlayed, R.string.matches_played_label)
 
-        val finalMatchesPlayed = if (tournament!!.statistics!!.finalMatches != null) tournament!!.statistics!!.finalMatches.toString() else ""
-        CommonUtil.renderLabelField(context, finalMatchesPlayed, binding!!.finalMatchesPlayed, R.string.final_matches_played_label)
-
         val goalsScored = TournamentUtil.renderGoalsScored(context, tournament)
         CommonUtil.renderLabelField(context, goalsScored, binding!!.goalsScored, R.string.goals_scored_label)
-
-        val finalGoalsScored = TournamentUtil.renderFinalGoalsScored(context, tournament)
-        CommonUtil.renderLabelField(context, finalGoalsScored, binding!!.finalGoalsScored, R.string.final_goals_scored_label)
 
         val attendance = TournamentUtil.renderAttendance(context, tournament)
         CommonUtil.renderLabelField(context, attendance, binding!!.attendance, R.string.attendance_label)
 
+        val finalMatchesPlayed = if (tournament!!.statistics!!.finalMatches != null) tournament!!.statistics!!.finalMatches.toString() else ""
+        CommonUtil.renderLabelField(context, finalMatchesPlayed, binding!!.finalMatchesPlayed, R.string.final_matches_played_label)
+
+        val finalGoalsScored = TournamentUtil.renderFinalGoalsScored(context, tournament)
+        CommonUtil.renderLabelField(context, finalGoalsScored, binding!!.finalGoalsScored, R.string.final_goals_scored_label)
+
         val finalAttendance = TournamentUtil.renderFinalAttendance(context, tournament)
         CommonUtil.renderLabelField(context, finalAttendance, binding!!.finalAttendance, R.string.final_attendance_label)
 
-        CommonUtil.renderPlayerList(context, tournament!!.awards!!.goldenBoot!!, binding!!.goldenBoot,
-            R.string.golden_boot_label, R.string.golden_boots_label)
-        CommonUtil.renderPlayerList(context, tournament!!.awards!!.silverBoot!!, binding!!.silverBoot,
-            R.string.silver_boot_label, R.string.silver_boots_label)
-        CommonUtil.renderPlayerList(context, tournament!!.awards!!.bronzeBoot!!, binding!!.bronzeBoot,
-            R.string.bronze_boot_label, R.string.bronze_boots_label)
+        val topScorerLabels = TournamentUtil.getTopScorerLabels(tournament!!)
+        CommonUtil.renderPlayerList(context, tournament!!.awards!!.goldenBoot!!, binding!!.goldenBoot, topScorerLabels[0], topScorerLabels[1])
+        CommonUtil.renderPlayerList(context, tournament!!.awards!!.silverBoot!!, binding!!.silverBoot, topScorerLabels[2], topScorerLabels[3])
+        CommonUtil.renderPlayerList(context, tournament!!.awards!!.bronzeBoot!!, binding!!.bronzeBoot, topScorerLabels[4], topScorerLabels[5])
 
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.finalTopScorer!!, binding!!.finalTopScorer,
             R.string.final_top_scorer_label, R.string.final_top_scorers_label)
         CommonUtil.renderPlayerDivider(tournament!!.awards!!.finalTopScorer!!, binding!!.finalTopScorerDivider)
 
-        CommonUtil.renderGoldenBall(context, tournament!!.awards!!.goldenBall!!, binding!!.goldenBall, binding!!.silverBall, binding!!.bronzeBall)
+        CommonUtil.renderGoldenBall(context, tournament!!.awards!!.goldenBall!!, TournamentUtil.getGoldenBallLabel(tournament!!),
+            binding!!.goldenBall, binding!!.silverBall, binding!!.bronzeBall)
         CommonUtil.renderPlayerDivider(tournament!!.awards!!.goldenBall!!, binding!!.goldenBallDivider)
 
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.finalBestPlayer!!, binding!!.finalBestPlayer,
@@ -199,8 +197,9 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
             R.string.final_best_young_player_label, R.string.final_best_young_players_label)
         CommonUtil.renderPlayerDivider(tournament!!.awards!!.finalBestYoungPlayer!!, binding!!.finalBestYoungPlayerDivider)
 
+        val goldenGloveLabels = TournamentUtil.getGoldenGloveLabel(tournament!!)
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.goldenGlove!!, binding!!.goldenGlove,
-            R.string.golden_glove_label, R.string.golden_gloves_label)
+            goldenGloveLabels[0], goldenGloveLabels[1])
         CommonUtil.renderPlayerDivider(tournament!!.awards!!.goldenGlove!!, binding!!.goldenGloveDivider)
 
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.bestForward!!, binding!!.bestForward,
@@ -216,7 +215,7 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
         CommonUtil.renderPlayerDivider(tournament!!.awards!!.bestDefender!!, binding!!.bestDefenderDivider)
 
         CommonUtil.renderTeamList(context, tournament!!.awards!!.fairPlayTeam!!, binding!!.fairPlay,
-            R.string.fair_play_label, 0)
+            R.string.fair_play_label, R.string.fair_play_label)
     }
 
     override fun onDestroyView() {

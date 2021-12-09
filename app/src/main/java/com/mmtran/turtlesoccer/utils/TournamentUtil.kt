@@ -471,4 +471,92 @@ object TournamentUtil {
         val navController = Navigation.findNavController(context, R.id.nav_host_fragment_activity_main)
         navController.navigate(R.id.navigation_tournaments, args)
     }
+
+    fun getChampionsLabel(tournament: Tournament?): Array<Int> {
+
+        if (tournament == null || tournament.competitionId.isNullOrEmpty()) return arrayOf(0, 0, 0)
+
+        val championsLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.gold_medal_label else R.string.champions_label
+        val runnersUpLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.silver_medal_label else R.string.runners_up_label
+        val thirdPlaceLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.bronze_medal_label else R.string.third_place_label
+        return arrayOf(championsLabel, runnersUpLabel, thirdPlaceLabel)
+    }
+
+    fun getTopScorerLabels(tournament: Tournament?): Array<Int> {
+
+        if (tournament == null || tournament.competitionId.isNullOrEmpty() || tournament.year.isNullOrEmpty()) return arrayOf(0, 0, 0, 0, 0, 0)
+
+        val goldenBootLabel: Int = when (tournament.competitionId) {
+            "WC" -> when {
+                tournament.year!! <= "1978" -> R.string.top_scorer_label
+                tournament.year!! <= "2006" -> R.string.golden_shoe_label
+                else -> R.string.golden_boot_label
+            }
+            "AFCON", "COPA", "MOFT", "UCL", "UEL", "WOFT" -> R.string.top_scorer_label
+            else -> R.string.golden_boot_label
+        }
+        val goldenBootsLabel: Int = when (tournament.competitionId) {
+            "WC" -> when {
+                tournament.year!! <= "1978" -> R.string.top_scorers_label
+                tournament.year!! <= "2006" -> R.string.golden_shoes_label
+                else -> R.string.golden_boots_label
+            }
+            "AFCON", "COPA", "MOFT", "UCL", "UEL", "WOFT" -> R.string.top_scorers_label
+            else -> R.string.golden_boots_label
+        }
+        val silverBootLabel: Int = when (tournament.competitionId) {
+            "WC" -> when {
+                tournament.year!! <= "1978" -> R.string.runner_up_label
+                tournament.year!! <= "2006" -> R.string.silver_shoe_label
+                else -> R.string.silver_boot_label
+            }
+            else -> R.string.silver_boot_label
+        }
+        val silverBootsLabel: Int = when (tournament.competitionId) {
+            "WC" -> when {
+                tournament.year!! <= "1978" -> R.string.runners_up_label
+                tournament.year!! <= "2006" -> R.string.silver_shoes_label
+                else -> R.string.silver_boots_label
+            }
+            else -> R.string.silver_boots_label
+        }
+        val bronzeBootLabel: Int = when (tournament.competitionId) {
+            "WC" -> when {
+                tournament.year!! <= "1978" -> R.string.third_place_label
+                tournament.year!! <= "2006" -> R.string.bronze_shoe_label
+                else -> R.string.bronze_boot_label
+            }
+            else -> R.string.bronze_boot_label
+        }
+        val bronzeBootsLabel: Int = when (tournament.competitionId) {
+            "WC" -> when {
+                tournament.year!! <= "1978" -> R.string.third_place_label
+                tournament.year!! <= "2006" -> R.string.bronze_shoes_label
+                else -> R.string.bronze_boots_label
+            }
+            else -> R.string.bronze_boots_label
+        }
+        return arrayOf(goldenBootLabel, goldenBootsLabel, silverBootLabel, silverBootsLabel, bronzeBootLabel, bronzeBootsLabel)
+    }
+
+    fun getGoldenBallLabel(tournament: Tournament?): Int {
+
+        if (tournament == null || tournament.competitionId.isNullOrEmpty()) return 0
+
+        return when (tournament.competitionId) {
+            "EURO" -> R.string.player_tournament_label
+            "AFCON" -> R.string.man_competition_label
+            "COPA", "UEL" -> R.string.best_player_label
+            else -> R.string.golden_ball_label
+        }
+    }
+
+    fun getGoldenGloveLabel(tournament: Tournament?): Array<Int> {
+
+        if (tournament == null || tournament.competitionId.isNullOrEmpty()) return arrayOf(0, 0)
+
+        val goldenGloveLabel: Int = if (tournament.competitionId == "AFCON" || tournament.competitionId == "COPA" || tournament.competitionId == "UCL") R.string.best_goalkeeper_label else R.string.golden_glove_label
+        val goldenGlovesLabel: Int = if (tournament.competitionId == "AFCON" || tournament.competitionId == "COPA" || tournament.competitionId == "UCL") R.string.best_goalkeepers_label else R.string.golden_gloves_label
+        return arrayOf(goldenGloveLabel, goldenGlovesLabel)
+    }
 }
