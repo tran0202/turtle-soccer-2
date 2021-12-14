@@ -60,7 +60,7 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(_context, _tournamentList[position])
         CommonUtil.renderWrapLabelField(_context, totalPlusTransferTeamCount, holder.totalPlusTransferTeamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        CommonUtil.renderLabelTeam2(_context, _tournamentList[position]!!.finalStandings!!.championTeam,
+        CommonUtil.renderLabelTeam2(_context, TournamentUtil.getChampionsTeam(_tournamentList[position]!!),
             holder.championsFragmentLabelTeam2Binding, R.string.champions_label)
     }
 

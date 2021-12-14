@@ -115,6 +115,11 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
                 holder.thirdPlaceColumnLinearLayout.visibility = View.VISIBLE
                 holder.fourthPlaceColumnLinearLayout.visibility = View.VISIBLE
             }
+        } else {
+            holder.championsFlagCodeCellBinding.cell.visibility = View.GONE
+            holder.runnersUpFlagCodeCellBinding.cell.visibility = View.GONE
+            holder.fourthPlaceFlagCodeCellBinding.cell.visibility = View.GONE
+            holder.semiFinalistsColumnLinearLayout.visibility = View.GONE
         }
     }
 

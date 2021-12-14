@@ -86,8 +86,7 @@ class FirestoreLoader {
 
     fun getCompetitions(competitionsViewModel: CompetitionListViewModel) {
 
-        val query: Query = db.collection("competition")
-            .whereNotEqualTo("order", -1)
+        val query: Query = db.collection("competition").whereGreaterThan("order", 0)
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result!!) {

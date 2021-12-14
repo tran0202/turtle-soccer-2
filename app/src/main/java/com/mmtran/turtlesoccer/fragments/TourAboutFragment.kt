@@ -149,13 +149,19 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
         CommonUtil.renderLabelField(context, finalVenueCount, binding!!.finalVenues, R.string.final_venue_count_label)
 
         val championsLabels = TournamentUtil.getChampionsLabel(tournament!!)
-        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.championTeam, binding!!.champions, championsLabels[0])
-        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.runnersUpTeam, binding!!.runnersUp, championsLabels[1])
-        CommonUtil.renderTeamList(context, tournament!!.finalStandings!!.thirdPlaceTeam!!, binding!!.thirdPlace, championsLabels[2], championsLabels[2])
-        CommonUtil.renderLabelTeam(context, tournament!!.finalStandings!!.fourthPlaceTeam, binding!!.fourthPlace, R.string.fourth_place_label)
+        CommonUtil.renderLabelTeam(context, TournamentUtil.getChampionsTeam(tournament), binding!!.champions, championsLabels[0])
+        CommonUtil.renderLabelTeam(context, TournamentUtil.getRunnersUpTeam(tournament), binding!!.runnersUp, championsLabels[1])
+        CommonUtil.renderTeamList(context, TournamentUtil.getThirdPlaceTeam(tournament), binding!!.thirdPlace, championsLabels[2], championsLabels[2])
+        CommonUtil.renderLabelTeam(context, TournamentUtil.getFourthPlaceTeam(tournament), binding!!.fourthPlace, R.string.fourth_place_label)
+        if (TournamentUtil.getChampionsTeam(tournament) == null) {
+            binding!!.fourthPlaceDivider.visibility = View.GONE
+        }
 
-        val matchesPlayed = if (tournament!!.statistics!!.totalMatches != null) tournament!!.statistics!!.totalMatches.toString() else ""
+        val matchesPlayed = if (tournament!!.statistics!!.totalMatches != null && tournament!!.statistics!!.totalMatches!! > 0) tournament!!.statistics!!.totalMatches.toString() else ""
         CommonUtil.renderLabelField(context, matchesPlayed, binding!!.matchesPlayed, R.string.matches_played_label)
+        if (matchesPlayed == "") {
+            binding!!.finalAttendanceDivider.visibility = View.GONE
+        }
 
         val goalsScored = TournamentUtil.renderGoalsScored(context, tournament)
         CommonUtil.renderLabelField(context, goalsScored, binding!!.goalsScored, R.string.goals_scored_label)

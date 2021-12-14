@@ -482,6 +482,22 @@ object TournamentUtil {
         return arrayOf(championsLabel, runnersUpLabel, thirdPlaceLabel)
     }
 
+    fun getChampionsTeam(tournament: Tournament?): Team? {
+        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.championTeam else null
+    }
+
+    fun getRunnersUpTeam(tournament: Tournament?): Team? {
+        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.runnersUpTeam else null
+    }
+
+    fun getThirdPlaceTeam(tournament: Tournament?): List<Team?>? {
+        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.thirdPlaceTeam else null
+    }
+
+    fun getFourthPlaceTeam(tournament: Tournament?): Team? {
+        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.fourthPlaceTeam else null
+    }
+
     fun getTopScorerLabels(tournament: Tournament?): Array<Int> {
 
         if (tournament == null || tournament.competitionId.isNullOrEmpty() || tournament.year.isNullOrEmpty()) return arrayOf(0, 0, 0, 0, 0, 0)
@@ -492,7 +508,7 @@ object TournamentUtil {
                 tournament.year!! <= "2006" -> R.string.golden_shoe_label
                 else -> R.string.golden_boot_label
             }
-            "AFCON", "COPA", "MOFT", "UCL", "UEL", "WOFT" -> R.string.top_scorer_label
+            "AFCON", "COPA", "MOFT", "UCL", "UEL", "UECL", "WOFT" -> R.string.top_scorer_label
             else -> R.string.golden_boot_label
         }
         val goldenBootsLabel: Int = when (tournament.competitionId) {
@@ -501,7 +517,7 @@ object TournamentUtil {
                 tournament.year!! <= "2006" -> R.string.golden_shoes_label
                 else -> R.string.golden_boots_label
             }
-            "AFCON", "COPA", "MOFT", "UCL", "UEL", "WOFT" -> R.string.top_scorers_label
+            "AFCON", "COPA", "MOFT", "UCL", "UEL", "UECL", "WOFT" -> R.string.top_scorers_label
             else -> R.string.golden_boots_label
         }
         val silverBootLabel: Int = when (tournament.competitionId) {

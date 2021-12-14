@@ -267,7 +267,7 @@ object CommonUtil {
 
         binding!!.container.visibility = View.VISIBLE
 
-        if (championList.isNotEmpty()) {
+        if (championList.isNotEmpty() && championList[0] !== null && championList[0]!!.team !== null && championList[0]!!.team!!.isValid()) {
             if (championList.size == 1) {
                 binding.label.visibility = View.VISIBLE
                 binding.label.text = context!!.getString(label)
