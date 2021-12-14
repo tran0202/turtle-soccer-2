@@ -76,7 +76,7 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
             CompetitionUtil.browseToCompetition(context as MainActivity, tournament!!.competition)
         })
 
-        if (tournament!!.nextTournament != null && tournament!!.nextTournament!!.year!!.isNotEmpty()) {
+        if (tournament!!.nextTournament != null && !tournament!!.nextTournament!!.year.isNullOrEmpty()) {
             binding!!.next.visibility = View.VISIBLE
             binding!!.nextTournament.text = tournament!!.nextTournament!!.year
             binding!!.nextTournament.setOnClickListener(View.OnClickListener {
@@ -182,6 +182,9 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.goldenBoot!!, binding!!.goldenBoot, topScorerLabels[0], topScorerLabels[1])
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.silverBoot!!, binding!!.silverBoot, topScorerLabels[2], topScorerLabels[3])
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.bronzeBoot!!, binding!!.bronzeBoot, topScorerLabels[4], topScorerLabels[5])
+        if (tournament!!.awards!!.goldenBoot!!.isEmpty()) {
+            binding!!.bronzeBootDivider.visibility = View.GONE
+        }
 
         CommonUtil.renderPlayerList(context, tournament!!.awards!!.finalTopScorer!!, binding!!.finalTopScorer,
             R.string.final_top_scorer_label, R.string.final_top_scorers_label)

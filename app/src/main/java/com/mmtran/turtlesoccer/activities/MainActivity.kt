@@ -25,20 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration.Builder(
-            R.id.navigation_home, R.id.navigation_tournaments, R.id.navigation_competitions, R.id.navigation_confederations, R.id.navigation_nations
-        )
-            .build()
-
-        val navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main)
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-        NavigationUI.setupWithNavController(binding!!.mainNavView, navController)
-
         val dataLoader = FirestoreLoader()
 
         nationListViewModel = ViewModelProvider(this).get(modelClass = NationListViewModel::class.java)
@@ -55,5 +41,19 @@ class MainActivity : AppCompatActivity() {
 
         tournamentListViewModel = ViewModelProvider(this).get(modelClass = TournamentListViewModel::class.java)
         dataLoader.getTournaments(tournamentListViewModel!!)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding!!.root)
+
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration.Builder(
+            R.id.navigation_home, R.id.navigation_tournaments, R.id.navigation_competitions, R.id.navigation_confederations, R.id.navigation_nations
+        )
+            .build()
+
+        val navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main)
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        NavigationUI.setupWithNavController(binding!!.mainNavView, navController)
     }
 }

@@ -129,7 +129,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
         if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         for (competition: Competition? in competitionList!!) {
-            val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
+            val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id && !it.active!! }
             if (tourList.isNotEmpty()) {
                 tourList.sortedBy { tournament -> tournament!!.details!!.startDate }
                 val tournament = tourList[tourList.size - 1]

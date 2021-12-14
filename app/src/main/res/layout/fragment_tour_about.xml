@@ -337,6 +337,7 @@
                 android:layout_height="wrap_content" />
 
             <View
+                android:id="@+id/bronze_boot_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
