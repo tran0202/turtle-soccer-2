@@ -52,9 +52,9 @@ object TournamentUtil {
 
         if (tournament == null) return
 
-        val tourList = tournamentList!!.filter { it!!.competitionId == tournament.competitionId }
+        var tourList = tournamentList!!.filter { it!!.competitionId == tournament.competitionId }
         if (tourList.isNotEmpty()) {
-            tourList.sortedBy { tour -> tour!!.details!!.startDate }
+            tourList = tourList.sortedBy { tour -> tour!!.details!!.startDate }
             val index = tourList.indexOf(tournament)
             tournament.previousTournament = if (index > 0) tourList[index - 1] else null
             tournament.nextTournament = if (index < tourList.size - 1) tourList[index + 1] else null
@@ -224,6 +224,20 @@ object TournamentUtil {
                 player.club2T = team
             }
         }
+    }
+
+    fun attachCampaigns(tournament: Tournament?, campaignList: List<Campaign?>?) {
+
+        if (campaignList.isNullOrEmpty()) return
+
+        var cList: List<Campaign?>? = emptyList()
+        for (campaign: Campaign? in campaignList) {
+            if (campaign!!.tournamentId == tournament!!.id) {
+                cList = cList!!.plus(campaign)
+            }
+        }
+        cList = cList!!.sortedBy { campaign -> campaign!!.order }
+        tournament!!.campaigns = cList
     }
 
     fun attachCompetition(tournamentList: List<Tournament?>?, competition: Competition?) {

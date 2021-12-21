@@ -445,6 +445,8 @@ class Tournament: Serializable {
     @PropertyName("time_stamp")
     var timeStamp: String? = null
 
+    var campaigns: List<Campaign?>? = emptyList()
+
     var compTourResultSectionHeader: SectionHeader = SectionHeader.NOT_HEADER
     var compTourResultEvenRow: Boolean = false
     var thirdPlaceDetermined: ThirdPlaceDetermined = ThirdPlaceDetermined.HAS_THIRD_PLACE

@@ -31,6 +31,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
     private var teamList: List<Team?>? = emptyList()
     private var tournamentList: List<Tournament?>? = emptyList()
     private var competitionList: List<Competition?>? = emptyList()
+    private var campaignList: List<Campaign?>? = emptyList()
 
     private var binding: FragmentTournamentsBinding? = null
     private var tournament: Tournament? = null
@@ -86,6 +87,12 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
                 competitionList = competitionList_
                 tournamentsObserver()
             })
+        (activity as MainActivity).campaignListViewModel!!.campaignList.observe(
+            viewLifecycleOwner,
+            { campaignList_: List<Campaign?>? ->
+                campaignList = campaignList_
+                tournamentsObserver()
+            })
     }
 
     private fun tournamentsObserver() {
@@ -104,11 +111,12 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun renderTournament() {
 
-        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         val compList = competitionList!!.filter { it!!.id == tournament!!.competitionId }
         tournament!!.competition = if (compList.isNotEmpty()) compList[0]!! else null
         TournamentUtil.processTeams(tournament, tournamentList, nationList, teamList)
+        TournamentUtil.attachCampaigns(tournament, campaignList)
 
         tourViewPager = binding!!.tournamentViewPager
         tournamentPagerAdapter = TournamentPagerAdapter.newInstance(parentFragmentManager, lifecycle)
@@ -129,9 +137,9 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
         if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         for (competition: Competition? in competitionList!!) {
-            val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id && !it.active!! }
+            var tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id && !it.active!! }
             if (tourList.isNotEmpty()) {
-                tourList.sortedBy { tournament -> tournament!!.details!!.startDate }
+                tourList = tourList.sortedBy { tournament -> tournament!!.details!!.startDate }
                 val tournament = tourList[tourList.size - 1]
                 tournament!!.competition = competition
                 TournamentUtil.processFinalStandings(tournament, nationList, teamList)

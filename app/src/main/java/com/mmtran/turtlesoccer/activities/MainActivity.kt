@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     var confederationListViewModel: ConfederationListViewModel? = null
     var competitionListViewModel: CompetitionListViewModel? = null
     var tournamentListViewModel: TournamentListViewModel? = null
+    var campaignListViewModel: CampaignListViewModel? = null
 
     private var binding: ActivityMainBinding? = null
 
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         tournamentListViewModel = ViewModelProvider(this).get(modelClass = TournamentListViewModel::class.java)
         dataLoader.getTournaments(tournamentListViewModel!!)
+
+        campaignListViewModel = ViewModelProvider(this).get(modelClass = CampaignListViewModel::class.java)
+        dataLoader.getCampaigns(campaignListViewModel!!)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)

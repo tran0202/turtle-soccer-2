@@ -13,6 +13,7 @@ class FirestoreLoader {
     private val confederationList: MutableList<Confederation> = ArrayList()
     private val competitionList: MutableList<Competition> = ArrayList()
     private val tournamentList: MutableList<Tournament> = ArrayList()
+    private val campaignList: MutableList<Campaign> = ArrayList()
     private val nationList: MutableList<Nation> = ArrayList()
     private val teamList: MutableList<Team> = ArrayList()
 
@@ -118,6 +119,26 @@ class FirestoreLoader {
 //                    Log.d(TAG, document.id + " => " + document.data)
                 }
                 tournamentListViewModel.setTournamentList(tournamentList)
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.exception)
+            }
+        }
+    }
+
+    fun getCampaigns(campaignListViewModel: CampaignListViewModel) {
+
+        val query: Query = db.collection("campaign")
+        query.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result!!) {
+                    val campaign = document.toObject(
+                        Campaign::class.java
+                    )
+                    campaign.id = document.id
+                    campaignList.add(campaign)
+//                    Log.d(TAG, document.id + " => " + document.data)
+                }
+                campaignListViewModel.setCampaignList(campaignList)
             } else {
                 Log.d(TAG, "Error getting documents: ", task.exception)
             }
