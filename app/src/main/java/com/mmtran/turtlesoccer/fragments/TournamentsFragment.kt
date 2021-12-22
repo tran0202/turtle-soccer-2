@@ -36,8 +36,6 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
     private var binding: FragmentTournamentsBinding? = null
     private var tournament: Tournament? = null
     private var latestTournamentsList: List<Tournament?>? = emptyList()
-    private var tourViewPager: ViewPager2? = null
-    private var tournamentPagerAdapter: TournamentPagerAdapter? = null
     private var tournamentsAdapter: TournamentsAdapter? = null
 
     override fun onCreateView(
@@ -111,20 +109,21 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun renderTournament() {
 
-        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
+            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         val compList = competitionList!!.filter { it!!.id == tournament!!.competitionId }
         tournament!!.competition = if (compList.isNotEmpty()) compList[0]!! else null
         TournamentUtil.processTeams(tournament, tournamentList, nationList, teamList)
         TournamentUtil.attachCampaigns(tournament, campaignList)
 
-        tourViewPager = binding!!.tournamentViewPager
-        tournamentPagerAdapter = TournamentPagerAdapter.newInstance(parentFragmentManager, lifecycle)
-        tournamentPagerAdapter!!.setTournament(tournament!!)
-        tourViewPager!!.adapter = tournamentPagerAdapter
+        val tourViewPager: ViewPager2 = binding!!.tournamentViewPager
+        val tournamentPagerAdapter: TournamentPagerAdapter = TournamentPagerAdapter.newInstance(childFragmentManager, lifecycle)
+        tournamentPagerAdapter.setTournament(tournament!!)
+        tourViewPager.adapter = tournamentPagerAdapter
 
         TabLayoutMediator(
-            binding!!.tournamentTabLayout, tourViewPager!!
+            binding!!.tournamentTabLayout, tourViewPager
         ) { tab: TabLayout.Tab, position: Int ->
             tab.setText(
                 TAB_RES[position]
@@ -134,7 +133,8 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun renderTournamentList() {
 
-        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
+            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         for (competition: Competition? in competitionList!!) {
             var tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id && !it.active!! }

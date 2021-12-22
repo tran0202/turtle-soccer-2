@@ -1,8 +1,16 @@
 package com.mmtran.turtlesoccer.models
 
 import com.google.firebase.firestore.PropertyName
+import java.io.Serializable
 
-class Campaign {
+class Stage: Serializable {
+
+    var name: String? = null
+
+    constructor()
+}
+
+class Campaign: Serializable {
 
     var id: String? = null
     var name: String? = null
@@ -14,6 +22,7 @@ class Campaign {
 
     var description: String? = null
     var order: Int? = null
+    var stages: List<Stage?>? = emptyList()
 
     @get:PropertyName("time_stamp")
     @set:PropertyName("time_stamp")
