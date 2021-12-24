@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.activities.MainActivity
+import com.mmtran.turtlesoccer.adapters.EXTRA_CAMPAIGN
 import com.mmtran.turtlesoccer.adapters.EXTRA_TOURNAMENT
 import com.mmtran.turtlesoccer.adapters.TournamentPagerAdapter
 import com.mmtran.turtlesoccer.adapters.TournamentsAdapter
@@ -37,6 +38,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
     private var tournament: Tournament? = null
     private var latestTournamentsList: List<Tournament?>? = emptyList()
     private var tournamentsAdapter: TournamentsAdapter? = null
+    private var campaign: Campaign? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
     ): View {
 
         tournament = if (arguments != null) arguments!!.getSerializable(EXTRA_TOURNAMENT) as Tournament else null
+        campaign = if (arguments != null) arguments!!.getSerializable(EXTRA_CAMPAIGN) as Campaign else null
 
         binding = FragmentTournamentsBinding.inflate(inflater, container,false)
 
@@ -95,6 +98,9 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun tournamentsObserver() {
 
+        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
+            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+
         if (isRenderTournamentList()) {
             binding!!.tournamentList.visibility = View.VISIBLE
             renderTournamentList()
@@ -109,13 +115,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun renderTournament() {
 
-        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
-            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
-
-        val compList = competitionList!!.filter { it!!.id == tournament!!.competitionId }
-        tournament!!.competition = if (compList.isNotEmpty()) compList[0]!! else null
-        TournamentUtil.processTeams(tournament, tournamentList, nationList, teamList)
-        TournamentUtil.attachCampaigns(tournament, campaignList)
+        TournamentUtil.processTournament(tournament, tournamentList, campaignList, nationList, teamList, competitionList)
 
         val tourViewPager: ViewPager2 = binding!!.tournamentViewPager
         val tournamentPagerAdapter: TournamentPagerAdapter = TournamentPagerAdapter.newInstance(childFragmentManager, lifecycle)
@@ -133,16 +133,12 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun renderTournamentList() {
 
-        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
-            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
-
         for (competition: Competition? in competitionList!!) {
             var tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id && !it.active!! }
             if (tourList.isNotEmpty()) {
                 tourList = tourList.sortedBy { tournament -> tournament!!.details!!.startDate }
                 val tournament = tourList[tourList.size - 1]
-                tournament!!.competition = competition
-                TournamentUtil.processFinalStandings(tournament, nationList, teamList)
+                TournamentUtil.processTournament(tournament, tournamentList, campaignList, nationList, teamList, competitionList)
                 latestTournamentsList = latestTournamentsList?.plus(tournament)
             }
         }
@@ -161,7 +157,7 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
 
-        TournamentUtil.browseToTournament(context as MainActivity, tournamentList[position]!!)
+        TournamentUtil.browseToFinalTournament(context as MainActivity, tournamentList[position]!!)
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.navigation.Navigation
 import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.adapters.EXTRA_CAMPAIGN
 import com.mmtran.turtlesoccer.adapters.EXTRA_TOURNAMENT
 import com.mmtran.turtlesoccer.models.*
 import java.text.NumberFormat
@@ -14,38 +15,48 @@ import kotlin.math.roundToInt
 
 object TournamentUtil {
 
-    fun processTournament(tournamentList: List<Tournament?>?) {
+    fun processTournament(tournament: Tournament?, tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?,
+                          nationList: List<Nation?>?, teamList: List<Team?>?, competitionList: List<Competition?>?) {
 
-        if (tournamentList.isNullOrEmpty()) return
+        if (tournament == null || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
+            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || competitionList.isNullOrEmpty()) return
 
-        var previousTournament: Tournament? = tournamentList[0]
-
-        for (i in tournamentList.indices) {
-            if (tournamentList[i]!!.noThirdPlace != null) {
-                tournamentList[i]!!.thirdPlaceDetermined = ThirdPlaceDetermined.HAS_SEMI_FINALISTS
-            }
-            if (i == 0) {
-                tournamentList[i]!!.compTourResultSectionHeader = if (tournamentList[i]!!.thirdPlaceDetermined == ThirdPlaceDetermined.HAS_THIRD_PLACE)
-                    SectionHeader.THIRD_PLACE_HEADER else SectionHeader.SEMIFINALISTS_HEADER
-            } else {
-                if (tournamentList[i]!!.thirdPlaceDetermined != previousTournament!!.thirdPlaceDetermined || tournamentList[i]!!.era != null) {
-                    tournamentList[i]!!.compTourResultSectionHeader = if (tournamentList[i]!!.thirdPlaceDetermined == ThirdPlaceDetermined.HAS_THIRD_PLACE)
-                        SectionHeader.THIRD_PLACE_HEADER else SectionHeader.SEMIFINALISTS_HEADER
-                }
-                if (!previousTournament.compTourResultEvenRow) tournamentList[i]!!.compTourResultEvenRow = true
-            }
-            previousTournament = tournamentList[i]!!
-        }
-    }
-
-    fun processTeams(tournament: Tournament?, tournamentList: List<Tournament?>?, nationList: List<Nation?>?, teamList: List<Team?>?) {
-
-        if (tournament == null) return
-
+        attachCompetition(tournament, competitionList)
+        attachCampaigns(tournamentList, campaignList)
         processPreviousNextTournaments(tournament, tournamentList)
         processHosts(tournament, nationList, teamList)
         processFinalStandings(tournament, nationList, teamList)
         processAwards(tournament, nationList, teamList)
+    }
+
+    private fun attachCompetition(tournament: Tournament?, competitionList: List<Competition?>?) {
+
+        if (tournament == null || competitionList.isNullOrEmpty()) return
+
+        tournament.competition = competitionList!!.find { it!!.id.equals(tournament.competitionId) }
+    }
+
+    fun attachCampaigns(tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?) {
+
+        if (tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()) return
+
+        for (tournament: Tournament? in tournamentList) {
+            attachCampaigns(tournament, campaignList)
+        }
+    }
+
+    private fun attachCampaigns(tournament: Tournament?, campaignList: List<Campaign?>?) {
+
+        if (tournament == null || campaignList.isNullOrEmpty()) return
+
+        var cList: List<Campaign?>? = emptyList()
+        for (campaign: Campaign? in campaignList) {
+            if (campaign!!.tournamentId == tournament.id) {
+                cList = cList!!.plus(campaign)
+            }
+        }
+        cList = cList!!.sortedBy { campaign -> campaign!!.order }
+        tournament.campaigns = cList
     }
 
     private fun processPreviousNextTournaments(tournament: Tournament?, tournamentList: List<Tournament?>?) {
@@ -126,15 +137,6 @@ object TournamentUtil {
             if (team6 != null) {
                 tournament.finalStandings!!.semiFinalist2Team = team6
             }
-        }
-    }
-
-    fun processFinalStandings(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
-
-        if (competition!!.tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
-
-        for (tournament: Tournament? in competition.tournamentList!!) {
-            processFinalStandings(tournament, nationList, teamList)
         }
     }
 
@@ -223,29 +225,6 @@ object TournamentUtil {
             if (team != null) {
                 player.club2T = team
             }
-        }
-    }
-
-    fun attachCampaigns(tournament: Tournament?, campaignList: List<Campaign?>?) {
-
-        if (campaignList.isNullOrEmpty()) return
-
-        var cList: List<Campaign?>? = emptyList()
-        for (campaign: Campaign? in campaignList) {
-            if (campaign!!.tournamentId == tournament!!.id) {
-                cList = cList!!.plus(campaign)
-            }
-        }
-        cList = cList!!.sortedBy { campaign -> campaign!!.order }
-        tournament!!.campaigns = cList
-    }
-
-    fun attachCompetition(tournamentList: List<Tournament?>?, competition: Competition?) {
-
-        if (tournamentList.isNullOrEmpty()) return
-
-        for (tournament: Tournament? in tournamentList) {
-            tournament!!.competition = competition
         }
     }
 
@@ -478,10 +457,21 @@ object TournamentUtil {
         return nf.format((attendance!!.toDouble() / matches!!).roundToInt())
     }
 
-    fun browseToTournament(context: Activity, tournament: Tournament?) {
+    fun browseToFinalTournament(context: Activity, tournament: Tournament?) {
+
+        if (tournament == null) return
+        var finalCampaign: Campaign? = null
+        if (!tournament.campaigns.isNullOrEmpty()) {
+            finalCampaign = tournament.campaigns!!.find { it!!.id == tournament.id }
+        }
+        browseToCampaign(context, tournament, finalCampaign)
+    }
+
+    fun browseToCampaign(context: Activity, tournament: Tournament?, campaign: Campaign?) {
 
         val args = Bundle()
         args.putSerializable(EXTRA_TOURNAMENT, tournament)
+        args.putSerializable(EXTRA_CAMPAIGN, campaign)
         val navController = Navigation.findNavController(context, R.id.nav_host_fragment_activity_main)
         navController.navigate(R.id.navigation_tournaments, args)
     }

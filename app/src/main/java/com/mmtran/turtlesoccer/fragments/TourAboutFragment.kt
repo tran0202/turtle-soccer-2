@@ -57,11 +57,11 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
             binding!!.previous.visibility = View.VISIBLE
             binding!!.leftArrow.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
             binding!!.leftArrow.setOnClickListener(View.OnClickListener {
-                TournamentUtil.browseToTournament(context as MainActivity, tournament!!.previousTournament)
+                TournamentUtil.browseToFinalTournament(context as MainActivity, tournament!!.previousTournament)
             })
             binding!!.previousTournament.text = tournament!!.previousTournament!!.year
             binding!!.previousTournament.setOnClickListener(View.OnClickListener {
-                TournamentUtil.browseToTournament(context as MainActivity, tournament!!.previousTournament)
+                TournamentUtil.browseToFinalTournament(context as MainActivity, tournament!!.previousTournament)
             })
         } else {
             binding!!.previous.visibility = View.GONE
@@ -80,11 +80,11 @@ class TourAboutFragment(tour: Tournament?) : Fragment() {
             binding!!.next.visibility = View.VISIBLE
             binding!!.nextTournament.text = tournament!!.nextTournament!!.year
             binding!!.nextTournament.setOnClickListener(View.OnClickListener {
-                TournamentUtil.browseToTournament(context as MainActivity, tournament!!.nextTournament)
+                TournamentUtil.browseToFinalTournament(context as MainActivity, tournament!!.nextTournament)
             })
             binding!!.rightArrow.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
             binding!!.rightArrow.setOnClickListener(View.OnClickListener {
-                TournamentUtil.browseToTournament(context as MainActivity, tournament!!.nextTournament)
+                TournamentUtil.browseToFinalTournament(context as MainActivity, tournament!!.nextTournament)
             })
         } else {
             binding!!.next.visibility = View.GONE

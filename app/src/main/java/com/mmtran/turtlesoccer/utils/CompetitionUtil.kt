@@ -10,7 +10,26 @@ import com.mmtran.turtlesoccer.models.*
 
 object CompetitionUtil {
 
-    fun getMostSuccessfulTeams(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    fun processCompetition(competition: Competition?, tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?,
+                           nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (competition == null || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
+            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+
+        getChampion(competition, nationList, teamList)
+        getMostSuccessfulTeams(competition, nationList, teamList)
+
+        competition.tournamentList = tournamentList.filter { it!!.competitionId == competition.id }
+        attachCompetition(competition, competition.tournamentList)
+        TournamentUtil.attachCampaigns(competition.tournamentList!!, campaignList)
+
+        processFinalStandings(competition, nationList, teamList)
+
+        competition.tournamentList = competition.tournamentList!!.reversed()
+        processTournamentList(competition.tournamentList!!, campaignList)
+    }
+
+    private fun getMostSuccessfulTeams(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (competition!!.mostSuccessfulTeams.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
@@ -23,7 +42,7 @@ object CompetitionUtil {
         }
     }
 
-    fun getChampion(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    private fun getChampion(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
@@ -42,6 +61,48 @@ object CompetitionUtil {
             } else {
                 competition!!.lastChampions!!.team = team
             }
+        }
+    }
+
+    private fun attachCompetition(competition: Competition?, tournamentList: List<Tournament?>?) {
+
+        if (tournamentList.isNullOrEmpty()) return
+
+        for (tournament: Tournament? in tournamentList) {
+            tournament!!.competition = competition
+        }
+    }
+
+    private fun processFinalStandings(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (competition!!.tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+
+        for (tournament: Tournament? in competition.tournamentList!!) {
+            TournamentUtil.processFinalStandings(tournament, nationList, teamList)
+        }
+    }
+
+    private fun processTournamentList(tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?) {
+
+        if (tournamentList.isNullOrEmpty()) return
+
+        var previousTournament: Tournament? = tournamentList[0]
+
+        for (i in tournamentList.indices) {
+            if (tournamentList[i]!!.noThirdPlace != null) {
+                tournamentList[i]!!.thirdPlaceDetermined = ThirdPlaceDetermined.HAS_SEMI_FINALISTS
+            }
+            if (i == 0) {
+                tournamentList[i]!!.compTourResultSectionHeader = if (tournamentList[i]!!.thirdPlaceDetermined == ThirdPlaceDetermined.HAS_THIRD_PLACE)
+                    SectionHeader.THIRD_PLACE_HEADER else SectionHeader.SEMIFINALISTS_HEADER
+            } else {
+                if (tournamentList[i]!!.thirdPlaceDetermined != previousTournament!!.thirdPlaceDetermined || tournamentList[i]!!.era != null) {
+                    tournamentList[i]!!.compTourResultSectionHeader = if (tournamentList[i]!!.thirdPlaceDetermined == ThirdPlaceDetermined.HAS_THIRD_PLACE)
+                        SectionHeader.THIRD_PLACE_HEADER else SectionHeader.SEMIFINALISTS_HEADER
+                }
+                if (!previousTournament.compTourResultEvenRow) tournamentList[i]!!.compTourResultEvenRow = true
+            }
+            previousTournament = tournamentList[i]!!
         }
     }
 

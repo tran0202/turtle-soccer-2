@@ -28,6 +28,7 @@ class HomeFragment : Fragment(), TournamentsAdapter.ItemClickListener {
     private var teamList: List<Team?>? = emptyList()
     private var tournamentList: List<Tournament?>? = emptyList()
     private var competitionList: List<Competition?>? = emptyList()
+    private var campaignList: List<Campaign?>? = emptyList()
 
     private var binding: FragmentHomeBinding? = null
     private var firebaseStorageLoader: FirebaseStorageLoader? = null
@@ -84,6 +85,12 @@ class HomeFragment : Fragment(), TournamentsAdapter.ItemClickListener {
                 competitionList = competitionList_
                 tournamentsObserver()
             })
+        (activity as MainActivity).campaignListViewModel!!.campaignList.observe(
+            viewLifecycleOwner,
+            { campaignList_: List<Campaign?>? ->
+                campaignList = campaignList_
+                tournamentsObserver()
+            })
     }
 
     private fun tournamentsObserver() {
@@ -93,15 +100,15 @@ class HomeFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     private fun renderTournamentList() {
 
-        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+        if (competitionList.isNullOrEmpty() || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
+            || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         for (competition: Competition? in competitionList!!) {
             var tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id && it.active!! }
             if (tourList.isNotEmpty()) {
                 tourList = tourList.sortedBy { tournament -> tournament!!.details!!.startDate }
                 val tournament = tourList[0]
-                tournament!!.competition = competition
-                TournamentUtil.processFinalStandings(tournament, nationList, teamList)
+                TournamentUtil.processTournament(tournament, tournamentList, campaignList, nationList, teamList, competitionList)
                 currentTournamentsList = currentTournamentsList?.plus(tournament)
             }
         }
@@ -116,7 +123,7 @@ class HomeFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
     override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
 
-        TournamentUtil.browseToTournament(context as MainActivity, tournamentList[position]!!)
+        TournamentUtil.browseToFinalTournament(context as MainActivity, tournamentList[position]!!)
     }
 
     override fun onDestroyView() {

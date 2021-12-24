@@ -69,7 +69,7 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
 
     override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
 
-        TournamentUtil.browseToTournament(_context as MainActivity, tournamentList[position]!!)
+        TournamentUtil.browseToFinalTournament(_context as MainActivity, tournamentList[position]!!)
     }
 
     override fun getItemCount(): Int {

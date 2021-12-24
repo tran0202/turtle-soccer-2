@@ -52,7 +52,7 @@ class CompTourResultsFragment(comp: Competition?) : Fragment(), CompTourResultsA
 
     override fun onItemClick(view: View?, tournamentList: List<Tournament?>, position: Int) {
 
-        TournamentUtil.browseToTournament(context as MainActivity, tournamentList[position]!!)
+        TournamentUtil.browseToFinalTournament(context as MainActivity, tournamentList[position]!!)
     }
 
     override fun onDestroyView() {

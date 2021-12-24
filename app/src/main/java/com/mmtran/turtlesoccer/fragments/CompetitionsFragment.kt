@@ -33,6 +33,7 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
     private var teamList: List<Team?>? = emptyList()
     private var tournamentList: List<Tournament?>? = emptyList()
     private var competitionList: List<Competition?>? = emptyList()
+    private var campaignList: List<Campaign?>? = emptyList()
 
     private var binding: FragmentCompetitionsBinding? = null
     private var competition: Competition? = null
@@ -87,9 +88,18 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
                 competitionList = competitionList_
                 competitionsObserver()
             })
+        (activity as MainActivity).campaignListViewModel!!.campaignList.observe(
+            viewLifecycleOwner,
+            { campaignList_: List<Campaign?>? ->
+                campaignList = campaignList_
+                competitionsObserver()
+            })
     }
 
     private fun competitionsObserver() {
+
+        if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()
+            || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()) return
 
         if (isRenderCompetitionList()) {
             binding!!.competitionList.visibility = View.VISIBLE
@@ -104,19 +114,7 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
     private fun renderCompetition() {
 
-        if (nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
-
-        CompetitionUtil.getChampion(competition, nationList, teamList)
-        CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
-
-        tournamentList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
-        competition!!.tournamentList = tournamentList
-        TournamentUtil.attachCompetition(tournamentList, competition)
-
-        competition!!.tournamentList = competition!!.tournamentList!!.reversed()
-        TournamentUtil.processTournament(competition!!.tournamentList!!)
-
-        TournamentUtil.processFinalStandings(competition, nationList, teamList)
+        CompetitionUtil.processCompetition(competition, tournamentList, campaignList, nationList, teamList)
 
         compViewPager = binding!!.competitionViewPager
         competitionPagerAdapter = CompetitionPagerAdapter.newInstance(parentFragmentManager, lifecycle)
@@ -135,14 +133,9 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
 
     private fun renderCompetitionList() {
 
-        if (competitionList.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || tournamentList.isNullOrEmpty()) return
-
         for (competition: Competition? in competitionList!!) {
-            CompetitionUtil.getChampion(competition, nationList, teamList)
-            CompetitionUtil.getMostSuccessfulTeams(competition, nationList, teamList)
-            val tourList = tournamentList!!.filter { it!!.competitionId == competition!!.id }
-            TournamentUtil.attachCompetition(tourList, competition)
-            competition!!.tournamentList = createRandomTournamentList(tourList)
+            CompetitionUtil.processCompetition(competition, tournamentList, campaignList, nationList, teamList)
+            competition!!.tournamentList = createRandomTournamentList(competition.tournamentList!!)
         }
 
         val recyclerView: RecyclerView = binding!!.competitionList
@@ -163,6 +156,7 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
     }
 
     private fun createRandomTournamentList(tourList: List<Tournament?>) : List<Tournament?> {
+
         var result = emptyList<Tournament?>()
         var temp = tourList
         val len = tourList.size
