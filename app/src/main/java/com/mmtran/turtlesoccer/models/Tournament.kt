@@ -446,6 +446,7 @@ class Tournament: Serializable {
     var timeStamp: String? = null
 
     var campaigns: List<Campaign?>? = emptyList()
+    var currentCampaign: Campaign? = Campaign()
 
     var compTourResultSectionHeader: SectionHeader = SectionHeader.NOT_HEADER
     var compTourResultEvenRow: Boolean = false
@@ -464,5 +465,275 @@ class Tournament: Serializable {
         this.active = active
         this.goldenGoalRule = goldenGoalRule
         this.pointsForWin = pointsForWin
+    }
+
+    fun tournamentLogo(): String {
+        if (competition == null || details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+
+        return if (isQualifier()) {
+            competition!!.logoPath + "/" + currentCampaign!!.details!!.logoFilename
+        } else {
+            competition!!.logoPath + "/" + details!!.logoFilename
+        }
+    }
+
+    fun tournamentName(): String? {
+        if (currentCampaign == null) return ""
+        return if (isQualifier()) currentCampaign!!.name else name
+    }
+
+    fun tournamentOriginalName(): String? {
+        if (currentCampaign == null) return ""
+        return if (isQualifier()) "" else originalName
+    }
+
+    fun tournamentHost(): List<Team?>? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return emptyList()
+        return if (isQualifier()) currentCampaign!!.details!!.hostTeam else details!!.hostTeam
+    }
+
+    fun tournamentFinalHost(): List<Team?>? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return emptyList()
+        return if (isQualifier()) currentCampaign!!.details!!.finalHostTeam else details!!.finalHostTeam
+    }
+
+    fun tournamentStartDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.startDate else details!!.startDate
+    }
+
+    fun tournamentEndDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.endDate else details!!.endDate
+    }
+
+    fun tournamentStartQualifyingDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.startQualifyingDate else details!!.startQualifyingDate
+    }
+
+    fun tournamentEndQualifyingDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.endQualifyingDate else details!!.endQualifyingDate
+    }
+
+    fun tournamentStartCompetitionDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.startCompetitionDate else details!!.startCompetitionDate
+    }
+
+    fun tournamentEndCompetitionDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.endCompetitionDate else details!!.endCompetitionDate
+    }
+
+    fun tournamentStartLeagueDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.startLeagueDate else details!!.startLeagueDate
+    }
+
+    fun tournamentEndLeagueDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.endLeagueDate else details!!.endLeagueDate
+    }
+
+    fun tournamentStartFinalDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.startFinalDate else details!!.startFinalDate
+    }
+
+    fun tournamentEndFinalDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.endFinalDate else details!!.endFinalDate
+    }
+
+    fun tournamentStartRelegationDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.startRelegationDate else details!!.startRelegationDate
+    }
+
+    fun tournamentEndRelegationDate(): String? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return ""
+        return if (isQualifier()) currentCampaign!!.details!!.endRelegationDate else details!!.endRelegationDate
+    }
+
+    fun tournamentTeamCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.teamCount else details!!.teamCount
+    }
+
+    fun tournamentConfedCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.confedCount else details!!.confedCount
+    }
+
+    fun tournamentCompetitionTeamCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.competitionTeamCount else details!!.competitionTeamCount
+    }
+
+    fun tournamentTransferTeamCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.transferTeamCount else details!!.transferTeamCount
+    }
+
+    fun tournamentTotalTeamCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.totalTeamCount else details!!.totalTeamCount
+    }
+
+    fun tournamentTotalTransferTeamCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.totalTransferTeamCount else details!!.totalTransferTeamCount
+    }
+
+    fun tournamentNationCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.nationCount else details!!.nationCount
+    }
+
+    fun tournamentFinalTeamCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.finalTeamCount else details!!.finalTeamCount
+    }
+
+    fun tournamentVenueCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.venueCount else details!!.venueCount
+    }
+
+    fun tournamentCityCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.cityCount else details!!.cityCount
+    }
+
+    fun tournamentFinalVenueCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.finalVenueCount else details!!.finalVenueCount
+    }
+
+    fun tournamentFinalCityCount(): Int? {
+        if (details == null || currentCampaign == null || currentCampaign!!.details == null) return null
+        return if (isQualifier()) currentCampaign!!.details!!.finalCityCount else details!!.finalCityCount
+    }
+
+    fun tournamentTotalMatches(): Int? {
+        if (statistics == null || currentCampaign == null || currentCampaign!!.statistics == null) return null
+        return if (isQualifier()) currentCampaign!!.statistics!!.totalMatches else statistics!!.totalMatches
+    }
+
+    fun tournamentTotalGoals(): Int? {
+        if (statistics == null || currentCampaign == null || currentCampaign!!.statistics == null) return null
+        return if (isQualifier()) currentCampaign!!.statistics!!.totalGoals else statistics!!.totalGoals
+    }
+
+    fun tournamentAttendance(): Int? {
+        if (statistics == null || currentCampaign == null || currentCampaign!!.statistics == null) return null
+        return if (isQualifier()) currentCampaign!!.statistics!!.attendance else statistics!!.attendance
+    }
+
+    fun tournamentFinalMatches(): Int? {
+        if (statistics == null || currentCampaign == null || currentCampaign!!.statistics == null) return null
+        return if (isQualifier()) currentCampaign!!.statistics!!.finalMatches else statistics!!.finalMatches
+    }
+
+    fun tournamentFinalGoals(): Int? {
+        if (statistics == null || currentCampaign == null || currentCampaign!!.statistics == null) return null
+        return if (isQualifier()) currentCampaign!!.statistics!!.finalGoals else statistics!!.finalGoals
+    }
+
+    fun tournamentFinalAttendance(): Int? {
+        if (statistics == null || currentCampaign == null || currentCampaign!!.statistics == null) return null
+        return if (isQualifier()) currentCampaign!!.statistics!!.finalAttendance else statistics!!.finalAttendance
+    }
+
+    fun tournamentChampionsTeam(): Team? {
+        if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return null
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.championTeam else finalStandings!!.championTeam
+    }
+
+    fun tournamentRunnersUpTeam(): Team? {
+        if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return null
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.runnersUpTeam else finalStandings!!.runnersUpTeam
+    }
+
+    fun tournamentThirdPlaceTeam(): List<Team?>? {
+        if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return emptyList()
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.thirdPlaceTeam else finalStandings!!.thirdPlaceTeam
+    }
+
+    fun tournamentFourthPlaceTeam(): Team? {
+        if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return null
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.fourthPlaceTeam else finalStandings!!.fourthPlaceTeam
+    }
+
+    fun tournamentGoldenBoot(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.goldenBoot else awards!!.goldenBoot
+    }
+
+    fun tournamentSilverBoot(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.silverBoot else awards!!.silverBoot
+    }
+
+    fun tournamentBronzeBoot(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.bronzeBoot else awards!!.bronzeBoot
+    }
+
+    fun tournamentFinalTopScorer(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.finalTopScorer else awards!!.finalTopScorer
+    }
+
+    fun tournamentGoldenBall(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.goldenBall else awards!!.goldenBall
+    }
+
+    fun tournamentFinalBestPlayer(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.finalBestPlayer else awards!!.finalBestPlayer
+    }
+
+    fun tournamentBestYoungPlayer(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.bestYoungPlayer else awards!!.bestYoungPlayer
+    }
+
+    fun tournamentFinalBestYoungPlayer(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.finalBestYoungPlayer else awards!!.finalBestYoungPlayer
+    }
+
+    fun tournamentGoldenGlove(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.goldenGlove else awards!!.goldenGlove
+    }
+
+    fun tournamentBestForward(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.bestForward else awards!!.bestForward
+    }
+
+    fun tournamentMidfielder(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.bestMidfielder else awards!!.bestMidfielder
+    }
+
+    fun tournamentBestDefender(): List<Player?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return null
+        return if (isQualifier()) currentCampaign!!.awards!!.bestDefender else awards!!.bestDefender
+    }
+
+    fun tournamentFairPlayTeam(): List<Team?>? {
+        if (awards == null || currentCampaign == null || currentCampaign!!.awards == null) return emptyList()
+        return if (isQualifier()) currentCampaign!!.awards!!.fairPlayTeam else awards!!.fairPlayTeam
+    }
+
+    fun isQualifier(): Boolean {
+        if (currentCampaign == null || currentCampaign!!.id == null) return false
+        return id!! != currentCampaign!!.id
     }
 }

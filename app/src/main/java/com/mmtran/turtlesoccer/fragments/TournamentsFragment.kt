@@ -47,6 +47,9 @@ class TournamentsFragment : Fragment(), TournamentsAdapter.ItemClickListener {
 
         tournament = if (arguments != null) arguments!!.getSerializable(EXTRA_TOURNAMENT) as Tournament else null
         campaign = if (arguments != null) arguments!!.getSerializable(EXTRA_CAMPAIGN) as Campaign else null
+        if (tournament != null) {
+            tournament!!.currentCampaign = campaign
+        }
 
         binding = FragmentTournamentsBinding.inflate(inflater, container,false)
 

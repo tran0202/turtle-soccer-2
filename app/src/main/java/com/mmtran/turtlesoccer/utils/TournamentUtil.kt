@@ -41,11 +41,11 @@ object TournamentUtil {
         if (tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()) return
 
         for (tournament: Tournament? in tournamentList) {
-            attachCampaigns(tournament, campaignList)
+            processCampaigns(tournament, campaignList)
         }
     }
 
-    private fun attachCampaigns(tournament: Tournament?, campaignList: List<Campaign?>?) {
+    private fun processCampaigns(tournament: Tournament?, campaignList: List<Campaign?>?) {
 
         if (tournament == null || campaignList.isNullOrEmpty()) return
 
@@ -74,28 +74,37 @@ object TournamentUtil {
 
     private fun processHosts(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
-        if (tournament == null) return
+        if (tournament?.details == null || tournament.currentCampaign?.details == null || tournament.campaigns.isNullOrEmpty()) return
 
-        if (tournament.details != null) {
-            val hostList = tournament.details!!.host
-            val finalHostList = tournament.details!!.finalHost
-
-            tournament.details!!.hostTeam = emptyList()
-            for (hostId: String? in hostList!!) {
-                val team = TeamUtil.getTeam(hostId, nationList, teamList)
-                if (team != null) {
-                    tournament.details!!.hostTeam = tournament.details!!.hostTeam?.plus(team)
-                }
-            }
-            tournament.details!!.finalHostTeam = emptyList()
-            for (hostId: String? in finalHostList!!) {
-                val team = TeamUtil.getTeam(hostId, nationList, teamList)
-                if (team != null) {
-                    tournament.details!!.finalHostTeam = tournament.details!!.finalHostTeam?.plus(team)
-                }
+        processHosts(tournament.details, nationList, teamList)
+        for (campaign: Campaign? in tournament.campaigns!!) {
+            if (campaign != null) {
+                processHosts(campaign.details, nationList, teamList)
             }
         }
+    }
 
+    private fun processHosts(details: TournamentDetails?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (details == null) return
+
+        val hostList = details.host
+        val finalHostList = details.finalHost
+
+        details.hostTeam = emptyList()
+        for (hostId: String? in hostList!!) {
+            val team = TeamUtil.getTeam(hostId, nationList, teamList)
+            if (team != null) {
+                details.hostTeam = details.hostTeam?.plus(team)
+            }
+        }
+        details.finalHostTeam = emptyList()
+        for (hostId: String? in finalHostList!!) {
+            val team = TeamUtil.getTeam(hostId, nationList, teamList)
+            if (team != null) {
+                details.finalHostTeam = details.finalHostTeam?.plus(team)
+            }
+        }
     }
 
     fun processFinalStandings(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
@@ -142,64 +151,73 @@ object TournamentUtil {
 
     private fun processAwards(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
-        if (tournament == null) return
+        if (tournament == null || tournament.campaigns.isNullOrEmpty()) return
 
-        if (tournament.awards != null) {
-
-            for (player: Player? in tournament.awards!!.goldenBoot!!) {
-                processPlayer(player, nationList, teamList)
+        processAwards(tournament.awards, nationList, teamList)
+        for (campaign: Campaign? in tournament.campaigns!!) {
+            if (campaign != null) {
+                processAwards(campaign.awards, nationList, teamList)
             }
+        }
+    }
 
-            for (player: Player? in tournament.awards!!.silverBoot!!) {
-                processPlayer(player, nationList, teamList)
-            }
+    private fun processAwards(processingAward: Awards?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
-            for (player: Player? in tournament.awards!!.bronzeBoot!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        if (processingAward == null) return
 
-            for (player: Player? in tournament.awards!!.finalTopScorer!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.goldenBoot!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.goldenBall!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.silverBoot!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.finalBestPlayer!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.bronzeBoot!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.bestYoungPlayer!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.finalTopScorer!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.finalBestYoungPlayer!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.goldenBall!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.goldenGlove!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.finalBestPlayer!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.bestForward!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.bestYoungPlayer!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.bestMidfielder!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.finalBestYoungPlayer!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            for (player: Player? in tournament.awards!!.bestDefender!!) {
-                processPlayer(player, nationList, teamList)
-            }
+        for (player: Player? in processingAward.goldenGlove!!) {
+            processPlayer(player, nationList, teamList)
+        }
 
-            tournament.awards!!.fairPlayTeam = emptyList()
-            for (fairPlayId: String? in tournament.awards!!.fairPlay!!) {
-                val team = TeamUtil.getTeam(fairPlayId, nationList, teamList)
-                if (team != null) {
-                    tournament.awards!!.fairPlayTeam = tournament.awards!!.fairPlayTeam?.plus(team)
-                }
+        for (player: Player? in processingAward.bestForward!!) {
+            processPlayer(player, nationList, teamList)
+        }
+
+        for (player: Player? in processingAward.bestMidfielder!!) {
+            processPlayer(player, nationList, teamList)
+        }
+
+        for (player: Player? in processingAward.bestDefender!!) {
+            processPlayer(player, nationList, teamList)
+        }
+
+        processingAward.fairPlayTeam = emptyList()
+        for (fairPlayId: String? in processingAward.fairPlay!!) {
+            val team = TeamUtil.getTeam(fairPlayId, nationList, teamList)
+            if (team != null) {
+                processingAward.fairPlayTeam = processingAward.fairPlayTeam?.plus(team)
             }
         }
     }
@@ -229,43 +247,35 @@ object TournamentUtil {
     }
 
     fun renderDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startDate, tournament.details!!.endDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartDate(), tournament.tournamentEndDate())
     }
 
     fun renderQualifyingDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startQualifyingDate, tournament.details!!.endQualifyingDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartQualifyingDate(), tournament.tournamentEndQualifyingDate())
     }
 
     fun renderCompetitionDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startCompetitionDate, tournament.details!!.endCompetitionDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartCompetitionDate(), tournament.tournamentEndCompetitionDate())
     }
 
     fun renderQualifyingCompetitionDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startQualifyingDate, tournament.details!!.endCompetitionDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartQualifyingDate(), tournament.tournamentEndCompetitionDate())
     }
 
     fun renderLeagueDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startLeagueDate, tournament.details!!.endLeagueDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartLeagueDate(), tournament.tournamentEndLeagueDate())
     }
 
     fun renderFinalDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startFinalDate, tournament.details!!.endFinalDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartFinalDate(), tournament.tournamentEndFinalDate())
     }
 
     fun renderLeagueFinalDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startLeagueDate, tournament.details!!.endFinalDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartLeagueDate(), tournament.tournamentEndFinalDate())
     }
 
     fun renderRelegationDates(context: Context?, tournament: Tournament?): String {
-        if (tournament?.details == null) return ""
-        return renderStartEndDates(context, tournament.details!!.startRelegationDate, tournament.details!!.endRelegationDate)
+        return renderStartEndDates(context, tournament!!.tournamentStartRelegationDate(), tournament.tournamentEndRelegationDate())
     }
 
     private fun renderStartEndDates(context: Context?, startDate: String?, endDate: String?): String {
@@ -283,139 +293,139 @@ object TournamentUtil {
 
     fun renderTeamCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.teamCount == null) return ""
+        if (tournament!!.tournamentTeamCount() == null) return ""
 
-        return if (tournament.details!!.confedCount != null && tournament.details!!.confedCount!! > 0) {
-            if (tournament.details!!.confedCount == 1) {
+        return if (tournament.tournamentConfedCount() != null && tournament.tournamentConfedCount()!! > 0) {
+            if (tournament.tournamentConfedCount() == 1) {
                 context!!.getString(
                     R.string.team_count_with_one_confed,
-                    tournament.details!!.teamCount.toString(),
-                    tournament.details!!.confedCount.toString()
+                    tournament.tournamentTeamCount().toString(),
+                    tournament.tournamentConfedCount().toString()
                 )
             } else {
                 context!!.getString(
                     R.string.team_count_with_confeds,
-                    tournament.details!!.teamCount.toString(),
-                    tournament.details!!.confedCount.toString()
+                    tournament.tournamentTeamCount().toString(),
+                    tournament.tournamentConfedCount().toString()
                 )
             }
-        } else tournament.details!!.teamCount.toString()
+        } else tournament.tournamentTeamCount().toString()
     }
 
     fun renderCompetitionTeamCount(tournament: Tournament?): String {
 
-        if (tournament!!.details!!.competitionTeamCount == null) return ""
+        if (tournament!!.tournamentCompetitionTeamCount() == null) return ""
 
-        if (tournament.details!!.competitionTeamCount != null && tournament.details!!.transferTeamCount != null) return ""
+        if (tournament.tournamentCompetitionTeamCount() != null && tournament.tournamentTransferTeamCount() != null) return ""
 
-        return tournament.details!!.competitionTeamCount.toString()
+        return tournament.tournamentCompetitionTeamCount().toString()
     }
 
     fun renderCompetitionPlusTransferTeamCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.competitionTeamCount == null || tournament.details!!.transferTeamCount == null) return ""
+        if (tournament!!.tournamentCompetitionTeamCount() == null || tournament.tournamentTransferTeamCount() == null) return ""
 
-        return context!!.getString(R.string.total_plus_transfer_team_count, tournament.details!!.competitionTeamCount.toString(), tournament.details!!.transferTeamCount.toString())
+        return context!!.getString(R.string.total_plus_transfer_team_count, tournament.tournamentCompetitionTeamCount().toString(), tournament.tournamentTransferTeamCount().toString())
     }
 
     fun renderTotalTeamCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.totalTeamCount == null) return ""
+        if (tournament!!.tournamentTotalTeamCount() == null) return ""
 
-        if (tournament.details!!.totalTeamCount != null && tournament.details!!.totalTransferTeamCount != null) return ""
+        if (tournament.tournamentTotalTeamCount() != null && tournament.tournamentTotalTransferTeamCount() != null) return ""
 
-        return if (tournament.details!!.nationCount != null) {
+        return if (tournament.tournamentNationCount() != null) {
             context!!.getString(
                 R.string.total_team_count_with_association,
-                tournament.details!!.totalTeamCount.toString(),
-                tournament.details!!.nationCount.toString()
+                tournament.tournamentTotalTeamCount().toString(),
+                tournament.tournamentNationCount().toString()
             )
-        } else tournament.details!!.totalTeamCount.toString()
+        } else tournament.tournamentTotalTeamCount().toString()
     }
 
     fun renderTotalPlusTransferTeamCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.totalTeamCount == null || tournament.details!!.totalTransferTeamCount == null) return ""
+        if (tournament!!.tournamentTotalTeamCount() == null || tournament.tournamentTotalTransferTeamCount() == null) return ""
 
-        return if (tournament.details!!.nationCount != null) {
+        return if (tournament.tournamentNationCount() != null) {
             context!!.getString(
                 R.string.total_plus_transfer_team_count_with_association,
-                tournament.details!!.totalTeamCount.toString(),
-                tournament.details!!.totalTransferTeamCount.toString(),
-                tournament.details!!.nationCount.toString()
+                tournament.tournamentTotalTeamCount().toString(),
+                tournament.tournamentTotalTransferTeamCount().toString(),
+                tournament.tournamentNationCount().toString()
             )
         } else context!!.getString(
             R.string.total_plus_transfer_team_count,
-            tournament.details!!.totalTeamCount.toString(),
-            tournament.details!!.totalTransferTeamCount.toString()
+            tournament.tournamentTotalTeamCount().toString(),
+            tournament.tournamentTotalTransferTeamCount().toString()
         )
     }
 
     fun renderFinalTeamCount(tournament: Tournament?): String {
 
-        if (tournament!!.details!!.finalTeamCount == null) return ""
+        if (tournament!!.tournamentFinalTeamCount() == null) return ""
 
-        return tournament.details!!.finalTeamCount.toString()
+        return tournament.tournamentFinalTeamCount().toString()
     }
 
     fun renderVenueCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.venueCount == null) return ""
+        if (tournament!!.tournamentVenueCount() == null) return ""
 
-        return if (tournament.details!!.cityCount != null && tournament.details!!.cityCount!! > 0) {
-            if (tournament.details!!.cityCount!! == 1) {
+        return if (tournament.tournamentCityCount() != null && tournament.tournamentCityCount()!! > 0) {
+            if (tournament.tournamentCityCount()!! == 1) {
                 context!!.getString(
                     R.string.venue_count_with_one_city,
-                    tournament.details!!.venueCount.toString(),
-                    tournament.details!!.cityCount.toString()
+                    tournament.tournamentVenueCount().toString(),
+                    tournament.tournamentCityCount().toString()
                 )
             } else {
                 context!!.getString(
                     R.string.venue_count_with_cities,
-                    tournament.details!!.venueCount.toString(),
-                    tournament.details!!.cityCount.toString()
+                    tournament.tournamentVenueCount().toString(),
+                    tournament.tournamentCityCount().toString()
                 )
             }
-        } else tournament.details!!.venueCount.toString()
+        } else tournament.tournamentVenueCount().toString()
     }
 
     fun renderFinalVenueCount(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.details!!.finalVenueCount == null) return ""
+        if (tournament!!.tournamentFinalVenueCount() == null) return ""
 
-        return if (tournament.details!!.finalCityCount != null) {
+        return if (tournament.tournamentFinalCityCount() != null) {
             context!!.getString(
                 R.string.venue_count_with_cities,
-                tournament.details!!.finalVenueCount.toString(),
-                tournament.details!!.finalCityCount.toString()
+                tournament.tournamentFinalVenueCount().toString(),
+                tournament.tournamentFinalCityCount().toString()
             )
-        } else tournament.details!!.finalVenueCount.toString()
+        } else tournament.tournamentFinalVenueCount().toString()
     }
 
     fun renderGoalsScored(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.statistics!!.totalGoals == null) return ""
+        if (tournament!!.tournamentTotalGoals() == null) return ""
 
-        return if (tournament.statistics!!.totalMatches != null && tournament.statistics!!.totalMatches != 0) {
+        return if (tournament.tournamentTotalMatches() != null && tournament.tournamentTotalMatches() != 0) {
             context!!.getString(
                 R.string.goals_scored_per_match,
-                tournament.statistics!!.totalGoals.toString(),
-                getGoalsPerMatch(tournament.statistics!!.totalGoals!!, tournament.statistics!!.totalMatches!!)
+                tournament.tournamentTotalGoals().toString(),
+                getGoalsPerMatch(tournament.tournamentTotalGoals(), tournament.tournamentTotalMatches()!!)
             )
-        } else tournament.statistics!!.totalGoals.toString()
+        } else tournament.tournamentTotalGoals().toString()
     }
 
     fun renderFinalGoalsScored(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.statistics!!.finalGoals == null) return ""
+        if (tournament!!.tournamentFinalGoals() == null) return ""
 
-        return if (tournament.statistics!!.finalMatches != null && tournament.statistics!!.finalMatches != 0) {
+        return if (tournament.tournamentFinalMatches() != null && tournament.tournamentFinalMatches() != 0) {
             context!!.getString(
                 R.string.goals_scored_per_match,
-                tournament.statistics!!.finalGoals.toString(),
-                getGoalsPerMatch(tournament.statistics!!.finalGoals!!, tournament.statistics!!.finalMatches!!)
+                tournament.tournamentFinalGoals().toString(),
+                getGoalsPerMatch(tournament.tournamentFinalGoals(), tournament.tournamentFinalMatches()!!)
             )
-        } else tournament.statistics!!.totalGoals.toString()
+        } else tournament.tournamentFinalGoals().toString()
     }
 
     private fun getGoalsPerMatch(goals: Int?, matches: Int?) : String {
@@ -426,30 +436,30 @@ object TournamentUtil {
 
     fun renderAttendance(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.statistics!!.attendance == null) return ""
+        if (tournament!!.tournamentAttendance() == null) return ""
 
-        return if (tournament.statistics!!.totalMatches != null && tournament.statistics!!.totalMatches != 0) {
+        return if (tournament.tournamentTotalMatches() != null && tournament.tournamentTotalMatches() != 0) {
             val nf = NumberFormat.getInstance()
             context!!.getString(
                 R.string.attendance_per_match,
-                nf.format(tournament.statistics!!.attendance),
-                getAttendancePerMatch(tournament.statistics!!.attendance!!, tournament.statistics!!.totalMatches!!)
+                nf.format(tournament.tournamentAttendance()),
+                getAttendancePerMatch(tournament.tournamentAttendance()!!, tournament.tournamentTotalMatches()!!)
             )
-        } else tournament.statistics!!.attendance.toString()
+        } else tournament.tournamentAttendance().toString()
     }
 
     fun renderFinalAttendance(context: Context?, tournament: Tournament?): String {
 
-        if (tournament!!.statistics!!.finalAttendance == null) return ""
+        if (tournament!!.tournamentFinalAttendance() == null) return ""
 
-        return if (tournament.statistics!!.finalMatches != null && tournament.statistics!!.finalMatches != 0) {
+        return if (tournament.tournamentFinalMatches() != null && tournament.tournamentFinalMatches() != 0) {
             val nf = NumberFormat.getInstance()
             context!!.getString(
                 R.string.attendance_per_match,
-                nf.format(tournament.statistics!!.finalAttendance),
-                getAttendancePerMatch(tournament.statistics!!.finalAttendance!!, tournament.statistics!!.finalMatches!!)
+                nf.format(tournament.tournamentFinalAttendance()),
+                getAttendancePerMatch(tournament.tournamentFinalAttendance()!!, tournament.tournamentFinalMatches()!!)
             )
-        } else tournament.statistics!!.finalAttendance.toString()
+        } else tournament.tournamentFinalAttendance().toString()
     }
 
     private fun getAttendancePerMatch(attendance: Int?, matches: Int?) : String {
@@ -484,22 +494,6 @@ object TournamentUtil {
         val runnersUpLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.silver_medal_label else R.string.runners_up_label
         val thirdPlaceLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.bronze_medal_label else R.string.third_place_label
         return arrayOf(championsLabel, runnersUpLabel, thirdPlaceLabel)
-    }
-
-    fun getChampionsTeam(tournament: Tournament?): Team? {
-        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.championTeam else null
-    }
-
-    fun getRunnersUpTeam(tournament: Tournament?): Team? {
-        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.runnersUpTeam else null
-    }
-
-    fun getThirdPlaceTeam(tournament: Tournament?): List<Team?>? {
-        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.thirdPlaceTeam else null
-    }
-
-    fun getFourthPlaceTeam(tournament: Tournament?): Team? {
-        return if (tournament!!.finalStandings != null) tournament.finalStandings!!.fourthPlaceTeam else null
     }
 
     fun getTopScorerLabels(tournament: Tournament?): Array<Int> {

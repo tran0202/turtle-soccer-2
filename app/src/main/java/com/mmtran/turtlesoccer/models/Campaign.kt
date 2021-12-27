@@ -22,6 +22,10 @@ class Campaign: Serializable {
 
     var description: String? = null
     var order: Int? = null
+    var details: TournamentDetails? = TournamentDetails()
+    var finalStandings: FinalStandings? = FinalStandings()
+    var statistics: Statistics? = Statistics()
+    var awards: Awards? = Awards()
     var stages: List<Stage?>? = emptyList()
 
     @get:PropertyName("time_stamp")
