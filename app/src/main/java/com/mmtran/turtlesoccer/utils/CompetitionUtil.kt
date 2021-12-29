@@ -26,7 +26,7 @@ object CompetitionUtil {
         processFinalStandings(competition, nationList, teamList)
 
         competition.tournamentList = competition.tournamentList!!.reversed()
-        processTournamentList(competition.tournamentList!!, campaignList)
+        processTournamentList(competition.tournamentList!!)
     }
 
     private fun getMostSuccessfulTeams(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
@@ -82,7 +82,7 @@ object CompetitionUtil {
         }
     }
 
-    private fun processTournamentList(tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?) {
+    private fun processTournamentList(tournamentList: List<Tournament?>?) {
 
         if (tournamentList.isNullOrEmpty()) return
 

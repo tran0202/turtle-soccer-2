@@ -23,7 +23,7 @@ class StageFragment(stage: Stage? = Stage()) : Fragment() {
     ): View {
 
         stageViewModel = ViewModelProvider(this).get(modelClass = StageViewModel::class.java)
-        stageViewModel!!.setStage(_stage!!)
+        stageViewModel!!.setStage( if (_stage != null) _stage!! else Stage())
 
         binding = FragmentStageBinding.inflate(inflater, container, false)
 
@@ -33,7 +33,7 @@ class StageFragment(stage: Stage? = Stage()) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding!!.textHome.text = _stage!!.name
+        binding!!.textHome.text = if (_stage != null) _stage!!.type else ""
     }
 
     override fun onDestroyView() {
