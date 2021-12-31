@@ -33,7 +33,7 @@ object TournamentUtil {
 
         if (tournament == null || competitionList.isNullOrEmpty()) return
 
-        tournament.competition = competitionList!!.find { it!!.id.equals(tournament.competitionId) }
+        tournament.competition = competitionList!!.find { it!!.id.equals(tournament.competition?.id) }
     }
 
     fun attachCampaigns(tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?) {
@@ -63,7 +63,7 @@ object TournamentUtil {
 
         if (tournament == null) return
 
-        var tourList = tournamentList!!.filter { it!!.competitionId == tournament.competitionId }
+        var tourList = tournamentList!!.filter { it!!.competition?.id == tournament.competition?.id }
         if (tourList.isNotEmpty()) {
             tourList = tourList.sortedBy { tour -> tour!!.details!!.startDate }
             val index = tourList.indexOf(tournament)
@@ -91,20 +91,23 @@ object TournamentUtil {
         val hostList = details.host
         val finalHostList = details.finalHost
 
-        details.hostTeam = emptyList()
-        for (hostId: String? in hostList!!) {
-            val team = TeamUtil.getTeam(hostId, nationList, teamList)
+        var tmpHostList: List<Team?>? = emptyList()
+        for (hostId: Team? in hostList!!) {
+            val team = TeamUtil.getTeam(hostId?.id, nationList, teamList)
             if (team != null) {
-                details.hostTeam = details.hostTeam?.plus(team)
+                tmpHostList = tmpHostList?.plus(team)
             }
         }
-        details.finalHostTeam = emptyList()
-        for (hostId: String? in finalHostList!!) {
-            val team = TeamUtil.getTeam(hostId, nationList, teamList)
+        details.host = tmpHostList
+
+        var tmpFinalHostList: List<Team?>? = emptyList()
+        for (hostId: Team? in finalHostList!!) {
+            val team = TeamUtil.getTeam(hostId?.id, nationList, teamList)
             if (team != null) {
-                details.finalHostTeam = details.finalHostTeam?.plus(team)
+                tmpFinalHostList = tmpFinalHostList?.plus(team)
             }
         }
+        details.finalHost = tmpFinalHostList
     }
 
     fun processFinalStandings(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
@@ -112,39 +115,40 @@ object TournamentUtil {
         if (tournament == null) return
 
         if (tournament.finalStandings != null) {
-            val championId = tournament.finalStandings!!.champions
-            val runnersUpId = tournament.finalStandings!!.runnersUp
+            val championId = tournament.finalStandings!!.champions?.id
+            val runnersUpId = tournament.finalStandings!!.runnersUp?.id
             val thirdPlaceList = tournament.finalStandings!!.thirdPlace
-            val fourthPlaceId = tournament.finalStandings!!.fourthPlace
-            val semiFinalist1Id = tournament.finalStandings!!.semiFinalist1
-            val semiFinalist2Id = tournament.finalStandings!!.semiFinalist2
+            val fourthPlaceId = tournament.finalStandings!!.fourthPlace?.id
+            val semiFinalist1Id = tournament.finalStandings!!.semiFinalist1?.id
+            val semiFinalist2Id = tournament.finalStandings!!.semiFinalist2?.id
 
             val team1 = TeamUtil.getTeam(championId, nationList, teamList)
             if (team1 != null) {
-                tournament.finalStandings!!.championTeam = team1
+                tournament.finalStandings!!.champions = team1
             }
             val team2 = TeamUtil.getTeam(runnersUpId, nationList, teamList)
             if (team2 != null) {
-                tournament.finalStandings!!.runnersUpTeam = team2
+                tournament.finalStandings!!.runnersUp = team2
             }
-            tournament.finalStandings!!.thirdPlaceTeam = emptyList()
-            for (thirdPlaceId: String? in thirdPlaceList!!) {
-                val team3 = TeamUtil.getTeam(thirdPlaceId, nationList, teamList)
+            var tmpThirdPlaceList: List<Team?> = emptyList()
+            for (thirdPlace: Team? in thirdPlaceList!!) {
+                val team3 = TeamUtil.getTeam(thirdPlace?.id, nationList, teamList)
                 if (team3 != null) {
-                    tournament.finalStandings!!.thirdPlaceTeam = tournament.finalStandings!!.thirdPlaceTeam?.plus(team3)
+                    tmpThirdPlaceList = tmpThirdPlaceList.plus(team3)
                 }
             }
+            tournament.finalStandings!!.thirdPlace = tmpThirdPlaceList
             val team4 = TeamUtil.getTeam(fourthPlaceId, nationList, teamList)
             if (team4 != null) {
-                tournament.finalStandings!!.fourthPlaceTeam = team4
+                tournament.finalStandings!!.fourthPlace = team4
             }
             val team5 = TeamUtil.getTeam(semiFinalist1Id, nationList, teamList)
             if (team5 != null) {
-                tournament.finalStandings!!.semiFinalist1Team = team5
+                tournament.finalStandings!!.semiFinalist1 = team5
             }
             val team6 = TeamUtil.getTeam(semiFinalist2Id, nationList, teamList)
             if (team6 != null) {
-                tournament.finalStandings!!.semiFinalist2Team = team6
+                tournament.finalStandings!!.semiFinalist2 = team6
             }
         }
     }
@@ -213,35 +217,36 @@ object TournamentUtil {
             processPlayer(player, nationList, teamList)
         }
 
-        processingAward.fairPlayTeam = emptyList()
-        for (fairPlayId: String? in processingAward.fairPlay!!) {
-            val team = TeamUtil.getTeam(fairPlayId, nationList, teamList)
+        var tmpFairPlayTeam: List<Team?> = emptyList()
+        for (fairPlay: Team? in processingAward.fairPlayTeam!!) {
+            val team = TeamUtil.getTeam(fairPlay!!.id, nationList, teamList)
             if (team != null) {
-                processingAward.fairPlayTeam = processingAward.fairPlayTeam?.plus(team)
+                tmpFairPlayTeam = tmpFairPlayTeam?.plus(team)
             }
         }
+        processingAward.fairPlayTeam = tmpFairPlayTeam
     }
 
     private fun processPlayer(player: Player?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
-        if (player == null || player.team.isNullOrEmpty()) return
+        if (player?.team == null) return
 
-        var team = TeamUtil.getTeam(player.team, nationList, teamList)
+        var team = TeamUtil.getTeam(player.team!!.id, nationList, teamList)
         if (team != null) {
-            player.teamT = team
+            player.team = team
         }
 
-        if (!player.club.isNullOrEmpty()) {
-            team = TeamUtil.getTeam(player.club, nationList, teamList)
+        if (player.club != null) {
+            team = TeamUtil.getTeam(player.club!!.id, nationList, teamList)
             if (team != null) {
-                player.clubT = team
+                player.club = team
             }
         }
 
-        if (!player.club2.isNullOrEmpty()) {
-            team = TeamUtil.getTeam(player.club2, nationList, teamList)
+        if (player.club2 != null) {
+            team = TeamUtil.getTeam(player.club2!!.id, nationList, teamList)
             if (team != null) {
-                player.club2T = team
+                player.club2 = team
             }
         }
     }
@@ -488,19 +493,19 @@ object TournamentUtil {
 
     fun getChampionsLabel(tournament: Tournament?): Array<Int> {
 
-        if (tournament == null || tournament.competitionId.isNullOrEmpty()) return arrayOf(0, 0, 0)
+        if (tournament == null || tournament.competition?.id.isNullOrEmpty()) return arrayOf(0, 0, 0)
 
-        val championsLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.gold_medal_label else R.string.champions_label
-        val runnersUpLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.silver_medal_label else R.string.runners_up_label
-        val thirdPlaceLabel: Int = if (tournament.competitionId == "MOFT" || tournament.competitionId == "WOFT") R.string.bronze_medal_label else R.string.third_place_label
+        val championsLabel: Int = if (tournament.competition?.id == "MOFT" || tournament.competition?.id == "WOFT") R.string.gold_medal_label else R.string.champions_label
+        val runnersUpLabel: Int = if (tournament.competition?.id == "MOFT" || tournament.competition?.id == "WOFT") R.string.silver_medal_label else R.string.runners_up_label
+        val thirdPlaceLabel: Int = if (tournament.competition?.id == "MOFT" || tournament.competition?.id == "WOFT") R.string.bronze_medal_label else R.string.third_place_label
         return arrayOf(championsLabel, runnersUpLabel, thirdPlaceLabel)
     }
 
     fun getTopScorerLabels(tournament: Tournament?): Array<Int> {
 
-        if (tournament == null || tournament.competitionId.isNullOrEmpty() || tournament.year.isNullOrEmpty()) return arrayOf(0, 0, 0, 0, 0, 0)
+        if (tournament == null || tournament.competition?.id.isNullOrEmpty() || tournament.year.isNullOrEmpty()) return arrayOf(0, 0, 0, 0, 0, 0)
 
-        val goldenBootLabel: Int = when (tournament.competitionId) {
+        val goldenBootLabel: Int = when (tournament.competition?.id) {
             "WC" -> when {
                 tournament.year!! <= "1978" -> R.string.top_scorer_label
                 tournament.year!! <= "2006" -> R.string.golden_shoe_label
@@ -509,7 +514,7 @@ object TournamentUtil {
             "AFCON", "COPA", "MOFT", "UCL", "UEL", "UECL", "WOFT" -> R.string.top_scorer_label
             else -> R.string.golden_boot_label
         }
-        val goldenBootsLabel: Int = when (tournament.competitionId) {
+        val goldenBootsLabel: Int = when (tournament.competition?.id) {
             "WC" -> when {
                 tournament.year!! <= "1978" -> R.string.top_scorers_label
                 tournament.year!! <= "2006" -> R.string.golden_shoes_label
@@ -518,7 +523,7 @@ object TournamentUtil {
             "AFCON", "COPA", "MOFT", "UCL", "UEL", "UECL", "WOFT" -> R.string.top_scorers_label
             else -> R.string.golden_boots_label
         }
-        val silverBootLabel: Int = when (tournament.competitionId) {
+        val silverBootLabel: Int = when (tournament.competition?.id) {
             "WC" -> when {
                 tournament.year!! <= "1978" -> R.string.runner_up_label
                 tournament.year!! <= "2006" -> R.string.silver_shoe_label
@@ -526,7 +531,7 @@ object TournamentUtil {
             }
             else -> R.string.silver_boot_label
         }
-        val silverBootsLabel: Int = when (tournament.competitionId) {
+        val silverBootsLabel: Int = when (tournament.competition?.id) {
             "WC" -> when {
                 tournament.year!! <= "1978" -> R.string.runners_up_label
                 tournament.year!! <= "2006" -> R.string.silver_shoes_label
@@ -534,7 +539,7 @@ object TournamentUtil {
             }
             else -> R.string.silver_boots_label
         }
-        val bronzeBootLabel: Int = when (tournament.competitionId) {
+        val bronzeBootLabel: Int = when (tournament.competition?.id) {
             "WC" -> when {
                 tournament.year!! <= "1978" -> R.string.third_place_label
                 tournament.year!! <= "2006" -> R.string.bronze_shoe_label
@@ -542,7 +547,7 @@ object TournamentUtil {
             }
             else -> R.string.bronze_boot_label
         }
-        val bronzeBootsLabel: Int = when (tournament.competitionId) {
+        val bronzeBootsLabel: Int = when (tournament.competition?.id) {
             "WC" -> when {
                 tournament.year!! <= "1978" -> R.string.third_place_label
                 tournament.year!! <= "2006" -> R.string.bronze_shoes_label
@@ -555,9 +560,9 @@ object TournamentUtil {
 
     fun getGoldenBallLabel(tournament: Tournament?): Int {
 
-        if (tournament == null || tournament.competitionId.isNullOrEmpty()) return 0
+        if (tournament == null || tournament.competition?.id.isNullOrEmpty()) return 0
 
-        return when (tournament.competitionId) {
+        return when (tournament.competition?.id) {
             "EURO" -> R.string.player_tournament_label
             "AFCON" -> R.string.man_competition_label
             "COPA", "UEL" -> R.string.best_player_label
@@ -567,10 +572,10 @@ object TournamentUtil {
 
     fun getGoldenGloveLabel(tournament: Tournament?): Array<Int> {
 
-        if (tournament == null || tournament.competitionId.isNullOrEmpty()) return arrayOf(0, 0)
+        if (tournament == null || tournament.competition?.id.isNullOrEmpty()) return arrayOf(0, 0)
 
-        val goldenGloveLabel: Int = if (tournament.competitionId == "AFCON" || tournament.competitionId == "COPA" || tournament.competitionId == "UCL") R.string.best_goalkeeper_label else R.string.golden_glove_label
-        val goldenGlovesLabel: Int = if (tournament.competitionId == "AFCON" || tournament.competitionId == "COPA" || tournament.competitionId == "UCL") R.string.best_goalkeepers_label else R.string.golden_gloves_label
+        val goldenGloveLabel: Int = if (tournament.competition?.id == "AFCON" || tournament.competition?.id == "COPA" || tournament.competition?.id == "UCL") R.string.best_goalkeeper_label else R.string.golden_glove_label
+        val goldenGlovesLabel: Int = if (tournament.competition?.id == "AFCON" || tournament.competition?.id == "COPA" || tournament.competition?.id == "UCL") R.string.best_goalkeepers_label else R.string.golden_gloves_label
         return arrayOf(goldenGloveLabel, goldenGlovesLabel)
     }
 }

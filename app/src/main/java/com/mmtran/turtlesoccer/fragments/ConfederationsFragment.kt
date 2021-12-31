@@ -62,7 +62,7 @@ class ConfederationsFragment : Fragment() {
         if (confederationList.isNullOrEmpty() || competitionList.isNullOrEmpty()) return
 
         for (confederation: Confederation? in confederationList!!) {
-            val compList = competitionList!!.filter { it!!.confederationId == confederation!!.id }
+            val compList = competitionList!!.filter { it!!.confederation?.id == confederation!!.id }
             confederation!!.competitionList = compList
         }
 

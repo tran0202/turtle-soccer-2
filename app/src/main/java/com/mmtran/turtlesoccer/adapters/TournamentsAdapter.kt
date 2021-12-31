@@ -37,7 +37,7 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
         firebaseStorageLoader.loadImage(
             _context,
             holder.tournamentLogoImageView,
-            _tournamentList[position]!!.competition!!.logoPath + "/" + _tournamentList[position]!!.details!!.logoFilename
+            _tournamentList[position]!!.competition?.logoPath + "/" + _tournamentList[position]!!.details!!.logoFilename
         )
 
         holder.tournamentNameTextView.text = _tournamentList[position]!!.name

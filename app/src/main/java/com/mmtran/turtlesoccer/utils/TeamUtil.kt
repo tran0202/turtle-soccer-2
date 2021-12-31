@@ -10,8 +10,8 @@ object TeamUtil {
         if (nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return null
 
         val team = teamList.find { it!!.id.equals(id) }
-        if (team!= null) {
-            val nation = nationList.find { it!!.id.equals(team.nationId) }
+        if (team?.nation != null) {
+            val nation = nationList.find { it!!.id.equals(team.nation!!.id) }
             if (nation != null) {
                 team.nation = nation
             }

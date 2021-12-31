@@ -18,17 +18,12 @@ class Team: Serializable {
     @PropertyName("team_type_id")
     var teamTypeId: String? = null
 
-    @get:PropertyName("nation_id")
-    @set:PropertyName("nation_id")
-    @PropertyName("nation_id")
-    var nationId: String? = null
-
     var nation: Nation? = null
 
-    @get:PropertyName("parent_team_id")
-    @set:PropertyName("parent_team_id")
-    @PropertyName("parent_team_id")
-    var parentTeamId: String? = null
+    @get:PropertyName("parent_team")
+    @set:PropertyName("parent_team")
+    @PropertyName("parent_team")
+    var parentTeam: Team? = null
 
     var successor: Boolean? = null
     var code: String? = null
@@ -48,24 +43,43 @@ class Team: Serializable {
     @PropertyName("official_name")
     var officialName: String? = null
 
+    @get:PropertyName("title_count")
+    @set:PropertyName("title_count")
+    @PropertyName("title_count")
+    var titleCount: Int? = null
+
     @get:PropertyName("time_stamp")
     @set:PropertyName("time_stamp")
     @PropertyName("time_stamp")
     var timeStamp: String? = null
 
     constructor()
-    constructor(id: String?, name: String?, shortName: String?, teamTypeId: String?, nationId: String?,
-                parentTeamId: String?, successor: Boolean?) {
+    constructor(id: String?, name: String?, shortName: String?, teamTypeId: String?, successor: Boolean?) {
         this.id = id
         this.name = name
         this.shortName = shortName
         this.teamTypeId = teamTypeId
-        this.nationId = nationId
-        this.parentTeamId = parentTeamId
         this.successor = successor
     }
 
     fun isValid(): Boolean {
         return id != null
+    }
+
+    fun copy(): Team {
+        val team = Team()
+        team.id = this.id
+        team.name = this.name
+        team.shortName = this.shortName
+        team.teamTypeId = this.teamTypeId
+        team.nation = this.nation
+        team.successor = this.successor
+        team.code = this.code
+        team.clubCode = this.clubCode
+        team.logoFilename = this.logoFilename
+        team.officialName = this.officialName
+        team.titleCount = this.titleCount
+        team.timeStamp = this.timeStamp
+        return team
     }
 }

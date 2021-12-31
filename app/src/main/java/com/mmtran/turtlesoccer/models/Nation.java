@@ -12,11 +12,11 @@ public class Nation implements Serializable {
     @PropertyName("official_name")
     private String officialName;
 
-    @PropertyName("parent_nation_id")
-    private String parentNationId;
+    @PropertyName("parent_nation")
+    private Nation parentNation;
 
-    @PropertyName("confederation_id")
-    private String confederationId;
+    @PropertyName("confederation")
+    private Confederation confederation;
 
     @PropertyName("nation_type_id")
     private String nationTypeId;
@@ -40,12 +40,10 @@ public class Nation implements Serializable {
 
     public Nation() {}
 
-    public Nation(String id, String name, String officialName, String parentNationId, String confederationId, String nationTypeId, String flagFilename, String startDate, String endDate) {
+    public Nation(String id, String name, String officialName, String nationTypeId, String flagFilename, String startDate, String endDate) {
         this.id = id;
         this.name = name;
         this.officialName = officialName;
-        this.parentNationId = parentNationId;
-        this.confederationId = confederationId;
         this.nationTypeId = nationTypeId;
         this.flagFilename = flagFilename;
         this.startDate = startDate;
@@ -65,14 +63,12 @@ public class Nation implements Serializable {
         return officialName;
     }
 
-    @PropertyName("parent_nation_id")
-    public String getParentNationId() {
-        return parentNationId;
-    }
+    @PropertyName("parent_nation")
+    public Nation getParentNation() { return parentNation; }
 
-    @PropertyName("confederation_id")
-    public String getConfederationId() {
-        return confederationId;
+    @PropertyName("confederation")
+    public Confederation getConfederation() {
+        return confederation;
     }
 
     @PropertyName("nation_type_id")
@@ -122,15 +118,13 @@ public class Nation implements Serializable {
         this.officialName = officialName;
     }
 
-    @PropertyName("parent_nation_id")
-    public void setParentNationId(String parentNationId) {
-        this.parentNationId = parentNationId;
+    @PropertyName("parent_nation")
+    public void setParentNation(Nation parentNation) {
+        this.parentNation = parentNation;
     }
 
-    @PropertyName("confederation_id")
-    public void setConfederationId(String confederationId) {
-        this.confederationId = confederationId;
-    }
+    @PropertyName("confederation")
+    public void setConfederation(Confederation confederation) { this.confederation = confederation; }
 
     @PropertyName("nation_type_id")
     public void setNationTypeId(String nationTypeId) {

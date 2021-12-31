@@ -8,14 +8,14 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.mmtran.turtlesoccer.databinding.FragmentChampionFlagNameBinding
 import com.mmtran.turtlesoccer.databinding.RowChampionBinding
-import com.mmtran.turtlesoccer.models.Champion
+import com.mmtran.turtlesoccer.models.Team
 import com.mmtran.turtlesoccer.utils.CommonUtil
 
-class ChampionsAdapter(context: Context?, championList: List<Champion?>) :
+class ChampionsAdapter(context: Context?, championList: List<Team?>) :
     RecyclerView.Adapter<ChampionsAdapter.ViewHolder>() {
 
     private val _context = context
-    private val _championList: List<Champion?> = championList
+    private val _championList: List<Team?> = championList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,7 +26,7 @@ class ChampionsAdapter(context: Context?, championList: List<Champion?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (_championList[position]!!.team != null) {
+        if (_championList[position] != null) {
             holder.teamLinearLayout.visibility = View.VISIBLE
             CommonUtil.renderChampionFlagName(_context, _championList[position]!!, holder.fragmentChampionFlagNameBinding)
         } else {

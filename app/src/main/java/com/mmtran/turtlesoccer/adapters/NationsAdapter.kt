@@ -41,7 +41,7 @@ class NationsAdapter(context: Context?, nationList: List<Nation?>) :
         }
 
         holder.nationNameTextView.text = _nationList[position]!!.name
-        holder.confederationTextView.text = _nationList[position]!!.confederationId
+        holder.confederationTextView.text = _nationList[position]!!.confederation.id
     }
 
     override fun getItemCount(): Int {

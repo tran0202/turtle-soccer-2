@@ -19,6 +19,6 @@ class NationListViewModel : ViewModel() {
 
         if (nationList.isNullOrEmpty()) return emptyList()
 
-        return nationList.filter { it!!.parentNationId.isEmpty() && !it.confederationId.isNullOrEmpty() }
+        return nationList.filter { it!!.parentNation == null && it.confederation != null && it.confederation.id != null }
     }
 }

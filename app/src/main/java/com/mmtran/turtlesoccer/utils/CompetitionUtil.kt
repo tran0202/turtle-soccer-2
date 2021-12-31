@@ -19,7 +19,7 @@ object CompetitionUtil {
         getChampion(competition, nationList, teamList)
         getMostSuccessfulTeams(competition, nationList, teamList)
 
-        competition.tournamentList = tournamentList.filter { it!!.competitionId == competition.id }
+        competition.tournamentList = tournamentList.filter { it!!.competition?.id == competition.id }
         attachCompetition(competition, competition.tournamentList)
         TournamentUtil.attachCampaigns(competition.tournamentList!!, campaignList)
 
@@ -29,39 +29,45 @@ object CompetitionUtil {
         processTournamentList(competition.tournamentList!!)
     }
 
-    private fun getMostSuccessfulTeams(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
-
-        if (competition!!.mostSuccessfulTeams.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
-
-        for (champion: Champion? in competition.mostSuccessfulTeams!!) {
-
-            val team = TeamUtil.getTeam(champion!!.teamId, nationList, teamList)
-            if (team != null) {
-                champion.team = team
-            }
-        }
-    }
-
     private fun getChampion(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
 
         var championId: String? = null
+        var titleCount: Int? = null
         if (competition!!.currentChampions !== null) {
-            championId = competition!!.currentChampions!!.teamId
+            championId = competition!!.currentChampions!!.id
+            titleCount = competition.currentChampions!!.titleCount
         } else if (competition!!.lastChampions !== null) {
-            championId = competition!!.lastChampions!!.teamId
+            championId = competition!!.lastChampions!!.id
+            titleCount = competition.lastChampions!!.titleCount
         }
         if (championId.isNullOrEmpty()) return
 
-        val team = TeamUtil.getTeam(championId, nationList, teamList)
-        if (team!= null) {
-            if (competition!!.currentChampions !== null) {
-                competition!!.currentChampions!!.team = team
-            } else {
-                competition!!.lastChampions!!.team = team
+        val team = TeamUtil.getTeam(championId, nationList, teamList)?.copy()
+        team?.titleCount = titleCount
+        if (competition!!.currentChampions !== null) {
+            competition!!.currentChampions = team
+        } else {
+            competition!!.lastChampions = team
+        }
+    }
+
+    private fun getMostSuccessfulTeams(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (competition!!.mostSuccessfulTeams.isNullOrEmpty() || nationList.isNullOrEmpty() || teamList.isNullOrEmpty()) return
+
+        var tl: List<Team?> = emptyList()
+        for (champion: Team? in competition.mostSuccessfulTeams!!) {
+            val team = TeamUtil.getTeam(champion!!.id, nationList, teamList)
+            var team2: Team
+            if (team != null) {
+                team2 = team.copy()
+                team2.titleCount = champion.titleCount
+                tl = tl.plus(team2)
             }
         }
+        competition.mostSuccessfulTeams = tl
     }
 
     private fun attachCompetition(competition: Competition?, tournamentList: List<Tournament?>?) {

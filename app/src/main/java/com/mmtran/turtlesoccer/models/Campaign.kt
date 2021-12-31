@@ -53,12 +53,12 @@ class Match: Serializable {
     @get:PropertyName("home_team")
     @set:PropertyName("home_team")
     @PropertyName("home_team")
-    var homeTeam: String? = null
+    var homeTeam: Team? = null
 
     @get:PropertyName("away_team")
     @set:PropertyName("away_team")
     @PropertyName("away_team")
-    var awayTeam: String? = null
+    var awayTeam: Team? = null
 
     @get:PropertyName("home_score")
     @set:PropertyName("home_score")

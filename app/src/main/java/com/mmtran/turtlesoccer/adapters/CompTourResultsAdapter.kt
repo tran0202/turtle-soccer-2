@@ -92,24 +92,24 @@ class CompTourResultsAdapter(context: Context?, tournamentList: List<Tournament?
 
         if (tournament.finalStandings != null) {
 
-            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.championTeam, holder.championsFlagCodeCellBinding)
+            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.champions, holder.championsFlagCodeCellBinding)
 
-            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.runnersUpTeam, holder.runnersUpFlagCodeCellBinding)
+            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.runnersUp, holder.runnersUpFlagCodeCellBinding)
 
             val recyclerView: RecyclerView = holder.thirdPlaceListRecyclerView
             recyclerView.layoutManager = LinearLayoutManager(_context)
             CommonUtil.addDivider(recyclerView, _context, R.drawable.no_divider)
-            compTourThirdPlaceAdapter = CompTourThirdPlaceAdapter(_context, tournament.finalStandings!!.thirdPlaceTeam!!)
+            compTourThirdPlaceAdapter = CompTourThirdPlaceAdapter(_context, tournament.finalStandings!!.thirdPlace!!)
             recyclerView.adapter = compTourThirdPlaceAdapter
 
-            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.fourthPlaceTeam, holder.fourthPlaceFlagCodeCellBinding)
+            CommonUtil.renderTeamFlagCodeCell(_context, tournament.finalStandings!!.fourthPlace, holder.fourthPlaceFlagCodeCellBinding)
 
-            if (tournament.finalStandings!!.semiFinalist1Team!!.isValid() && tournament.finalStandings!!.semiFinalist2Team!!.isValid()) {
+            if (tournament.finalStandings!!.semiFinalist1 != null && tournament.finalStandings!!.semiFinalist2 != null) {
                 holder.semiFinalistsColumnLinearLayout.visibility = View.VISIBLE
                 holder.thirdPlaceColumnLinearLayout.visibility = View.GONE
                 holder.fourthPlaceColumnLinearLayout.visibility = View.GONE
-                CommonUtil.renderTeamFlagCode(_context, tournament.finalStandings!!.semiFinalist1Team, holder.semiFinalist1FlagCodeBinding)
-                CommonUtil.renderTeamFlagCode(_context, tournament.finalStandings!!.semiFinalist2Team, holder.semiFinalist2FlagCodeBinding)
+                CommonUtil.renderTeamFlagCode(_context, tournament.finalStandings!!.semiFinalist1, holder.semiFinalist1FlagCodeBinding)
+                CommonUtil.renderTeamFlagCode(_context, tournament.finalStandings!!.semiFinalist2, holder.semiFinalist2FlagCodeBinding)
             } else {
                 holder.semiFinalistsColumnLinearLayout.visibility = View.GONE
                 holder.thirdPlaceColumnLinearLayout.visibility = View.VISIBLE

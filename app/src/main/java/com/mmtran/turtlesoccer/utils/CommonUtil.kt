@@ -13,7 +13,6 @@ import com.mmtran.turtlesoccer.adapters.PlayersAdapter
 import com.mmtran.turtlesoccer.adapters.TeamsAdapter
 import com.mmtran.turtlesoccer.databinding.*
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
-import com.mmtran.turtlesoccer.models.Champion
 import com.mmtran.turtlesoccer.models.Player
 import com.mmtran.turtlesoccer.models.Team
 
@@ -76,11 +75,11 @@ object CommonUtil {
         }
     }
 
-    fun renderChampionFlagName(context: Context?, champion: Champion?, binding: FragmentChampionFlagNameBinding?) {
+    fun renderChampionFlagName(context: Context?, champion: Team?, binding: FragmentChampionFlagNameBinding?) {
 
-        if (champion?.team != null && champion.team!!.isValid()) {
+        if (champion != null && champion.isValid()) {
             binding!!.team.visibility = View.VISIBLE
-            renderTeamFlagName(context, champion.team!!, binding.flagName)
+            renderTeamFlagName(context, champion!!, binding.flagName)
             if (champion.titleCount != null && champion.titleCount!! > 0) {
                 binding.titleCount.visibility = View.VISIBLE
                 if (champion.titleCount!! == 1) {
@@ -205,14 +204,14 @@ object CommonUtil {
         }
     }
 
-    fun renderLabelChampion(context: Context?, champion: Champion?, binding: FragmentLabelChampionBinding?, label: Int) {
+    fun renderLabelChampion(context: Context?, champion: Team?, binding: FragmentLabelChampionBinding?, label: Int) {
 
-        if (champion !== null && champion.team !== null && champion.team!!.isValid()) {
+        if (champion !== null && champion.isValid()) {
             binding!!.container.visibility = View.VISIBLE
             binding.label.visibility = View.VISIBLE
             binding.label.text = context!!.getString(label)
             binding.field.visibility = View.VISIBLE
-            renderTeamFlagName(context, champion.team, binding.flagName.flagName)
+            renderTeamFlagName(context, champion, binding.flagName.flagName)
             if (champion.titleCount != null && champion.titleCount!! > 0) {
                 binding.flagName.titleCount.visibility = View.VISIBLE
                 if (champion.titleCount == 1) {
@@ -258,34 +257,28 @@ object CommonUtil {
         }
     }
 
-    fun renderChampionList(context: Context?, championList: List<Champion?>?, binding: FragmentLabelChampionListBinding?, label: Int, pluralLabel: Int) {
+    fun renderChampionList(context: Context?, championList: List<Team?>?, binding: FragmentLabelChampionListBinding?, label: Int, pluralLabel: Int) {
 
-        if (championList == null) {
+        if (championList == null || championList.isEmpty()) {
             binding!!.container.visibility = View.GONE
             return
         }
 
         binding!!.container.visibility = View.VISIBLE
-
-        if (championList.isNotEmpty() && championList[0] !== null && championList[0]!!.team !== null && championList[0]!!.team!!.isValid()) {
-            if (championList.size == 1) {
-                binding.label.visibility = View.VISIBLE
-                binding.label.text = context!!.getString(label)
-                binding.pluralLabel.visibility = View.GONE
-            } else {
-                binding.label.visibility = View.GONE
-                binding.pluralLabel.visibility = View.VISIBLE
-                binding.pluralLabel.text = context!!.getString(pluralLabel)
-            }
-            val recyclerView: RecyclerView = binding.list
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            addDivider(recyclerView, context, R.drawable.no_divider)
-            val adapter = ChampionsAdapter(context, championList)
-            recyclerView.adapter = adapter
+        if (championList.size == 1) {
+            binding.label.visibility = View.VISIBLE
+            binding.label.text = context!!.getString(label)
+            binding.pluralLabel.visibility = View.GONE
         } else {
             binding.label.visibility = View.GONE
-            binding.pluralLabel.visibility = View.GONE
+            binding.pluralLabel.visibility = View.VISIBLE
+            binding.pluralLabel.text = context!!.getString(pluralLabel)
         }
+        val recyclerView: RecyclerView = binding.list
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        addDivider(recyclerView, context, R.drawable.no_divider)
+        val adapter = ChampionsAdapter(context, championList)
+        recyclerView.adapter = adapter
     }
 
     fun renderPlayerList(context: Context?, playerList: List<Player?>?, binding: FragmentLabelPlayerListBinding?, label: Int, pluralLabel: Int) {

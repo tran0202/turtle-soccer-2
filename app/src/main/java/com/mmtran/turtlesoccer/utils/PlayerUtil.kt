@@ -17,12 +17,12 @@ object PlayerUtil {
 
         if (!player.isMultipleClubs()) {
             binding!!.singleClubLogo.visibility = View.VISIBLE
-            if (player.clubT != null && player.clubT!!.isValid() && !player.clubT!!.logoFilename.isNullOrEmpty()) {
+            if (player.club != null && player.club!!.isValid() && !player.club!!.logoFilename.isNullOrEmpty()) {
                 binding.clubLogo.visibility = View.VISIBLE
                 firebaseStorageLoader.loadImage(
                     context,
                     binding.clubLogo,
-                    "club_logos/" + player.clubT!!.logoFilename
+                    "club_logos/" + player.club!!.logoFilename
                 )
             } else {
                 binding.clubLogo.visibility = View.GONE
@@ -31,35 +31,35 @@ object PlayerUtil {
         } else {
             binding!!.singleClubLogo.visibility = View.GONE
             binding.multipleClubLogo.visibility = View.VISIBLE
-            if (player.clubT != null && player.clubT!!.isValid() && !player.clubT!!.logoFilename.isNullOrEmpty()) {
+            if (player.club != null && player.club!!.isValid() && !player.club!!.logoFilename.isNullOrEmpty()) {
                 binding.clubLogo1.visibility = View.VISIBLE
                 firebaseStorageLoader.loadImage(
                     context,
                     binding.clubLogo1,
-                    "club_logos/" + player.clubT!!.logoFilename
+                    "club_logos/" + player.club!!.logoFilename
                 )
             } else {
                 binding.clubLogo1.visibility = View.GONE
             }
-            if (player.club2T != null && player.club2T!!.isValid() && !player.club2T!!.logoFilename.isNullOrEmpty()) {
+            if (player.club2 != null && player.club2!!.isValid() && !player.club2!!.logoFilename.isNullOrEmpty()) {
                 binding.clubLogo2.visibility = View.VISIBLE
                 firebaseStorageLoader.loadImage(
                     context,
                     binding.clubLogo2,
-                    "club_logos/" + player.club2T!!.logoFilename
+                    "club_logos/" + player.club2!!.logoFilename
                 )
             } else {
                 binding.clubLogo2.visibility = View.GONE
             }
         }
 
-        if (player.teamT != null && player.teamT!!.isValid() && player.teamT!!.nation != null
-            && !player.teamT!!.nation!!.flagFilename.isNullOrEmpty()) {
+        if (player.team != null && player.team!!.isValid() && player.team!!.nation != null
+            && !player.team!!.nation!!.flagFilename.isNullOrEmpty()) {
             binding.flag.visibility = View.VISIBLE
             firebaseStorageLoader.loadImage(
                 context,
                 binding.flag,
-                "flags/" + player.teamT!!.nation!!.flagFilename
+                "flags/" + player.team!!.nation!!.flagFilename
             )
             if (player.isClubPlayer()) {
                 binding.flag.layoutParams.width = (24 * factor).toInt()

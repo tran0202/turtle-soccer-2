@@ -5,15 +5,12 @@ import java.io.Serializable
 
 class TournamentDetails: Serializable {
 
-    var host: List<String?>? = emptyList()
-    var hostTeam: List<Team?>? = emptyList()
+    var host: List<Team?>? = emptyList()
 
     @get:PropertyName("final_host")
     @set:PropertyName("final_host")
     @PropertyName("final_host")
-    var finalHost: List<String?>? = emptyList()
-
-    var finalHostTeam: List<Team?>? = emptyList()
+    var finalHost: List<Team?>? = emptyList()
 
     @get:PropertyName("logo_filename")
     @set:PropertyName("logo_filename")
@@ -171,22 +168,17 @@ class HeroImage: Serializable {
 
 class FinalStandings: Serializable {
 
-    var champions: String? = null
-    var championTeam: Team? = null
+    var champions: Team? = null
 
     @get:PropertyName("runners_up")
     @set:PropertyName("runners_up")
     @PropertyName("runners_up")
-    var runnersUp: String? = null
-
-    var runnersUpTeam: Team? = null
+    var runnersUp: Team? = null
 
     @get:PropertyName("third_place")
     @set:PropertyName("third_place")
     @PropertyName("third_place")
-    var thirdPlace: List<String?>? = emptyList()
-
-    var thirdPlaceTeam: List<Team?>? = emptyList()
+    var thirdPlace: List<Team?>? = emptyList()
 
     @get:PropertyName("third_place_text")
     @set:PropertyName("third_place_text")
@@ -196,23 +188,17 @@ class FinalStandings: Serializable {
     @get:PropertyName("fourth_place")
     @set:PropertyName("fourth_place")
     @PropertyName("fourth_place")
-    var fourthPlace: String? = null
-
-    var fourthPlaceTeam: Team? = Team()
+    var fourthPlace: Team? = null
 
     @get:PropertyName("semi_finalist1")
     @set:PropertyName("semi_finalist1")
     @PropertyName("semi_finalist1")
-    var semiFinalist1: String? = null
-
-    var semiFinalist1Team: Team? = Team()
+    var semiFinalist1: Team? = null
 
     @get:PropertyName("semi_finalist2")
     @set:PropertyName("semi_finalist2")
     @PropertyName("semi_finalist2")
-    var semiFinalist2: String? = null
-
-    var semiFinalist2Team: Team? = Team()
+    var semiFinalist2: Team? = null
 
     constructor()
 }
@@ -314,9 +300,8 @@ class Awards: Serializable {
     @get:PropertyName("fair_play_team")
     @set:PropertyName("fair_play_team")
     @PropertyName("fair_play_team")
-    var fairPlay: List<String?>? = emptyList()
-
     var fairPlayTeam: List<Team?>? = emptyList()
+
 
     constructor()
 }
@@ -324,12 +309,9 @@ class Awards: Serializable {
 class Player: Serializable {
 
     var name: String? = null
-    var team: String? = null
-    var teamT: Team? = null
-    var club: String? = null
-    var clubT: Team? = null
-    var club2: String? = null
-    var club2T: Team? = null
+    var team: Team? = null
+    var club: Team? = null
+    var club2: Team? = null
     var goals: Int? = null
     var assists: Int? = null
     var minutes: Int? = null
@@ -343,11 +325,11 @@ class Player: Serializable {
     constructor()
 
     fun isMultipleClubs(): Boolean {
-        return clubT != null && club2T != null
+        return club != null && club2 != null
     }
 
     fun isClubPlayer(): Boolean {
-        return clubT != null
+        return club != null
     }
 }
 
@@ -385,11 +367,7 @@ class Tournament: Serializable {
     var originalName: String? = null
 
     var era: String? = null
-
-    @get:PropertyName("competition_id")
-    @set:PropertyName("competition_id")
-    @PropertyName("competition_id")
-    var competitionId: String? = null
+    var competition: Competition? = Competition()
 
     var active: Boolean? = null
 
@@ -451,17 +429,14 @@ class Tournament: Serializable {
     var compTourResultSectionHeader: SectionHeader = SectionHeader.NOT_HEADER
     var compTourResultEvenRow: Boolean = false
     var thirdPlaceDetermined: ThirdPlaceDetermined = ThirdPlaceDetermined.HAS_THIRD_PLACE
-    var competition: Competition? = Competition()
     var previousTournament: Tournament? = null
     var nextTournament: Tournament? = null
 
     constructor()
-    constructor(id: String?, year: String?, name: String?, competitionId: String?, active: Boolean?,
-                goldenGoalRule: Boolean?, pointsForWin: Int?) {
+    constructor(id: String?, year: String?, name: String?,  active: Boolean?, goldenGoalRule: Boolean?, pointsForWin: Int?) {
         this.id = id
         this.year = year
         this.name = name
-        this.competitionId = competitionId
         this.active = active
         this.goldenGoalRule = goldenGoalRule
         this.pointsForWin = pointsForWin
@@ -489,12 +464,12 @@ class Tournament: Serializable {
 
     fun tournamentHost(): List<Team?>? {
         if (details == null || currentCampaign == null || currentCampaign!!.details == null) return emptyList()
-        return if (isQualifier()) currentCampaign!!.details!!.hostTeam else details!!.hostTeam
+        return if (isQualifier()) currentCampaign!!.details!!.host else details!!.host
     }
 
     fun tournamentFinalHost(): List<Team?>? {
         if (details == null || currentCampaign == null || currentCampaign!!.details == null) return emptyList()
-        return if (isQualifier()) currentCampaign!!.details!!.finalHostTeam else details!!.finalHostTeam
+        return if (isQualifier()) currentCampaign!!.details!!.finalHost else details!!.finalHost
     }
 
     fun tournamentStartDate(): String? {
@@ -649,22 +624,22 @@ class Tournament: Serializable {
 
     fun tournamentChampionsTeam(): Team? {
         if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return null
-        return if (isQualifier()) currentCampaign!!.finalStandings!!.championTeam else finalStandings!!.championTeam
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.champions else finalStandings!!.champions
     }
 
     fun tournamentRunnersUpTeam(): Team? {
         if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return null
-        return if (isQualifier()) currentCampaign!!.finalStandings!!.runnersUpTeam else finalStandings!!.runnersUpTeam
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.runnersUp else finalStandings!!.runnersUp
     }
 
     fun tournamentThirdPlaceTeam(): List<Team?>? {
         if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return emptyList()
-        return if (isQualifier()) currentCampaign!!.finalStandings!!.thirdPlaceTeam else finalStandings!!.thirdPlaceTeam
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.thirdPlace else finalStandings!!.thirdPlace
     }
 
     fun tournamentFourthPlaceTeam(): Team? {
         if (finalStandings == null || currentCampaign == null || currentCampaign!!.finalStandings == null) return null
-        return if (isQualifier()) currentCampaign!!.finalStandings!!.fourthPlaceTeam else finalStandings!!.fourthPlaceTeam
+        return if (isQualifier()) currentCampaign!!.finalStandings!!.fourthPlace else finalStandings!!.fourthPlace
     }
 
     fun tournamentGoldenBoot(): List<Player?>? {
