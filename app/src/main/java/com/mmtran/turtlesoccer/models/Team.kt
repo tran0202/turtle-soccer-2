@@ -3,6 +3,8 @@ package com.mmtran.turtlesoccer.models
 import com.google.firebase.firestore.PropertyName
 import java.io.Serializable
 
+const val CLUB = "CLUB"
+
 class Team: Serializable {
 
     var id: String? = null
@@ -81,5 +83,9 @@ class Team: Serializable {
         team.titleCount = this.titleCount
         team.timeStamp = this.timeStamp
         return team
+    }
+
+    fun isClub(): Boolean {
+        return teamTypeId == CLUB
     }
 }

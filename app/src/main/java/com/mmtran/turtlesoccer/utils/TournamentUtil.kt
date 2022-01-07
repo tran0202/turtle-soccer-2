@@ -27,13 +27,14 @@ object TournamentUtil {
         processHosts(tournament, nationList, teamList)
         processFinalStandings(tournament, nationList, teamList)
         processAwards(tournament, nationList, teamList)
+        processStages(tournament, nationList, teamList)
     }
 
     private fun attachCompetition(tournament: Tournament?, competitionList: List<Competition?>?) {
 
         if (tournament == null || competitionList.isNullOrEmpty()) return
 
-        tournament.competition = competitionList!!.find { it!!.id.equals(tournament.competition?.id) }
+        tournament.competition = competitionList.find { it!!.id.equals(tournament.competition?.id) }
     }
 
     fun attachCampaigns(tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?) {
@@ -221,7 +222,7 @@ object TournamentUtil {
         for (fairPlay: Team? in processingAward.fairPlayTeam!!) {
             val team = TeamUtil.getTeam(fairPlay!!.id, nationList, teamList)
             if (team != null) {
-                tmpFairPlayTeam = tmpFairPlayTeam?.plus(team)
+                tmpFairPlayTeam = tmpFairPlayTeam.plus(team)
             }
         }
         processingAward.fairPlayTeam = tmpFairPlayTeam
@@ -247,6 +248,19 @@ object TournamentUtil {
             team = TeamUtil.getTeam(player.club2!!.id, nationList, teamList)
             if (team != null) {
                 player.club2 = team
+            }
+        }
+    }
+
+    private fun processStages(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (tournament?.campaigns == null) return
+
+        for (campaign: Campaign? in tournament.campaigns!!) {
+            if (campaign?.stages != null) {
+                for (stage: Stage? in campaign.stages!!) {
+                    MatchUtil.processStage(stage, nationList, teamList)
+                }
             }
         }
     }

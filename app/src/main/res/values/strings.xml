@@ -121,4 +121,15 @@
     <string name="competition_one_title">(%1$s title)</string>
     <string name="competition_most_successful_team_label"><b>Most successful team: </b></string>
     <string name="competition_most_successful_teams_label"><b>Most successful teams: </b></string>
+
+    <string name="path_header">%1$s Path</string>
+    <string name="score">%1$s - %2$s</string>
+    <string name="aet">(a.e.t.)</string>
+    <string name="aggregate_footnote"><![CDATA[Aggregate: <b>%1$s</b>]]></string>
+    <string name="away_goals_footnote"><![CDATA[>>> <b>%1$s</b> won on away goals]]></string>
+    <string name="away_goals_aet_footnote"><![CDATA[>>> <b>%1$s</b> won on away goals after extra time]]></string>
+    <string name="aet_footnote"><![CDATA[>>> <b>%1$s</b> won after extra time]]></string>
+    <string name="penalty_footnote"><![CDATA[>>> <b>%1$s</b> won on penalties <b>%2$s</b>]]></string>
+    <string name="leg1">1st leg</string>
+    <string name="leg2">2nd leg</string>
 </resources>

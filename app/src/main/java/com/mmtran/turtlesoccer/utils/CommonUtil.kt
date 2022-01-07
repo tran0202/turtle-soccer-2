@@ -2,6 +2,7 @@ package com.mmtran.turtlesoccer.utils
 
 import android.content.Context
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,6 +16,8 @@ import com.mmtran.turtlesoccer.databinding.*
 import com.mmtran.turtlesoccer.loaders.FirebaseStorageLoader
 import com.mmtran.turtlesoccer.models.Player
 import com.mmtran.turtlesoccer.models.Team
+import java.text.SimpleDateFormat
+import java.util.*
 
 object CommonUtil {
 
@@ -32,54 +35,15 @@ object CommonUtil {
 
         if (team == null) return
 
-        val firebaseStorageLoader = FirebaseStorageLoader(context)
-        val factor: Float = context!!.resources.displayMetrics.density
-
-        if (team.teamTypeId.equals("CLUB")) {
-            if (!team.logoFilename.isNullOrEmpty()) {
-                binding!!.clubLogo.visibility = View.VISIBLE
-                firebaseStorageLoader.loadImage(
-                    context,
-                    binding.clubLogo,
-                    "club_logos/" + team.logoFilename
-                )
-            } else {
-                binding!!.clubLogo.visibility = View.GONE
-            }
-            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
-                binding.flag.visibility = View.VISIBLE
-                binding.flag.layoutParams.width = (24 * factor).toInt()
-                firebaseStorageLoader.loadImage(
-                    context,
-                    binding.flag,
-                    "flags/" + team.nation!!.flagFilename
-                )
-            } else {
-                binding.flag.visibility = View.GONE
-            }
-            binding.name.text = team.name
-        } else {
-            binding!!.clubLogo.visibility = View.GONE
-            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
-                binding.flag.visibility = View.VISIBLE
-                binding.flag.layoutParams.width = (36 * factor).toInt()
-                firebaseStorageLoader.loadImage(
-                    context,
-                    binding.flag,
-                    "flags/" + team.nation!!.flagFilename
-                )
-            } else {
-                binding.flag.visibility = View.GONE
-            }
-            binding.name.text = team.name
-        }
+        renderTeamFlag(context, team, binding!!.clubLogo, binding.flag)
+        binding.name.text = team.name
     }
 
     fun renderChampionFlagName(context: Context?, champion: Team?, binding: FragmentChampionFlagNameBinding?) {
 
         if (champion != null && champion.isValid()) {
             binding!!.team.visibility = View.VISIBLE
-            renderTeamFlagName(context, champion!!, binding.flagName)
+            renderTeamFlagName(context, champion, binding.flagName)
             if (champion.titleCount != null && champion.titleCount!! > 0) {
                 binding.titleCount.visibility = View.VISIBLE
                 if (champion.titleCount!! == 1) {
@@ -97,47 +61,13 @@ object CommonUtil {
 
     fun renderTeamFlagCode(context: Context?, team: Team?, binding: FragmentTeamFlagCodeBinding?) {
 
-        val firebaseStorageLoader = FirebaseStorageLoader(context)
-        val factor: Float = context!!.resources.displayMetrics.density
-
         if (team?.nation == null) return
 
-        if (team.teamTypeId.equals("CLUB")) {
-            if (!team.logoFilename.isNullOrEmpty()) {
-                binding!!.clubLogo.visibility = View.VISIBLE
-                firebaseStorageLoader.loadImage(
-                    context,
-                    binding.clubLogo,
-                    "club_logos/" + team.logoFilename
-                )
-            } else {
-                binding!!.clubLogo.visibility = View.GONE
-            }
-            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
-                binding.flag.visibility = View.VISIBLE
-                binding.flag.layoutParams.width = (24 * factor).toInt()
-                firebaseStorageLoader.loadImage(
-                    context,
-                    binding.flag,
-                    "flags/" + team.nation!!.flagFilename
-                )
-            } else {
-                binding.flag.visibility = View.GONE
-            }
+        renderTeamFlag(context, team, binding!!.clubLogo, binding.flag)
+
+        if (team.isClub()) {
             binding.code.text = team.clubCode
         } else {
-            binding!!.clubLogo.visibility = View.GONE
-            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
-                binding.flag.visibility = View.VISIBLE
-                binding.flag.layoutParams.width = (36 * factor).toInt()
-                firebaseStorageLoader.loadImage(
-                    context,
-                    binding.flag,
-                    "flags/" + team.nation!!.flagFilename
-                )
-            } else {
-                binding.flag.visibility = View.GONE
-            }
             binding.code.text = team.code
         }
     }
@@ -149,6 +79,51 @@ object CommonUtil {
             renderTeamFlagCode(context, team, binding.flagName)
         } else {
             binding!!.cell.visibility = View.GONE
+        }
+    }
+
+    fun renderTeamFlag(context: Context?, team: Team?, clubLogo: ImageView?, flag: ImageView?) {
+
+        if (team == null || clubLogo == null || flag == null) return
+
+        val firebaseStorageLoader = FirebaseStorageLoader(context)
+        val factor: Float = context!!.resources.displayMetrics.density
+
+        if (team.isClub()) {
+            if (!team.logoFilename.isNullOrEmpty()) {
+                clubLogo.visibility = View.VISIBLE
+                firebaseStorageLoader.loadImage(
+                    context,
+                    clubLogo,
+                    "club_logos/" + team.logoFilename
+                )
+            } else {
+                clubLogo.visibility = View.GONE
+            }
+            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
+                flag.visibility = View.VISIBLE
+                flag.layoutParams.width = (24 * factor).toInt()
+                firebaseStorageLoader.loadImage(
+                    context,
+                    flag,
+                    "flags/" + team.nation!!.flagFilename
+                )
+            } else {
+                flag.visibility = View.GONE
+            }
+        } else {
+            clubLogo.visibility = View.GONE
+            if (team.nation != null && !team.nation!!.flagFilename.isNullOrEmpty()) {
+                flag.visibility = View.VISIBLE
+                flag.layoutParams.width = (36 * factor).toInt()
+                firebaseStorageLoader.loadImage(
+                    context,
+                    flag,
+                    "flags/" + team.nation!!.flagFilename
+                )
+            } else {
+                flag.visibility = View.GONE
+            }
         }
     }
 
@@ -362,5 +337,23 @@ object CommonUtil {
         val divider = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
         divider.setDrawable(ContextCompat.getDrawable(context, _drawable)!!)
         recyclerView.addItemDecoration(divider)
+    }
+
+    fun renderDate(unformatted: String?): String? {
+
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputFormat = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.US)
+        val date: Date? = inputFormat.parse(unformatted!!)
+
+        return outputFormat.format(date!!)
+    }
+
+    fun renderShortDate(unformatted: String?): String? {
+
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        val outputFormat = SimpleDateFormat("MMM d", Locale.US)
+        val date: Date? = inputFormat.parse(unformatted!!)
+
+        return outputFormat.format(date!!)
     }
 }
