@@ -26,4 +26,8 @@
     <color name="sky_blue">#9ACDFF</color>
     <color name="light_blue">#EAF4FF</color>
     <color name="bright_blue">#BBF3FF</color>
+    <color name="unl_leagueA">#e30918</color>
+    <color name="unl_leagueB">#ac16e1</color>
+    <color name="unl_leagueC">#009e4d</color>
+    <color name="unl_leagueD">#f39205</color>
 </resources>

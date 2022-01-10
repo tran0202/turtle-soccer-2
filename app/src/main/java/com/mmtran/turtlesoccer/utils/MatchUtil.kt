@@ -13,15 +13,65 @@ import com.mmtran.turtlesoccer.models.*
 
 object MatchUtil {
 
+    fun processLeagueCampaign(campaign: Campaign?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (campaign?.leagues == null) return
+
+        campaign.stages = emptyList()
+        campaign.stages = campaign.stages!!.plus((Stage("Matchdays", "roundrobin")))
+
+        for (league: League? in campaign.leagues!!) {
+            if (league == null) break
+            for (stage: Stage? in league.stages!!) {
+                if (stage == null) break
+                if (stage.isRoundRobin()) {
+                    for (group: Group? in stage.groups!!) {
+                        if (group == null) break
+                        for (matchday: Matchday? in group.matchdays!!) {
+                            if (matchday == null) break
+                            var matches: List<Match?>? = emptyList()
+                            for (match: Match? in matchday.matches!!) {
+                                if (match == null) break
+                                processMatch(match, nationList, teamList)
+                                match.groupName = group.name
+                                matches = matches!!.plus(match)
+                            }
+                            val round = campaign.stages!![0]!!.rounds!!.find { it!!.name.equals(matchday.name) }
+                            if (round == null) {
+                                val newRound = Round(matchday.name)
+                                newRound.paths = newRound.paths?.plus(Path("", true))
+                                newRound.paths!![0]!!.matchdayList = createMatchdayList(matches, league.name)
+                                campaign.stages!![0]!!.rounds = campaign.stages!![0]!!.rounds!!.plus(newRound)
+                            } else {
+                                round.paths = round.paths?.plus(Path("", true))
+                                round.paths!![0]!!.matchdayList = mergeMatchdayList(round.paths!![0]!!.matchdayList, matches, league.name)
+                            }
+                        }
+                    }
+                }
+                if (stage.isKnockout()) {
+                    campaign.stages = campaign.stages!!.plus((Stage(stage.name!!, stage.type!!)))
+                }
+            }
+        }
+    }
+
     fun processStage(stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
-        if (stage == null) return
+        if (stage?.rounds == null) return
 
-        if (stage.rounds != null) {
-            for (round: Round? in stage.rounds!!) {
-                round!!.hideRoundName = stage.hideRoundName()
-                for (path: Path? in round.paths!!) {
-                    path!!.hidePathName = round.hidePathName()
+        for (round: Round? in stage.rounds!!) {
+            if (round == null) break
+            round.hideRoundName = stage.hideRoundName()
+            for (path: Path? in round.paths!!) {
+                if (path == null) break
+                path.hidePathName = round.hidePathName()
+                for (matchday: Matchday? in path.matchdayList!!) {
+                    if (matchday == null) break
+                    for (league: League? in matchday.leagues!!) {
+                        if (league == null) break
+                        league.hideLeagueName = matchday.hideLeagueName()
+                    }
                 }
             }
         }
@@ -35,84 +85,80 @@ object MatchUtil {
 
     private fun processRoundRobin(stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
-        if (stage == null) return
+        if (stage?.groups == null) return
 
-        if (stage.groups != null) {
-            if (!stage.multipleMatchdays!!) {
-                var matches: List<Match?>? = emptyList()
-                for (group: Group? in stage.groups!!) {
-                    if (group == null) break
-                    for (match: Match? in group.matches!!) {
+        if (!stage.multipleMatchdays!!) {
+            var matches: List<Match?>? = emptyList()
+            for (group: Group? in stage.groups!!) {
+                if (group == null) break
+                for (match: Match? in group.matches!!) {
+                    if (match == null) break
+                    processMatch(match, nationList, teamList)
+                    match.groupName = group.name
+                    matches = matches!!.plus(match)
+                }
+            }
+            stage.rounds = emptyList()
+            stage.rounds = stage.rounds!!.plus(Round("", true))
+            stage.rounds!![0]!!.paths = stage.rounds!![0]!!.paths?.plus(Path("", true))
+            stage.rounds!![0]!!.paths!![0]!!.matchdayList = createMatchdayList(matches, "")
+        } else {
+            var roundList: List<Round?>? = emptyList()
+            for (group: Group? in stage.groups!!) {
+                if (group == null) break
+                for (matchday: Matchday? in group.matchdays!!) {
+                    if (matchday == null) break
+                    var matches: List<Match?>? = emptyList()
+                    for (match: Match? in matchday.matches!!) {
                         if (match == null) break
                         processMatch(match, nationList, teamList)
                         match.groupName = group.name
                         matches = matches!!.plus(match)
                     }
-                }
-                stage.rounds = emptyList()
-                stage.rounds = stage.rounds!!.plus(Round("", true))
-                stage.rounds!![0]!!.paths = stage.rounds!![0]!!.paths?.plus(Path("", true))
-                stage.rounds!![0]!!.paths!![0]!!.matchdayList = createMatchdayList(matches)
-            } else {
-                var roundList: List<Round?>? = emptyList()
-                for (group: Group? in stage.groups!!) {
-                    if (group == null) break
-                    for (matchday: Matchday? in group.matchdays!!) {
-                        if (matchday == null) break
-                        var matches: List<Match?>? = emptyList()
-                        for (match: Match? in matchday.matches!!) {
-                            if (match == null) break
-                            processMatch(match, nationList, teamList)
-                            match.groupName = group.name
-                            matches = matches!!.plus(match)
-                        }
-                        val round = roundList!!.find { it!!.name.equals(matchday.name) }
-                        if (round == null) {
-                            val newRound = Round(matchday.name)
-                            newRound.paths = newRound.paths?.plus(Path("", true))
-                            newRound.matches = matches
-                            roundList = roundList.plus(newRound)
-                        } else {
-                            round.matches = round.matches!!.plus(matches!!.toTypedArray())
-                        }
+                    val round = roundList!!.find { it!!.name.equals(matchday.name) }
+                    if (round == null) {
+                        val newRound = Round(matchday.name)
+                        newRound.paths = newRound.paths?.plus(Path("", true))
+                        newRound.matches = matches
+                        roundList = roundList.plus(newRound)
+                    } else {
+                        round.matches = round.matches!!.plus(matches!!.toTypedArray())
                     }
                 }
-                for (round: Round? in roundList!!) {
-                    if (round == null) break
-                    if (round.paths != null && round.paths!!.isNotEmpty()) {
-                        round.paths!![0]!!.matchdayList = createMatchdayList(round.matches)
-                    }
-                }
-                stage.rounds = roundList
             }
+            for (round: Round? in roundList!!) {
+                if (round == null) break
+                if (round.paths != null && round.paths!!.isNotEmpty()) {
+                    round.paths!![0]!!.matchdayList = createMatchdayList(round.matches, "")
+                }
+            }
+            stage.rounds = roundList
         }
     }
 
     private fun processKnockout(stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
-        if (stage == null) return
+        if (stage?.rounds == null) return
 
-        if (stage.rounds != null) {
-            for (round: Round? in stage.rounds!!) {
-                if (round == null) break
-                if (!round.multiplePaths!!) {
-                    for (match: Match? in round.matches!!) {
+        for (round: Round? in stage.rounds!!) {
+            if (round == null) break
+            if (!round.multiplePaths!!) {
+                for (match: Match? in round.matches!!) {
+                    if (match == null) break
+                    processMatch(match, nationList, teamList)
+                }
+                var pathList: List<Path?>? = emptyList()
+                pathList = pathList?.plus(Path("", true))
+                round.paths = pathList
+                round.paths!![0]!!.matchdayList = createMatchdayList(round.matches, "")
+            } else {
+                for (path: Path? in round.paths!!) {
+                    if (path == null) break
+                    for (match: Match? in path.matches!!) {
                         if (match == null) break
                         processMatch(match, nationList, teamList)
                     }
-                    var pathList: List<Path?>? = emptyList()
-                    pathList = pathList?.plus(Path("", true))
-                    round.paths = pathList
-                    round.paths!![0]!!.matchdayList = createMatchdayList(round.matches)
-                } else {
-                    for (path: Path? in round.paths!!) {
-                        if (path == null) break
-                        for (match: Match? in path.matches!!) {
-                            if (match == null) break
-                            processMatch(match, nationList, teamList)
-                        }
-                        path.matchdayList = createMatchdayList(path.matches)
-                    }
+                    path.matchdayList = createMatchdayList(path.matches,"")
                 }
             }
         }
@@ -138,28 +184,57 @@ object MatchUtil {
         if (team != null) {
             match.leg2AwayTeam = team
         }
+        team = TeamUtil.getTeam(match.replayHomeTeam?.id, nationList, teamList)
+        if (team != null) {
+            match.replayHomeTeam = team
+        }
+        team = TeamUtil.getTeam(match.replayAwayTeam?.id, nationList, teamList)
+        if (team != null) {
+            match.replayAwayTeam = team
+        }
     }
 
-    private fun createMatchdayList(matches: List<Match?>?): List<Matchday?>? {
+    private fun createMatchdayList(matches: List<Match?>?, leagueName: String?): List<Matchday?>? {
 
-        var mdl: List<Matchday?>? = emptyList()
+        val mdl: List<Matchday?> = emptyList()
         if (matches == null) return mdl
 
+        return mergeMatchdayList(mdl, matches, leagueName)
+    }
+
+    private fun mergeMatchdayList(matchdays: List<Matchday?>?, matches: List<Match?>?, leagueName: String?): List<Matchday?>? {
+
+        var mdl: List<Matchday?>? = matchdays
+        if (matches == null) return mdl
+
+        val hideLeagueName = !(leagueName != null && leagueName.isNotEmpty())
+
         for (match: Match? in matches) {
-            if (match != null) {
-                val matchday = mdl!!.find { it!!.name.equals(match.date) }
-                if (matchday == null) {
-                    val newMatchday = Matchday(match.date)
-                    newMatchday.matches = newMatchday.matches!!.plus(match)
-                    mdl = mdl.plus(newMatchday)
+            if (match == null) break
+            val matchday = mdl!!.find { it!!.name.equals(match.date) }
+            if (matchday == null) {
+                val newLeague = League(leagueName, hideLeagueName)
+                newLeague.matches = newLeague.matches!!.plus(match)
+                val newMatchday = Matchday(match.date)
+                newMatchday.leagues = newMatchday.leagues!!.plus(newLeague)
+                mdl = mdl.plus(newMatchday)
+            } else {
+                val league = matchday.leagues!!.find { it!!.name.equals(leagueName) }
+                if (league == null) {
+                    val newLeague = League(leagueName, hideLeagueName)
+                    newLeague.matches = newLeague.matches!!.plus(match)
+                    matchday.leagues = matchday.leagues!!.plus(newLeague)
                 } else {
-                    matchday.matches = matchday.matches!!.plus(match)
+                    league.matches = league.matches!!.plus(match)
                 }
             }
         }
         for (matchday: Matchday? in mdl!!) {
             if (matchday == null) break
-            matchday.matches = matchday.matches!!.sortedBy { it!!.time }
+            for (league: League? in matchday.leagues!!) {
+                if (league == null) break
+                league.matches = league.matches!!.sortedBy { it!!.time }
+            }
         }
         return mdl.sortedBy { it!!.name }
     }
@@ -186,35 +261,64 @@ object MatchUtil {
         }
     }
 
+    fun renderReplayDivider(match: Match?, view: View) {
+
+        if (match == null) return
+
+        if (!match.replayMatch!!) {
+            view.visibility = View.GONE
+        } else {
+            view.visibility = View.VISIBLE
+        }
+    }
+
+    fun renderReplayRow(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+
+        if (!match.replayMatch!!) {
+            binding.root.visibility = View.GONE
+        } else {
+            binding.root.visibility = View.VISIBLE
+        }
+    }
+
     fun setMatchMinHeight(context: Context?, match: Match?, binding: FragmentMatchBinding) {
         if (match == null) return
         val factor: Float = context!!.resources.displayMetrics.density
-        binding.timeColumn.minimumHeight = (getMatchMinHeight(match)!! * factor).toInt()
+        binding.timeColumn.minimumHeight = (getMatchMinHeight(match) * factor).toInt()
     }
 
     private fun getMatchMinHeight(match: Match?): Int {
         if (match?.homeTeam == null) return 0
         if (match.homeTeam!!.isClub()) return 90
-        return if (match.groupName != null ) 70 else 50
+        return if (match.groupName != null || match.disqualifiedMatch!!
+            || match.homeWithdrew!! || match.awayWithdrew!!) 70 else 50
     }
 
     fun renderLeg1Count(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
-        renderLegCount(context, match, binding, R.string.leg1)
+        renderLegCount(context, match, binding, match.multipleLegs, R.string.leg1)
     }
 
     fun renderLeg2Count(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
-        renderLegCount(context, match, binding, R.string.leg2)
+        renderLegCount(context, match, binding, match.multipleLegs, R.string.leg2)
     }
 
-    private fun renderLegCount(context: Context?, match: Match?, binding: FragmentMatchBinding, count: Int?) {
+    fun renderReplayCount(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderLegCount(context, match, binding, match.replayMatch, R.string.replay)
+    }
+
+    private fun renderLegCount(context: Context?, match: Match?, binding: FragmentMatchBinding, flag: Boolean?, count: Int?) {
 
         if (match == null) return
 
-        if (!match.multipleLegs!!) {
+        if (!flag!!) {
             binding.legCount.visibility = View.GONE
         } else {
             binding.legCount.visibility = View.VISIBLE
@@ -233,11 +337,25 @@ object MatchUtil {
 
         if (match == null) return
 
-        if (!match.multipleLegs!!) {
+        renderMatchDate(match.leg2Date, binding, match.multipleLegs)
+    }
+
+    fun renderReplayDate(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+
+        renderMatchDate(match.replayDate, binding, match.replayMatch)
+    }
+
+    private fun renderMatchDate(value: String?, binding: FragmentMatchBinding, flag: Boolean?) {
+
+        if (value == null) return
+
+        if (!flag!!) {
             binding.date.visibility = View.GONE
         } else {
             binding.date.visibility = View.VISIBLE
-            renderField(CommonUtil.renderShortDate(match.leg2Date), binding.date)
+            renderField(CommonUtil.renderShortDate(value), binding.date)
             binding.date.paintFlags = binding.date.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         }
     }
@@ -252,6 +370,12 @@ object MatchUtil {
 
         if (match == null) return
         renderField(match.leg2Time, binding.time)
+    }
+
+    fun renderReplayTime(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderField(match.replayTime, binding.time)
     }
 
     fun renderGroupName(match: Match?, binding: FragmentMatchBinding) {
@@ -270,6 +394,72 @@ object MatchUtil {
 
         if (match == null) return
         renderField(match.leg2City, binding.city)
+    }
+
+    fun renderReplayCity(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderField(match.replayCity, binding.city)
+    }
+
+    fun renderLeg1HomeAwarded(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        if (!match.homeAwarded!!) {
+            binding.homeAwdText.visibility = View.GONE
+        } else {
+            binding.homeAwdText.visibility = View.VISIBLE
+        }
+    }
+
+    fun renderLeg1AwayAwarded(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        if (!match.awayAwarded!!) {
+            binding.awayAwdText.visibility = View.GONE
+        } else {
+            binding.awayAwdText.visibility = View.VISIBLE
+        }
+    }
+
+    fun renderLeg1HomeDisqualified(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        if (!match.homeDisqualified!!) {
+            binding.homeDqText.visibility = View.GONE
+        } else {
+            binding.homeDqText.visibility = View.VISIBLE
+        }
+    }
+
+    fun renderLeg1AwayDisqualified(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        if (!match.awayDisqualified!!) {
+            binding.awayDqText.visibility = View.GONE
+        } else {
+            binding.awayDqText.visibility = View.VISIBLE
+        }
+    }
+
+    fun renderLeg1HomeWithdrew(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        if (!match.homeWithdrew!!) {
+            binding.homeWithdrewText.visibility = View.GONE
+        } else {
+            binding.homeWithdrewText.visibility = View.VISIBLE
+        }
+    }
+
+    fun renderLeg1AwayWithdrew(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        if (!match.awayWithdrew!!) {
+            binding.awayWithdrewText.visibility = View.GONE
+        } else {
+            binding.awayWithdrewText.visibility = View.VISIBLE
+        }
     }
 
     fun renderLeg1HomeTeamName(context: Context?, match: Match?, binding: FragmentMatchBinding) {
@@ -296,6 +486,18 @@ object MatchUtil {
         renderTeamName(context, match.leg2AwayTeam, binding.awayTeam, match.isLeg2AwayEmphasizedName())
     }
 
+    fun renderReplayHomeTeamName(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderTeamName(context, match.replayHomeTeam, binding.homeTeam, match.isReplayHomeEmphasizedName())
+    }
+
+    fun renderReplayAwayTeamName(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderTeamName(context, match.replayAwayTeam, binding.awayTeam, match.isReplayAwayEmphasizedName())
+    }
+
     private fun renderTeamName(context: Context?, team: Team?, textView: TextView, emphasizedName: Boolean) {
 
         if (team == null) return
@@ -310,13 +512,13 @@ object MatchUtil {
 
     fun renderLeg1HomeTeamFlag(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
-        if (match == null) return
+        if (match?.homeTeam == null) return
         renderTeamFlag(context, match.homeTeam!!, binding.homeFlag )
     }
 
     fun renderLeg1AwayTeamFlag(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
-        if (match == null) return
+        if (match?.awayTeam == null) return
         renderTeamFlag(context, match.awayTeam!!, binding.awayFlag )
     }
 
@@ -332,6 +534,18 @@ object MatchUtil {
         renderTeamFlag(context, match.leg2AwayTeam!!, binding.awayFlag )
     }
 
+    fun renderReplayHomeTeamFlag(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderTeamFlag(context, match.replayHomeTeam!!, binding.homeFlag )
+    }
+
+    fun renderReplayAwayTeamFlag(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderTeamFlag(context, match.replayAwayTeam!!, binding.awayFlag )
+    }
+
     private fun renderTeamFlag(context: Context?, team: Team?, binding: FragmentTeamFlagBinding?) {
 
         if (team == null) return
@@ -341,7 +555,6 @@ object MatchUtil {
     fun renderLeg1ScoreColumn(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
-        if (match.homeScore == null || match.awayScore == null) return
 
         if (!match.isExtraTimeMatch()) {
             binding.score.visibility = View.VISIBLE
@@ -354,12 +567,36 @@ object MatchUtil {
             binding.extraScoreText.visibility = View.VISIBLE
             renderLeg1ExtraScore(context, match, binding)
         }
+        if (!match.awardedMatch!!) {
+            binding.awdText.visibility = View.GONE
+        } else {
+            binding.awdText.visibility = View.VISIBLE
+        }
+        if (!match.byeMatch!!) {
+            binding.byeText.visibility = View.GONE
+        } else {
+            binding.byeText.visibility = View.VISIBLE
+        }
+        if (!match.homeWalkover!! && !match.awayWalkover!!) {
+            binding.woText.visibility = View.GONE
+        } else {
+            binding.woText.visibility = View.VISIBLE
+        }
+        if (!match.cancelledMatch!!) {
+            binding.cancelledText.visibility = View.GONE
+        } else {
+            binding.cancelledText.visibility = View.VISIBLE
+        }
+        if (!match.postponedMatch!!) {
+            binding.postponedText.visibility = View.GONE
+        } else {
+            binding.postponedText.visibility = View.VISIBLE
+        }
     }
 
     fun renderLeg2ScoreColumn(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
-        if (match.leg2HomeScore == null || match.leg2AwayScore == null) return
 
         if (!match.isLeg2ExtraTimeMatch()) {
             binding.score.visibility = View.VISIBLE
@@ -372,12 +609,31 @@ object MatchUtil {
             binding.extraScoreText.visibility = View.VISIBLE
             renderLeg2ExtraScore(context, match, binding)
         }
+        if (!match.leg2AwardedMatch!!) {
+            binding.awdText.visibility = View.GONE
+        } else {
+            binding.awdText.visibility = View.VISIBLE
+        }
+    }
+
+    fun renderReplayScoreColumn(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+
+        if (!match.isReplayExtraTimeMatch()) {
+            binding.score.visibility = View.VISIBLE
+            renderReplayRegularScore(context, match, binding)
+            binding.extraScore.visibility = View.GONE
+        } else {
+            binding.score.visibility = View.GONE
+            binding.extraScore.visibility = View.GONE
+        }
     }
 
     private fun renderLeg1RegularScore(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
-        renderScore(context, match.homeScore, match.awayScore, binding.score)
+        renderScore(context, match.homeScore(), match.awayScore(), binding.score)
     }
 
     private fun renderLeg1ExtraScore(context: Context?, match: Match?, binding: FragmentMatchBinding) {
@@ -389,13 +645,25 @@ object MatchUtil {
     private fun renderLeg2RegularScore(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
-        renderScore(context, match.leg2HomeScore, match.leg2AwayScore, binding.score)
+        renderScore(context, match.leg2HomeScore(), match.leg2AwayScore(), binding.score)
     }
 
     private fun renderLeg2ExtraScore(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
         renderScore(context, match.leg2HomeAfterExtraTimeScore(), match.leg2AwayAfterExtraTimeScore(), binding.extraScore)
+    }
+
+    private fun renderReplayRegularScore(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderScore(context, match.replayHomeScore, match.replayAwayScore, binding.score)
+    }
+
+    private fun renderReplayExtraScore(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        renderScore(context, match.replayHomeAfterExtraTimeScore(), match.replayAwayAfterExtraTimeScore(), binding.extraScore)
     }
 
     private fun renderScore(context: Context?, score1: Int?, score2: Int?, textView: TextView) {
@@ -427,6 +695,12 @@ object MatchUtil {
         }
     }
 
+    fun renderReplayAggregateScore(match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+        binding.aggregateScoreRow.visibility = View.GONE
+    }
+
     private fun getPenaltyScore(context: Context?, match: Match?): String? {
 
         if (match == null) return null
@@ -440,6 +714,11 @@ object MatchUtil {
     fun renderLeg1ExtraTimeFootnote(context: Context?, match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
+
+        if (match.replayMatch!! || match.voidMatch!!) {
+            binding.extraTimeFootnoteRow.visibility = View.GONE
+            return
+        }
 
         if (match.isExtraTimeMatch() || match.isPenaltyMatch()) {
             binding.extraTimeFootnoteRow.visibility = View.VISIBLE
@@ -479,6 +758,13 @@ object MatchUtil {
         } else {
             binding.extraTimeFootnoteRow.visibility = View.GONE
         }
+    }
+
+    fun renderReplayExtraTimeFootnote(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+
+        if (match == null) return
+
+        binding.extraTimeFootnoteRow.visibility = View.GONE
     }
 
     private fun renderField(field: String?, textView: TextView) {

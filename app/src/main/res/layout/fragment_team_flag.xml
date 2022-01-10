@@ -25,6 +25,7 @@
         android:adjustViewBounds="true"
         android:cropToPadding="true"
         android:background="@drawable/border_flag"
+        android:visibility="gone"
         tools:ignore="ContentDescription" />
 
 </LinearLayout>

@@ -257,7 +257,10 @@ object TournamentUtil {
         if (tournament?.campaigns == null) return
 
         for (campaign: Campaign? in tournament.campaigns!!) {
-            if (campaign?.stages != null) {
+            if (campaign?.leagues != null && campaign.multipleLeagues!!) {
+                MatchUtil.processLeagueCampaign(campaign, nationList, teamList)
+            }
+            if (campaign?.stages != null && !campaign.multipleLeagues!!) {
                 for (stage: Stage? in campaign.stages!!) {
                     MatchUtil.processStage(stage, nationList, teamList)
                 }

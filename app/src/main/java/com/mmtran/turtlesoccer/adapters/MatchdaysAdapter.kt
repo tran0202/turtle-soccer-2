@@ -20,7 +20,7 @@ class MatchdaysAdapter(context: Context?, matchdayList: List<Matchday?>) :
     private val _matchdayList: List<Matchday?> = matchdayList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
     private var _clickListener: ItemClickListener? = null
-    private var matchesAdapter: MatchesAdapter? = null
+    private var leaguesAdapter: LeaguesAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -33,10 +33,10 @@ class MatchdaysAdapter(context: Context?, matchdayList: List<Matchday?>) :
         holder.matchdayNameTextView.text = CommonUtil.renderDate(_matchdayList[position]!!.name)
         holder.matchdayNameTextView.paintFlags = holder.matchdayNameTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
-        val recyclerView: RecyclerView = holder.matchListRecyclerView
+        val recyclerView: RecyclerView = holder.leagueListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
-        matchesAdapter = MatchesAdapter(_context, _matchdayList[position]!!.matches!!)
-        recyclerView.adapter = matchesAdapter
+        leaguesAdapter = LeaguesAdapter(_context, _matchdayList[position]!!.leagues!!)
+        recyclerView.adapter = leaguesAdapter
     }
 
     override fun getItemCount(): Int {
@@ -48,14 +48,10 @@ class MatchdaysAdapter(context: Context?, matchdayList: List<Matchday?>) :
 
         val root: View = binding.root
         var matchdayNameTextView: TextView = binding.matchdayName
-        var matchListRecyclerView: RecyclerView = binding.matchList
+        var leagueListRecyclerView: RecyclerView = binding.leagueList
 
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _matchdayList, absoluteAdapterPosition)
-        }
-
-        init {
-//            root.setOnClickListener(this)
         }
     }
 

@@ -51,10 +51,6 @@ class RoundsAdapter(context: Context?, roundList: List<Round?>) :
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _roundList, absoluteAdapterPosition)
         }
-
-        init {
-//            root.setOnClickListener(this)
-        }
     }
 
     fun setClickListener(itemClickListener: ItemClickListener?) {

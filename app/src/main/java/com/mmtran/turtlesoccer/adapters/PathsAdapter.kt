@@ -52,10 +52,6 @@ class PathsAdapter(context: Context?, pathList: List<Path?>) :
         override fun onClick(view: View) {
             if (_clickListener != null) _clickListener!!.onItemClick(view, _pathList, absoluteAdapterPosition)
         }
-
-        init {
-//            root.setOnClickListener(this)
-        }
     }
 
     fun setClickListener(itemClickListener: ItemClickListener?) {

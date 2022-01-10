@@ -125,6 +125,13 @@
     <string name="path_header">%1$s Path</string>
     <string name="score">%1$s - %2$s</string>
     <string name="aet">(a.e.t.)</string>
+    <string name="awd">(awd)</string>
+    <string name="bye">Bye</string>
+    <string name="wo">(w/o)</string>
+    <string name="dq">(dq)</string>
+    <string name="withdrew">(wd)</string>
+    <string name="cancelled">---</string>
+    <string name="postponed">Ppd</string>
     <string name="aggregate_footnote"><![CDATA[Aggregate: <b>%1$s</b>]]></string>
     <string name="away_goals_footnote"><![CDATA[>>> <b>%1$s</b> won on away goals]]></string>
     <string name="away_goals_aet_footnote"><![CDATA[>>> <b>%1$s</b> won on away goals after extra time]]></string>
@@ -132,4 +139,5 @@
     <string name="penalty_footnote"><![CDATA[>>> <b>%1$s</b> won on penalties <b>%2$s</b>]]></string>
     <string name="leg1">1st leg</string>
     <string name="leg2">2nd leg</string>
+    <string name="replay">Replay</string>
 </resources>
