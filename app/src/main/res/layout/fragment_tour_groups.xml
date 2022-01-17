@@ -3,15 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CompAllTimeStandingsFragment">
+    android:orientation="vertical"
+    tools:context=".fragments.TourGroupsFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:text="Tournament Groups"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/stage_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp" />
+        android:layout_marginEnd="20dp"
+        style="@style/CustomTabLayoutRed" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/stage_groups_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/single_stage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
 </LinearLayout>

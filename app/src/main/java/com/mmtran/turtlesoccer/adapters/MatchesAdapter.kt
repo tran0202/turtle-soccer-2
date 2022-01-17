@@ -27,72 +27,76 @@ class MatchesAdapter(context: Context?, matchList: List<Match?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        val match: Match = _matchList[position]!!
         renderMatch(holder.matchBinding, position)
-        MatchUtil.renderLegDivider(_matchList[position]!!, holder.legDividerView)
-        MatchUtil.renderLeg2Row(_matchList[position]!!, holder.leg2Binding)
+        MatchUtil.renderLegDivider(match, holder.legDividerView)
+        MatchUtil.renderLeg2Row(match, holder.leg2Binding)
         renderLeg2(holder.leg2Binding, position)
-        MatchUtil.renderReplayDivider(_matchList[position]!!, holder.replayDividerView)
-        MatchUtil.renderReplayRow(_matchList[position]!!, holder.replayBinding)
+        MatchUtil.renderReplayDivider(match, holder.replayDividerView)
+        MatchUtil.renderReplayRow(match, holder.replayBinding)
         renderReplay(holder.replayBinding, position)
     }
 
     private fun renderMatch(matchBinding: FragmentMatchBinding, position: Int) {
 
-        MatchUtil.setMatchMinHeight(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1Count(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1Date(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1Time(_matchList[position]!!, matchBinding)
-        MatchUtil.renderGroupName(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1City(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1HomeTeamName(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1HomeAwarded(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1HomeDisqualified(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1HomeWithdrew(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1HomeTeamFlag(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1ScoreColumn(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1AwayTeamFlag(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1AwayTeamName(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1AwayAwarded(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1AwayDisqualified(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1AwayWithdrew(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1AggregateScore(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg1ExtraTimeFootnote(_context, _matchList[position]!!, matchBinding)
+        val match: Match = _matchList[position]!!
+        MatchUtil.setMatchMinHeight(_context, match, matchBinding)
+        MatchUtil.renderLeg1Count(_context, match, matchBinding)
+        MatchUtil.renderLeg1Date(match, matchBinding)
+        MatchUtil.renderLeg1Time(match, matchBinding)
+        MatchUtil.renderGroupName(match, matchBinding)
+        MatchUtil.renderLeg1City(match, matchBinding)
+        MatchUtil.renderLeg1HomeTeamName(_context, match, matchBinding)
+        MatchUtil.renderLeg1HomeAwarded(match, matchBinding)
+        MatchUtil.renderLeg1HomeDisqualified(match, matchBinding)
+        MatchUtil.renderLeg1HomeWithdrew(match, matchBinding)
+        MatchUtil.renderLeg1HomeTeamFlag(_context, match, matchBinding)
+        MatchUtil.renderLeg1ScoreColumn(_context, match, matchBinding)
+        MatchUtil.renderLeg1AwayTeamFlag(_context, match, matchBinding)
+        MatchUtil.renderLeg1AwayTeamName(_context, match, matchBinding)
+        MatchUtil.renderLeg1AwayAwarded(match, matchBinding)
+        MatchUtil.renderLeg1AwayDisqualified(match, matchBinding)
+        MatchUtil.renderLeg1AwayWithdrew(match, matchBinding)
+        MatchUtil.renderLeg1AggregateScore(match, matchBinding)
+        MatchUtil.renderLeg1ExtraTimeFootnote(_context, match, matchBinding)
     }
 
     private fun renderLeg2(matchBinding: FragmentMatchBinding, position: Int) {
 
-        if (!_matchList[position]!!.multipleLegs!!) return
-        MatchUtil.setMatchMinHeight(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2Count(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2Date(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2Time(_matchList[position]!!, matchBinding)
-        MatchUtil.renderGroupName(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2City(_matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2HomeTeamName(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2HomeTeamFlag(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2ScoreColumn(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2AwayTeamFlag(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2AwayTeamName(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2AggregateScore(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderLeg2ExtraTimeFootnote(_context, _matchList[position]!!, matchBinding)
+        val match: Match = _matchList[position]!!
+        if (!match.multipleLegs!!) return
+        MatchUtil.setMatchMinHeight(_context, match, matchBinding)
+        MatchUtil.renderLeg2Count(_context, match, matchBinding)
+        MatchUtil.renderLeg2Date(match, matchBinding)
+        MatchUtil.renderLeg2Time(match, matchBinding)
+        MatchUtil.renderGroupName(match, matchBinding)
+        MatchUtil.renderLeg2City(match, matchBinding)
+        MatchUtil.renderLeg2HomeTeamName(_context, match, matchBinding)
+        MatchUtil.renderLeg2HomeTeamFlag(_context, match, matchBinding)
+        MatchUtil.renderLeg2ScoreColumn(_context, match, matchBinding)
+        MatchUtil.renderLeg2AwayTeamFlag(_context, match, matchBinding)
+        MatchUtil.renderLeg2AwayTeamName(_context, match, matchBinding)
+        MatchUtil.renderLeg2AggregateScore(_context, match, matchBinding)
+        MatchUtil.renderLeg2ExtraTimeFootnote(_context, match, matchBinding)
     }
 
     private fun renderReplay(matchBinding: FragmentMatchBinding, position: Int) {
 
-        if (!_matchList[position]!!.replayMatch!!) return
-        MatchUtil.setMatchMinHeight(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayCount(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayDate(_matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayTime(_matchList[position]!!, matchBinding)
-        MatchUtil.renderGroupName(_matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayCity(_matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayHomeTeamName(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayHomeTeamFlag(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayScoreColumn(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayAwayTeamFlag(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayAwayTeamName(_context, _matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayAggregateScore(_matchList[position]!!, matchBinding)
-        MatchUtil.renderReplayExtraTimeFootnote(_context, _matchList[position]!!, matchBinding)
+        val match: Match = _matchList[position]!!
+        if (!match.replayMatch!!) return
+        MatchUtil.setMatchMinHeight(_context, match, matchBinding)
+        MatchUtil.renderReplayCount(_context, match, matchBinding)
+        MatchUtil.renderReplayDate(match, matchBinding)
+        MatchUtil.renderReplayTime(match, matchBinding)
+        MatchUtil.renderGroupName(match, matchBinding)
+        MatchUtil.renderReplayCity(match, matchBinding)
+        MatchUtil.renderReplayHomeTeamName(_context, match, matchBinding)
+        MatchUtil.renderReplayHomeTeamFlag(_context, match, matchBinding)
+        MatchUtil.renderReplayScoreColumn(_context, match, matchBinding)
+        MatchUtil.renderReplayAwayTeamFlag(_context, match, matchBinding)
+        MatchUtil.renderReplayAwayTeamName(_context, match, matchBinding)
+        MatchUtil.renderReplayAggregateScore(match, matchBinding)
+        MatchUtil.renderReplayExtraTimeFootnote(match, matchBinding)
     }
 
     override fun getItemCount(): Int {

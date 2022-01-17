@@ -7,7 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.mmtran.turtlesoccer.fragments.*
 import com.mmtran.turtlesoccer.models.Campaign
 
-class StagePagerAdapter(fragmentManager: FragmentManager?, lifecycle: Lifecycle?) :
+class StageMatchesPagerAdapter(fragmentManager: FragmentManager?, lifecycle: Lifecycle?) :
     FragmentStateAdapter(fragmentManager!!, lifecycle!!) {
 
     private var campaign: Campaign? = null
@@ -20,7 +20,7 @@ class StagePagerAdapter(fragmentManager: FragmentManager?, lifecycle: Lifecycle?
         if (campaign == null || campaign!!.stages.isNullOrEmpty() || position < 0 || position >= campaign!!.stages!!.size) {
             return Fragment()
         }
-        return StageFragment.newInstance(campaign!!.stages?.get(position))
+        return StageMatchesFragment.newInstance(campaign!!.stages?.get(position))
     }
 
     override fun getItemCount(): Int {
@@ -31,8 +31,8 @@ class StagePagerAdapter(fragmentManager: FragmentManager?, lifecycle: Lifecycle?
         fun newInstance(
             fragmentManager: FragmentManager?,
             lifecycle: Lifecycle?
-        ): StagePagerAdapter {
-            return StagePagerAdapter(fragmentManager, lifecycle)
+        ): StageMatchesPagerAdapter {
+            return StageMatchesPagerAdapter(fragmentManager, lifecycle)
         }
     }
 }

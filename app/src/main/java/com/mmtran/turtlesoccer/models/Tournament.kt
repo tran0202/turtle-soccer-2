@@ -431,6 +431,7 @@ class Tournament: Serializable {
     var thirdPlaceDetermined: ThirdPlaceDetermined = ThirdPlaceDetermined.HAS_THIRD_PLACE
     var previousTournament: Tournament? = null
     var nextTournament: Tournament? = null
+    var doneProcessing: Boolean = false
 
     constructor()
     constructor(id: String?, year: String?, name: String?,  active: Boolean?, goldenGoalRule: Boolean?, pointsForWin: Int?) {

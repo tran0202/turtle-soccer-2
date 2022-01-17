@@ -33,34 +33,35 @@ class TournamentsAdapter(context: Context?, tournamentList: List<Tournament?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        val tournament: Tournament = _tournamentList[position]!!
         val firebaseStorageLoader = FirebaseStorageLoader(_context)
         firebaseStorageLoader.loadImage(
             _context,
             holder.tournamentLogoImageView,
-            _tournamentList[position]!!.competition?.logoPath + "/" + _tournamentList[position]!!.details!!.logoFilename
+            tournament.competition?.logoPath + "/" + tournament.details!!.logoFilename
         )
 
-        holder.tournamentNameTextView.text = _tournamentList[position]!!.name
+        holder.tournamentNameTextView.text = tournament.name
 
-        val tournamentDates = TournamentUtil.renderDates(_context, _tournamentList[position])
+        val tournamentDates = TournamentUtil.renderDates(_context, tournament)
         CommonUtil.renderField(tournamentDates, holder.tournamentDatesTextView)
 
-        val competitionDates = TournamentUtil.renderQualifyingCompetitionDates(_context, _tournamentList[position])
+        val competitionDates = TournamentUtil.renderQualifyingCompetitionDates(_context, tournament)
         CommonUtil.renderField(competitionDates, holder.competitionDatesTextView)
 
-        val finalDates = TournamentUtil.renderLeagueFinalDates(_context, _tournamentList[position])
+        val finalDates = TournamentUtil.renderLeagueFinalDates(_context, tournament)
         CommonUtil.renderField(finalDates, holder.finalDatesTextView)
 
-        val teamCount = TournamentUtil.renderTeamCount(_context, _tournamentList[position])
+        val teamCount = TournamentUtil.renderTeamCount(_context, tournament)
         CommonUtil.renderWrapLabelField(_context, teamCount, holder.teamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        val totalTeamCount = TournamentUtil.renderTotalTeamCount(_context, _tournamentList[position])
+        val totalTeamCount = TournamentUtil.renderTotalTeamCount(_context, tournament)
         CommonUtil.renderWrapLabelField(_context, totalTeamCount, holder.totalTeamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(_context, _tournamentList[position])
+        val totalPlusTransferTeamCount = TournamentUtil.renderTotalPlusTransferTeamCount(_context, tournament)
         CommonUtil.renderWrapLabelField(_context, totalPlusTransferTeamCount, holder.totalPlusTransferTeamCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        CommonUtil.renderLabelTeam2(_context, _tournamentList[position]!!.tournamentChampionsTeam(),
+        CommonUtil.renderLabelTeam2(_context, tournament.tournamentChampionsTeam(),
             holder.championsFragmentLabelTeam2Binding, R.string.champions_label)
     }
 

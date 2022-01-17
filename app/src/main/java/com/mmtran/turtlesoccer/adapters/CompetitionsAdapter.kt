@@ -36,33 +36,34 @@ class CompetitionsAdapter(context: Context?, competitionList: List<Competition?>
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        val competition: Competition = _competitionList[position]!!
         val firebaseStorageLoader = FirebaseStorageLoader(_context)
         firebaseStorageLoader.loadImage(
             _context,
             holder.competitionTrophyImageView,
-            _competitionList[position]!!.logoPath + "/" + _competitionList[position]!!.trophyFilename
+            competition.logoPath + "/" + competition.trophyFilename
         )
 
-        holder.competitionNameTextView.text = _competitionList[position]!!.name
+        holder.competitionNameTextView.text = competition.name
 
-        val teamCount = CompetitionUtil.renderTeamCount(_competitionList[position]!!)
+        val teamCount = CompetitionUtil.renderTeamCount(competition)
         CommonUtil.renderWrapLabelField(_context, teamCount, holder.competitionCountFragmentWrapLabelFieldBinding, R.string.tournament_team_count_label)
 
-        CommonUtil.renderLabelChampion(_context, _competitionList[position]!!.currentChampions, holder.currentChampionsFragmentLabelChampionBinding,
-            R.string.competition_current_champions_label)
+        CommonUtil.renderLabelChampion(_context, competition.currentChampions,
+            holder.currentChampionsFragmentLabelChampionBinding, R.string.competition_current_champions_label)
 
-        CommonUtil.renderLabelChampion(_context, _competitionList[position]!!.lastChampions, holder.lastChampionsFragmentLabelChampionBinding,
-            R.string.competition_last_champions_label)
+        CommonUtil.renderLabelChampion(_context, competition.lastChampions,
+            holder.lastChampionsFragmentLabelChampionBinding, R.string.competition_last_champions_label)
 
-        CommonUtil.renderChampionList(_context, _competitionList[position]!!.mostSuccessfulTeams!!, holder.mostSuccessfulTeamFragmentLabelChampionListBinding,
-            R.string.competition_most_successful_team_label, R.string.competition_most_successful_teams_label)
+        CommonUtil.renderChampionList(_context, competition.mostSuccessfulTeams!!,
+            holder.mostSuccessfulTeamFragmentLabelChampionListBinding, R.string.competition_most_successful_team_label, R.string.competition_most_successful_teams_label)
 
-        holder.descriptionTextView.text = if (_competitionList[position]!!.descriptions!!.isNotEmpty()) _competitionList[position]!!.descriptions!![0] else ""
+        holder.descriptionTextView.text = if (competition.descriptions!!.isNotEmpty()) competition.descriptions!![0] else ""
 
         val recyclerView2 = holder.compTournamentListRecyclerView
         val numberOfColumns = 5
         recyclerView2.layoutManager = GridLayoutManager(_context, numberOfColumns)
-        compTournamentsAdapter = CompTournamentsAdapter(_context, _competitionList[position]!!.tournamentList!!)
+        compTournamentsAdapter = CompTournamentsAdapter(_context, competition.tournamentList!!)
         compTournamentsAdapter!!.setClickListener(this)
         recyclerView2.adapter = compTournamentsAdapter
     }

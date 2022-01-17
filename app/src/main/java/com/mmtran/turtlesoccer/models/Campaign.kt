@@ -682,6 +682,9 @@ class Group: Serializable {
 
     var matches: List<Match?>? = emptyList()
     var matchdays: List<Matchday?>? = emptyList()
+    var rankings: List<Ranking?>? = emptyList()
+    var pools: List<Pool?>? = emptyList()
+    var hideGroupName: Boolean? = false
 
     constructor()
 }
@@ -830,6 +833,8 @@ class Stage: Serializable {
     @PropertyName("next_round")
     var nextRound: String? = null
 
+    var tiebreakers: List<String?>? = emptyList()
+
     @get:PropertyName("bye_teams")
     @set:PropertyName("bye_teams")
     @PropertyName("bye_teams")
@@ -868,6 +873,10 @@ class Stage: Serializable {
     fun hideRoundName(): Boolean {
         return rounds?.isEmpty()!! || rounds?.size == 1
     }
+
+    fun hideGroupName(): Boolean {
+        return groups?.isEmpty()!! || groups?.size == 1
+    }
 }
 
 class Campaign: Serializable {
@@ -893,6 +902,7 @@ class Campaign: Serializable {
     var awards: Awards? = Awards()
     var leagues: List<League?>? = emptyList()
     var stages: List<Stage?>? = emptyList()
+    var leagueStages: List<Stage?>? = emptyList()
 
     @get:PropertyName("time_stamp")
     @set:PropertyName("time_stamp")
@@ -906,5 +916,9 @@ class Campaign: Serializable {
         this.tournamentId = tournamentId
         this.description = description
         this.order = order
+    }
+
+    fun getRoundRobinStages(): List<Stage?> {
+        return stages!!.filter { it!!.isRoundRobin() }
     }
 }

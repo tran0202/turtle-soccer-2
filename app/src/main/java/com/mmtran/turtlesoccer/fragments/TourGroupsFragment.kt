@@ -5,8 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.mmtran.turtlesoccer.R
+import com.mmtran.turtlesoccer.adapters.StageGroupsPagerAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentTourGroupsBinding
+import com.mmtran.turtlesoccer.models.Campaign
 import com.mmtran.turtlesoccer.models.TourGroupsViewModel
 import com.mmtran.turtlesoccer.models.Tournament
 
@@ -33,15 +40,29 @@ class TourGroupsFragment(tour: Tournament?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tourGroupsViewModel!!.tournament.observe(
-            viewLifecycleOwner,
-            { _: Tournament? ->
-                tournamentObserver()
-            })
-    }
+        val currentCampaign: Campaign = tournament!!.currentCampaign!!
+        val roundRobinStages = if (!currentCampaign.multipleLeagues!!) currentCampaign.getRoundRobinStages() else currentCampaign.leagueStages!!
+        if (roundRobinStages.isEmpty()) return
+        if (roundRobinStages.size == 1) {
+            binding!!.singleStage.visibility = View.VISIBLE
+            val ft: FragmentTransaction = childFragmentManager.beginTransaction()
+            ft.replace(R.id.single_stage, StageGroupsFragment.newInstance(roundRobinStages[0]))
+            ft.commit()
+            binding!!.stageTabLayout.visibility = View.GONE
+            binding!!.stageGroupsViewPager.visibility = View.GONE
+        } else {
+            binding!!.singleStage.visibility = View.GONE
 
-    private fun tournamentObserver() {
+            val stageGroupsViewPager: ViewPager2 = binding!!.stageGroupsViewPager
+            val stageGroupsPagerAdapter: StageGroupsPagerAdapter = StageGroupsPagerAdapter.newInstance(childFragmentManager, lifecycle)
+            stageGroupsPagerAdapter.setCampaign(currentCampaign)
+            stageGroupsViewPager.adapter = stageGroupsPagerAdapter
 
+            TabLayoutMediator(binding!!.stageTabLayout, stageGroupsViewPager) {
+                    tab: TabLayout.Tab, position: Int ->
+                tab.text = if (roundRobinStages[position] != null) roundRobinStages[position]!!.name else ""
+            }.attach()
+        }
     }
 
     override fun onDestroyView() {

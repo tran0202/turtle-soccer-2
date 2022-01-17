@@ -18,7 +18,7 @@ object TournamentUtil {
     fun processTournament(tournament: Tournament?, tournamentList: List<Tournament?>?, campaignList: List<Campaign?>?,
                           nationList: List<Nation?>?, teamList: List<Team?>?, competitionList: List<Competition?>?) {
 
-        if (tournament == null || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
+        if (tournament == null || tournament.doneProcessing || tournamentList.isNullOrEmpty() || campaignList.isNullOrEmpty()
             || nationList.isNullOrEmpty() || teamList.isNullOrEmpty() || competitionList.isNullOrEmpty()) return
 
         attachCompetition(tournament, competitionList)
@@ -28,6 +28,7 @@ object TournamentUtil {
         processFinalStandings(tournament, nationList, teamList)
         processAwards(tournament, nationList, teamList)
         processStages(tournament, nationList, teamList)
+        tournament.doneProcessing = true
     }
 
     private fun attachCompetition(tournament: Tournament?, competitionList: List<Competition?>?) {
@@ -258,11 +259,11 @@ object TournamentUtil {
 
         for (campaign: Campaign? in tournament.campaigns!!) {
             if (campaign?.leagues != null && campaign.multipleLeagues!!) {
-                MatchUtil.processLeagueCampaign(campaign, nationList, teamList)
+                MatchUtil.processLeagueCampaign(tournament, campaign, nationList, teamList)
             }
             if (campaign?.stages != null && !campaign.multipleLeagues!!) {
                 for (stage: Stage? in campaign.stages!!) {
-                    MatchUtil.processStage(stage, nationList, teamList)
+                    MatchUtil.processStage(tournament, stage, nationList, teamList)
                 }
             }
         }

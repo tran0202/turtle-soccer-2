@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.adapters.RoundsAdapter
-import com.mmtran.turtlesoccer.databinding.FragmentStageBinding
+import com.mmtran.turtlesoccer.adapters.GroupsAdapter
+import com.mmtran.turtlesoccer.databinding.FragmentStageGroupsBinding
 import com.mmtran.turtlesoccer.models.Stage
 import com.mmtran.turtlesoccer.models.StageViewModel
 
-class StageFragment(stage: Stage? = Stage()) : Fragment() {
+class StageGroupsFragment(stage: Stage? = Stage()) : Fragment() {
 
     private var stageViewModel: StageViewModel? = null
     private var _stage: Stage? = stage
 
-    private var binding: FragmentStageBinding? = null
-    private var roundsAdapter: RoundsAdapter? = null
+    private var binding: FragmentStageGroupsBinding? = null
+    private var groupsAdapter: GroupsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +29,7 @@ class StageFragment(stage: Stage? = Stage()) : Fragment() {
         stageViewModel = ViewModelProvider(this).get(modelClass = StageViewModel::class.java)
         stageViewModel!!.setStage( if (_stage != null) _stage!! else Stage())
 
-        binding = FragmentStageBinding.inflate(inflater, container, false)
+        binding = FragmentStageGroupsBinding.inflate(inflater, container, false)
 
         return binding!!.root
     }
@@ -37,10 +37,10 @@ class StageFragment(stage: Stage? = Stage()) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding!!.roundList
+        val recyclerView: RecyclerView = binding!!.groupList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-        roundsAdapter = RoundsAdapter(requireContext(), _stage!!.rounds!!)
-        recyclerView.adapter = roundsAdapter
+        groupsAdapter = GroupsAdapter(requireContext(), _stage!!.groups!!)
+        recyclerView.adapter = groupsAdapter
     }
 
     override fun onDestroyView() {
@@ -50,7 +50,7 @@ class StageFragment(stage: Stage? = Stage()) : Fragment() {
 
     companion object {
         fun newInstance(stage: Stage?): Fragment {
-            return StageFragment(stage)
+            return StageGroupsFragment(stage)
         }
     }
 }

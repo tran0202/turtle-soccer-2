@@ -32,22 +32,23 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        val confederation: Confederation = _confederationList[position]!!
         val firebaseStorageLoader = FirebaseStorageLoader(_context)
         firebaseStorageLoader.loadImage(
             _context,
             holder.confederationFlagImageView,
-            "logos/" + _confederationList[position]!!.logoFilename
+            "logos/" + confederation.logoFilename
         )
 
-        holder.confederationNameTextView.text = _confederationList[position]!!.name
+        holder.confederationNameTextView.text = confederation.name
 
-        if (!_confederationList[position]!!.descriptions!!.isNullOrEmpty() && !_confederationList[position]!!.descriptions?.get(0).isNullOrEmpty()) {
-            holder.descriptionTextView.text = _confederationList[position]!!.descriptions?.get(0)
+        if (!confederation.descriptions!!.isNullOrEmpty() && !confederation.descriptions?.get(0).isNullOrEmpty()) {
+            holder.descriptionTextView.text = confederation.descriptions?.get(0)
         } else {
             holder.descriptionTextView.visibility = View.GONE
         }
 
-        if (!_confederationList[position]!!.competitionList!!.isNullOrEmpty()) {
+        if (!confederation.competitionList!!.isNullOrEmpty()) {
             holder.competitionLabelTextView.visibility = View.VISIBLE
         } else {
             holder.competitionLabelTextView.visibility = View.GONE
@@ -55,7 +56,7 @@ class ConfederationsAdapter(context: Context?, confederationList: List<Confedera
 
         val recyclerView: RecyclerView = holder.confCompetitionListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
-        confCompetitionsAdapter = ConfCompetitionsAdapter(_context, _confederationList[position]!!.competitionList!!)
+        confCompetitionsAdapter = ConfCompetitionsAdapter(_context, confederation.competitionList!!)
         confCompetitionsAdapter!!.setClickListener(this)
         recyclerView.adapter = confCompetitionsAdapter
     }

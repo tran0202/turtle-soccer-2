@@ -28,10 +28,11 @@ class PlayersAdapter(context: Context?, playerList: List<Player?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (_playerList[position] != null) {
+        val player: Player? = _playerList[position]
+        if (player != null) {
             holder.playerLinearLayout.visibility = View.VISIBLE
-            renderPlayerFlagName(_context, holder.fragmentFlagNameBinding, _playerList[position])
-            holder.goalsAssistsMinutesTextView.text = PlayerUtil.getGoalsAssistsMinutes(_playerList[position])
+            renderPlayerFlagName(_context, holder.fragmentFlagNameBinding, player)
+            holder.goalsAssistsMinutesTextView.text = PlayerUtil.getGoalsAssistsMinutes(player)
         } else {
             holder.playerLinearLayout.visibility = View.GONE
         }

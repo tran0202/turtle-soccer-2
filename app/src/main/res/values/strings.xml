@@ -140,4 +140,14 @@
     <string name="leg1">1st leg</string>
     <string name="leg2">2nd leg</string>
     <string name="replay">Replay</string>
+    <string name="mp">M</string>
+    <string name="w">W</string>
+    <string name="d">D</string>
+    <string name="l">L</string>
+    <string name="gf">GF</string>
+    <string name="ga">GA</string>
+    <string name="gd">+/-</string>
+    <string name="pts">P</string>
+    <string name="minus">-</string>
+    <string name="positive">+%1$s</string>
 </resources>

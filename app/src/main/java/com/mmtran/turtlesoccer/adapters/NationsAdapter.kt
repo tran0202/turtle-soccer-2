@@ -27,21 +27,22 @@ class NationsAdapter(context: Context?, nationList: List<Nation?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.nationIdTextView.text = _nationList[position]!!.id
+        val nation: Nation = _nationList[position]!!
+        holder.nationIdTextView.text = nation.id
 
-        if (!_nationList[position]!!.flagFilename.isNullOrEmpty()) {
+        if (!nation.flagFilename.isNullOrEmpty()) {
             val firebaseStorageLoader = FirebaseStorageLoader(_context)
             firebaseStorageLoader.loadImage(
                 _context,
                 holder.nationFlagImageView,
-                "flags/" + _nationList[position]!!.flagFilename
+                "flags/" + nation.flagFilename
             )
         } else {
             holder.nationFlagImageView.visibility = View.GONE
         }
 
-        holder.nationNameTextView.text = _nationList[position]!!.name
-        holder.confederationTextView.text = _nationList[position]!!.confederation.id
+        holder.nationNameTextView.text = nation.name
+        holder.confederationTextView.text = nation.confederation.id
     }
 
     override fun getItemCount(): Int {

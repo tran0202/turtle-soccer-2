@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mmtran.turtlesoccer.adapters.StagePagerAdapter
+import com.mmtran.turtlesoccer.adapters.StageMatchesPagerAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentTourMatchesBinding
 import com.mmtran.turtlesoccer.models.TourMatchesViewModel
 import com.mmtran.turtlesoccer.models.Tournament
@@ -37,12 +37,12 @@ class TourMatchesFragment(tour: Tournament?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val stageViewPager: ViewPager2 = binding!!.stageViewPager
-        val stagePagerAdapter: StagePagerAdapter = StagePagerAdapter.newInstance(childFragmentManager, lifecycle)
-        stagePagerAdapter.setCampaign(tournament!!.currentCampaign!!)
-        stageViewPager.adapter = stagePagerAdapter
+        val stageMatchesViewPager: ViewPager2 = binding!!.stageMatchesViewPager
+        val stageMatchesPagerAdapter: StageMatchesPagerAdapter = StageMatchesPagerAdapter.newInstance(childFragmentManager, lifecycle)
+        stageMatchesPagerAdapter.setCampaign(tournament!!.currentCampaign!!)
+        stageMatchesViewPager.adapter = stageMatchesPagerAdapter
 
-        TabLayoutMediator(binding!!.stageTabLayout, stageViewPager) {
+        TabLayoutMediator(binding!!.stageTabLayout, stageMatchesViewPager) {
                 tab: TabLayout.Tab, position: Int ->
             tab.text = if (tournament!!.currentCampaign!!.stages!![position] != null) tournament!!.currentCampaign!!.stages!![position]!!.name else ""
         }.attach()

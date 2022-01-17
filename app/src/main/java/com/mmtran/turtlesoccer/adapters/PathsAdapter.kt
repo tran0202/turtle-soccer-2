@@ -29,12 +29,13 @@ class PathsAdapter(context: Context?, pathList: List<Path?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.pathNameTextView.visibility = if (_pathList[position]!!.hidePathName!!) View.GONE else View.VISIBLE
-        holder.pathNameTextView.text = _context!!.getString(R.string.path_header, _pathList[position]!!.name)
+        val path: Path = _pathList[position]!!
+        holder.pathNameTextView.visibility = if (path.hidePathName!!) View.GONE else View.VISIBLE
+        holder.pathNameTextView.text = _context!!.getString(R.string.path_header, path.name)
 
         val recyclerView: RecyclerView = holder.matchdayListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
-        matchdaysAdapter = MatchdaysAdapter(_context, _pathList[position]!!.matchdayList!!)
+        matchdaysAdapter = MatchdaysAdapter(_context, path.matchdayList!!)
         recyclerView.adapter = matchdaysAdapter
     }
 

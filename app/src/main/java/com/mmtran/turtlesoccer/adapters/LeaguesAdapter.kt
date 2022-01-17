@@ -30,13 +30,14 @@ class LeaguesAdapter(context: Context?, leagueList: List<League?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.leagueNameTextView.visibility = if (_leagueList[position]!!.hideLeagueName!!) View.GONE else View.VISIBLE
-        holder.leagueNameTextView.text = _leagueList[position]!!.name
-        holder.leagueNameTextView.setTextColor(ContextCompat.getColor(_context!!, _leagueList[position]!!.getLeagueColor()))
+        val league: League = _leagueList[position]!!
+        holder.leagueNameTextView.visibility = if (league.hideLeagueName!!) View.GONE else View.VISIBLE
+        holder.leagueNameTextView.text = league.name
+        holder.leagueNameTextView.setTextColor(ContextCompat.getColor(_context!!, league.getLeagueColor()))
 
         val recyclerView: RecyclerView = holder.matchListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
-        matchesAdapter = MatchesAdapter(_context, _leagueList[position]!!.matches!!)
+        matchesAdapter = MatchesAdapter(_context, league.matches!!)
         recyclerView.adapter = matchesAdapter
     }
 

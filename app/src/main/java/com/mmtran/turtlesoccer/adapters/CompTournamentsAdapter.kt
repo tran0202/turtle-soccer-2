@@ -29,13 +29,14 @@ class CompTournamentsAdapter(context: Context?, tournamentList: List<Tournament?
     // binds the data to the TextView in each cell
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        val tournament: Tournament = _tournamentList[position]!!
         val firebaseStorageLoader = FirebaseStorageLoader(_context)
         firebaseStorageLoader.loadImage(
             _context,
             holder.tournamentLogoImageView,
-            _tournamentList[position]!!.competition!!.logoPath + "/" + _tournamentList[position]!!.details!!.logoFilename
+            tournament.competition!!.logoPath + "/" + tournament.details!!.logoFilename
         )
-        holder.shortYearTextView.text = _tournamentList[position]!!.shortYear
+        holder.shortYearTextView.text = tournament.shortYear
     }
 
     // total number of cells

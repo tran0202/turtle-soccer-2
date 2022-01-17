@@ -82,6 +82,12 @@ object CommonUtil {
         }
     }
 
+    fun renderTeamFlag(context: Context?, team: Team?, binding: FragmentTeamFlagBinding?) {
+
+        if (team == null) return
+        renderTeamFlag(context, team, binding!!.clubLogo, binding!!.flag)
+    }
+
     fun renderTeamFlag(context: Context?, team: Team?, clubLogo: ImageView?, flag: ImageView?) {
 
         if (team == null || clubLogo == null || flag == null) return

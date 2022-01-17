@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/ranking_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/gray5"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <include
+            android:id="@+id/team_flag"
+            layout="@layout/fragment_team_flag"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp" />
+
+        <TextView
+            android:id="@+id/team_name"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textAllCaps="true" />
+        <TextView
+            android:id="@+id/mp"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/w"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/d"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/l"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/gf"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/ga"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/gd"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/pts"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

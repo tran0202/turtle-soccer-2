@@ -30,12 +30,13 @@ class MatchdaysAdapter(context: Context?, matchdayList: List<Matchday?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.matchdayNameTextView.text = CommonUtil.renderDate(_matchdayList[position]!!.name)
+        val matchday: Matchday = _matchdayList[position]!!
+        holder.matchdayNameTextView.text = CommonUtil.renderDate(matchday.name)
         holder.matchdayNameTextView.paintFlags = holder.matchdayNameTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         val recyclerView: RecyclerView = holder.leagueListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
-        leaguesAdapter = LeaguesAdapter(_context, _matchdayList[position]!!.leagues!!)
+        leaguesAdapter = LeaguesAdapter(_context, matchday.leagues!!)
         recyclerView.adapter = leaguesAdapter
     }
 

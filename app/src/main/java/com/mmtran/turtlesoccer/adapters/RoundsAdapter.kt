@@ -28,12 +28,13 @@ class RoundsAdapter(context: Context?, roundList: List<Round?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.roundNameTextView.visibility = if (_roundList[position]!!.hideRoundName!!) View.GONE else View.VISIBLE
-        holder.roundNameTextView.text = _roundList[position]!!.name
+        val round: Round = _roundList[position]!!
+        holder.roundNameTextView.visibility = if (round.hideRoundName!!) View.GONE else View.VISIBLE
+        holder.roundNameTextView.text = round.name
 
         val recyclerView: RecyclerView = holder.pathListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
-        pathsAdapter = PathsAdapter(_context, _roundList[position]!!.paths!!)
+        pathsAdapter = PathsAdapter(_context, round.paths!!)
         recyclerView.adapter = pathsAdapter
     }
 

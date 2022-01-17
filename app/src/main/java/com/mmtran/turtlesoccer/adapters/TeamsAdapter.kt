@@ -26,9 +26,10 @@ class TeamsAdapter(context: Context?, teamList: List<Team?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (_teamList[position] != null) {
+        val team: Team? = _teamList[position]
+        if (team != null) {
             holder.teamLinearLayout.visibility = View.VISIBLE
-            CommonUtil.renderTeamFlagName(_context, _teamList[position], holder.fragmentFlagNameBinding)
+            CommonUtil.renderTeamFlagName(_context, team, holder.fragmentFlagNameBinding)
         } else {
             holder.teamLinearLayout.visibility = View.GONE
         }

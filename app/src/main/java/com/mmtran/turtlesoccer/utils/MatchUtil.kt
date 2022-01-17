@@ -13,20 +13,23 @@ import com.mmtran.turtlesoccer.models.*
 
 object MatchUtil {
 
-    fun processLeagueCampaign(campaign: Campaign?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    fun processLeagueCampaign(tournament: Tournament?, campaign: Campaign?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (campaign?.leagues == null) return
 
-        campaign.stages = emptyList()
         campaign.stages = campaign.stages!!.plus((Stage("Matchdays", "roundrobin")))
 
         for (league: League? in campaign.leagues!!) {
             if (league == null) break
+            val newLeagueStage = Stage(league.name, "roundrobin")
+            campaign.leagueStages = campaign.leagueStages!!.plus(newLeagueStage)
             for (stage: Stage? in league.stages!!) {
                 if (stage == null) break
                 if (stage.isRoundRobin()) {
+                    newLeagueStage.groups = stage.groups
                     for (group: Group? in stage.groups!!) {
                         if (group == null) break
+                        RankingUtil.initRankings(group, nationList, teamList)
                         for (matchday: Matchday? in group.matchdays!!) {
                             if (matchday == null) break
                             var matches: List<Match?>? = emptyList()
@@ -35,6 +38,7 @@ object MatchUtil {
                                 processMatch(match, nationList, teamList)
                                 match.groupName = group.name
                                 matches = matches!!.plus(match)
+                                RankingUtil.accumulateRankings(tournament, group, match)
                             }
                             val round = campaign.stages!![0]!!.rounds!!.find { it!!.name.equals(matchday.name) }
                             if (round == null) {
@@ -47,16 +51,17 @@ object MatchUtil {
                                 round.paths!![0]!!.matchdayList = mergeMatchdayList(round.paths!![0]!!.matchdayList, matches, league.name)
                             }
                         }
+                        RankingUtil.sortRankings(tournament, group)
                     }
                 }
                 if (stage.isKnockout()) {
-                    campaign.stages = campaign.stages!!.plus((Stage(stage.name!!, stage.type!!)))
+                    campaign.stages = campaign.stages!!.plus(Stage(stage.name!!, stage.type!!))
                 }
             }
         }
     }
 
-    fun processStage(stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    fun processStage(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (stage?.rounds == null) return
 
@@ -76,14 +81,14 @@ object MatchUtil {
             }
         }
         if (stage.isRoundRobin()) {
-            processRoundRobin(stage, nationList, teamList)
+            processRoundRobin(tournament, stage, nationList, teamList)
         }
         if (stage.isKnockout()) {
-            processKnockout(stage, nationList, teamList)
+            processKnockout(tournament, stage, nationList, teamList)
         }
     }
 
-    private fun processRoundRobin(stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    private fun processRoundRobin(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (stage?.groups == null) return
 
@@ -91,12 +96,16 @@ object MatchUtil {
             var matches: List<Match?>? = emptyList()
             for (group: Group? in stage.groups!!) {
                 if (group == null) break
+                RankingUtil.initRankings(group, nationList, teamList)
+                group.hideGroupName = stage.hideGroupName()
                 for (match: Match? in group.matches!!) {
                     if (match == null) break
                     processMatch(match, nationList, teamList)
                     match.groupName = group.name
                     matches = matches!!.plus(match)
+                    RankingUtil.accumulateRankings(tournament, group, match)
                 }
+                RankingUtil.sortRankings(tournament, group)
             }
             stage.rounds = emptyList()
             stage.rounds = stage.rounds!!.plus(Round("", true))
@@ -106,6 +115,8 @@ object MatchUtil {
             var roundList: List<Round?>? = emptyList()
             for (group: Group? in stage.groups!!) {
                 if (group == null) break
+                RankingUtil.initRankings(group, nationList, teamList)
+                group.hideGroupName = stage.hideGroupName()
                 for (matchday: Matchday? in group.matchdays!!) {
                     if (matchday == null) break
                     var matches: List<Match?>? = emptyList()
@@ -114,6 +125,7 @@ object MatchUtil {
                         processMatch(match, nationList, teamList)
                         match.groupName = group.name
                         matches = matches!!.plus(match)
+                        RankingUtil.accumulateRankings(tournament, group, match)
                     }
                     val round = roundList!!.find { it!!.name.equals(matchday.name) }
                     if (round == null) {
@@ -125,6 +137,7 @@ object MatchUtil {
                         round.matches = round.matches!!.plus(matches!!.toTypedArray())
                     }
                 }
+                RankingUtil.sortRankings(tournament, group)
             }
             for (round: Round? in roundList!!) {
                 if (round == null) break
@@ -136,7 +149,7 @@ object MatchUtil {
         }
     }
 
-    private fun processKnockout(stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    private fun processKnockout(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (stage?.rounds == null) return
 
@@ -760,7 +773,7 @@ object MatchUtil {
         }
     }
 
-    fun renderReplayExtraTimeFootnote(context: Context?, match: Match?, binding: FragmentMatchBinding) {
+    fun renderReplayExtraTimeFootnote(match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
 
