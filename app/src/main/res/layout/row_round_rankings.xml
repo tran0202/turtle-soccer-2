@@ -5,23 +5,18 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/group_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="10dp"
-        android:textAlignment="viewStart"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <include
-        android:id="@+id/group_rankings"
-        layout="@layout/fragment_group_rankings"
+        android:id="@+id/round_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/position_pool_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

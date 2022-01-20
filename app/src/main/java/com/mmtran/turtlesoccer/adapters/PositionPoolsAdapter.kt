@@ -4,53 +4,49 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.databinding.RowGroupBinding
+import com.mmtran.turtlesoccer.databinding.RowPositionPoolsBinding
 
-import com.mmtran.turtlesoccer.models.Group
+import com.mmtran.turtlesoccer.models.PositionPool
 
-class GroupsAdapter(context: Context?, groupList: List<Group?>) :
-    RecyclerView.Adapter<GroupsAdapter.ViewHolder>() {
+class PositionPoolsAdapter(context: Context?, positionPoolList: List<PositionPool?>) :
+    RecyclerView.Adapter<PositionPoolsAdapter.ViewHolder>() {
 
     private val _context = context
-    private val _groupList: List<Group?> = groupList
+    private val _positionPoolList: List<PositionPool?> = positionPoolList
     private val _inflater: LayoutInflater = LayoutInflater.from(context)
     private var _clickListener: ItemClickListener? = null
     private var poolsAdapter: PoolsAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowGroupBinding = RowGroupBinding.inflate(_inflater, parent, false)
+        val binding: RowPositionPoolsBinding = RowPositionPoolsBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val group: Group = _groupList[position]!!
-        holder.groupNameTextView.visibility = if (group.hideGroupName!!) View.GONE else View.VISIBLE
-        holder.groupNameTextView.text = group.name
+        val positionPool: PositionPool = _positionPoolList[position]!!
 
         val recyclerView: RecyclerView = holder.poolListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
-        poolsAdapter = PoolsAdapter(_context, group.pools!!)
+        poolsAdapter = PoolsAdapter(_context, positionPool.pools!!)
         recyclerView.adapter = poolsAdapter
     }
 
     override fun getItemCount(): Int {
-        return _groupList.size
+        return _positionPoolList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowGroupBinding) : RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder internal constructor(binding: RowPositionPoolsBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnClickListener {
 
         val root: View = binding.root
-        var groupNameTextView: TextView = binding.groupName
-        var poolListRecyclerView: RecyclerView = binding.groupRankings.poolList
+        var poolListRecyclerView: RecyclerView = binding.poolList
 
         override fun onClick(view: View) {
-            if (_clickListener != null) _clickListener!!.onItemClick(view, _groupList, absoluteAdapterPosition)
+            if (_clickListener != null) _clickListener!!.onItemClick(view, _positionPoolList, absoluteAdapterPosition)
         }
     }
 
@@ -59,6 +55,6 @@ class GroupsAdapter(context: Context?, groupList: List<Group?>) :
     }
 
     interface ItemClickListener {
-        fun onItemClick(view: View?, groupList: List<Group?>, position: Int)
+        fun onItemClick(view: View?, positionPoolList: List<PositionPool?>, position: Int)
     }
 }

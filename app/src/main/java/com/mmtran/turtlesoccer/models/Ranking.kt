@@ -2,6 +2,49 @@ package com.mmtran.turtlesoccer.models
 
 import java.io.Serializable
 
+const val FINAL = "Final"
+const val THIRD_PLACE = "Third-place"
+
+class RoundRanking: Serializable {
+
+    var name: String? = null
+
+    var positionPools: List<PositionPool?>? = emptyList()
+    var processed: Boolean? = false
+
+    constructor()
+    constructor(name: String?) {
+        this.name = name
+    }
+
+    fun showRoundRankingName(): Boolean {
+        return processed!! && name != FINAL && name != THIRD_PLACE
+    }
+}
+
+class PositionPool: Serializable {
+
+    var position: Int? = null
+    var pools: List<Pool?>? = emptyList()
+
+    constructor()
+    constructor(position: Int?) {
+        this.position = position
+    }
+
+    fun getRankingList(): List<Ranking?>? {
+        var rankings: List<Ranking?>? = emptyList()
+        for (pool: Pool? in pools!!) {
+            if (pool == null) break
+            for (ranking: Ranking? in pool.rankings!!) {
+                if (ranking == null) break
+                rankings = rankings!!.plus(ranking)
+            }
+        }
+        return rankings
+    }
+ }
+
 class Pool: Serializable {
 
     var position: Int? = null
@@ -9,6 +52,7 @@ class Pool: Serializable {
     var ga: Int? = null
     var pts: Int? = null
     var rankings: List<Ranking?>? = emptyList()
+    var highlighted: Boolean? = false
 
     constructor()
     constructor(gf: Int?, ga: Int?, pts: Int?, rankings: List<Ranking?>?) {
@@ -16,6 +60,15 @@ class Pool: Serializable {
         this.ga = ga
         this.pts = pts
         this.rankings = rankings
+    }
+
+    fun copyPool(): Pool {
+        var newRankings = emptyList<Ranking?>()
+        for (ranking: Ranking? in rankings!!) {
+            val newRanking = ranking!!.copyRanking()
+            newRankings = newRankings.plus(newRanking)
+        }
+        return Pool(this.gf, this.ga, this.pts, newRankings)
     }
 }
 
@@ -49,5 +102,9 @@ class Ranking {
     fun isEqualRankings(pool: Pool?): Boolean {
         if (pool?.gf == null || pool.ga == null || pool.pts == null) return false
         return this.pts == pool.pts && this.gf == pool.gf && this.ga == pool.ga
+    }
+
+    fun copyRanking(): Ranking {
+        return Ranking(null, this.team, this.mp, this.w, this.d, this.l, this.gf, this.ga, this.gd, this.pts)
     }
 }

@@ -13,7 +13,7 @@ import com.mmtran.turtlesoccer.models.*
 
 object MatchUtil {
 
-    fun processLeagueCampaign(tournament: Tournament?, campaign: Campaign?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    fun processLeagueMatches(tournament: Tournament?, campaign: Campaign?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (campaign?.leagues == null) return
 
@@ -29,7 +29,7 @@ object MatchUtil {
                     newLeagueStage.groups = stage.groups
                     for (group: Group? in stage.groups!!) {
                         if (group == null) break
-                        RankingUtil.initRankings(group, nationList, teamList)
+                        RankingUtil.initGroupRankings(group, nationList, teamList)
                         for (matchday: Matchday? in group.matchdays!!) {
                             if (matchday == null) break
                             var matches: List<Match?>? = emptyList()
@@ -38,7 +38,7 @@ object MatchUtil {
                                 processMatch(match, nationList, teamList)
                                 match.groupName = group.name
                                 matches = matches!!.plus(match)
-                                RankingUtil.accumulateRankings(tournament, group, match)
+                                RankingUtil.accumulateGroupRankings(tournament, group, match)
                             }
                             val round = campaign.stages!![0]!!.rounds!!.find { it!!.name.equals(matchday.name) }
                             if (round == null) {
@@ -51,7 +51,7 @@ object MatchUtil {
                                 round.paths!![0]!!.matchdayList = mergeMatchdayList(round.paths!![0]!!.matchdayList, matches, league.name)
                             }
                         }
-                        RankingUtil.sortRankings(tournament, group)
+                        RankingUtil.sortGroupRankings(tournament, group)
                     }
                 }
                 if (stage.isKnockout()) {
@@ -61,7 +61,7 @@ object MatchUtil {
         }
     }
 
-    fun processStage(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    fun processStageMatches(tournament: Tournament?, campaign: Campaign?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (stage?.rounds == null) return
 
@@ -81,14 +81,14 @@ object MatchUtil {
             }
         }
         if (stage.isRoundRobin()) {
-            processRoundRobin(tournament, stage, nationList, teamList)
+            processRoundRobinMatches(tournament, stage, nationList, teamList)
         }
         if (stage.isKnockout()) {
-            processKnockout(tournament, stage, nationList, teamList)
+            processKnockoutMatches(tournament, stage, nationList, teamList)
         }
     }
 
-    private fun processRoundRobin(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    private fun processRoundRobinMatches(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (stage?.groups == null) return
 
@@ -96,16 +96,16 @@ object MatchUtil {
             var matches: List<Match?>? = emptyList()
             for (group: Group? in stage.groups!!) {
                 if (group == null) break
-                RankingUtil.initRankings(group, nationList, teamList)
+                RankingUtil.initGroupRankings(group, nationList, teamList)
                 group.hideGroupName = stage.hideGroupName()
                 for (match: Match? in group.matches!!) {
                     if (match == null) break
                     processMatch(match, nationList, teamList)
                     match.groupName = group.name
                     matches = matches!!.plus(match)
-                    RankingUtil.accumulateRankings(tournament, group, match)
+                    RankingUtil.accumulateGroupRankings(tournament, group, match)
                 }
-                RankingUtil.sortRankings(tournament, group)
+                RankingUtil.sortGroupRankings(tournament, group)
             }
             stage.rounds = emptyList()
             stage.rounds = stage.rounds!!.plus(Round("", true))
@@ -115,7 +115,7 @@ object MatchUtil {
             var roundList: List<Round?>? = emptyList()
             for (group: Group? in stage.groups!!) {
                 if (group == null) break
-                RankingUtil.initRankings(group, nationList, teamList)
+                RankingUtil.initGroupRankings(group, nationList, teamList)
                 group.hideGroupName = stage.hideGroupName()
                 for (matchday: Matchday? in group.matchdays!!) {
                     if (matchday == null) break
@@ -125,7 +125,7 @@ object MatchUtil {
                         processMatch(match, nationList, teamList)
                         match.groupName = group.name
                         matches = matches!!.plus(match)
-                        RankingUtil.accumulateRankings(tournament, group, match)
+                        RankingUtil.accumulateGroupRankings(tournament, group, match)
                     }
                     val round = roundList!!.find { it!!.name.equals(matchday.name) }
                     if (round == null) {
@@ -137,7 +137,7 @@ object MatchUtil {
                         round.matches = round.matches!!.plus(matches!!.toTypedArray())
                     }
                 }
-                RankingUtil.sortRankings(tournament, group)
+                RankingUtil.sortGroupRankings(tournament, group)
             }
             for (round: Round? in roundList!!) {
                 if (round == null) break
@@ -149,7 +149,7 @@ object MatchUtil {
         }
     }
 
-    private fun processKnockout(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    private fun processKnockoutMatches(tournament: Tournament?, stage: Stage?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (stage?.rounds == null) return
 

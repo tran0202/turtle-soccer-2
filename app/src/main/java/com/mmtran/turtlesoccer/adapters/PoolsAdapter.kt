@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mmtran.turtlesoccer.R
 import com.mmtran.turtlesoccer.databinding.RowPoolBinding
 
 import com.mmtran.turtlesoccer.models.Pool
@@ -30,12 +32,23 @@ class PoolsAdapter(context: Context?, poolList: List<Pool?>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val pool: Pool = _poolList[position]!!
+        setRankingBackground(holder.root, pool)
         RankingUtil.renderNumber(_context, pool.position, holder.positionTextView)
 
         val recyclerView: RecyclerView = holder.rankingListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
         rankingsAdapter = RankingsAdapter(_context, pool.rankings!!)
         recyclerView.adapter = rankingsAdapter
+    }
+
+    private fun setRankingBackground(view: View, pool: Pool) {
+        when (pool.position) {
+            1 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.gold))
+            2 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.silver))
+            3 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.bronze))
+            4 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.sky_blue))
+            else -> {}
+        }
     }
 
     override fun getItemCount(): Int {

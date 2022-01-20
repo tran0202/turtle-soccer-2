@@ -903,6 +903,7 @@ class Campaign: Serializable {
     var leagues: List<League?>? = emptyList()
     var stages: List<Stage?>? = emptyList()
     var leagueStages: List<Stage?>? = emptyList()
+    var roundRankings: List<RoundRanking?>? = emptyList()
 
     @get:PropertyName("time_stamp")
     @set:PropertyName("time_stamp")

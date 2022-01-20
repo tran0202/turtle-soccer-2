@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
+    android:paddingBottom="10dp"
     android:orientation="vertical">
 
     <View
@@ -23,7 +23,7 @@
             android:id="@+id/position"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:textAlignment="viewStart"
+            android:textAlignment="center"
             android:textSize="15sp" />
 
         <androidx.recyclerview.widget.RecyclerView

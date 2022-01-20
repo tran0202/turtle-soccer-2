@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-import com.mmtran.turtlesoccer.databinding.RowRoundBinding
+import com.mmtran.turtlesoccer.databinding.RowRoundMatchesBinding
 import com.mmtran.turtlesoccer.models.Round
 
-class RoundsAdapter(context: Context?, roundList: List<Round?>) :
-    RecyclerView.Adapter<RoundsAdapter.ViewHolder>() {
+class RoundMatchesAdapter(context: Context?, roundList: List<Round?>) :
+    RecyclerView.Adapter<RoundMatchesAdapter.ViewHolder>() {
 
     private val _context = context
     private val _roundList: List<Round?> = roundList
@@ -22,7 +22,7 @@ class RoundsAdapter(context: Context?, roundList: List<Round?>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val binding: RowRoundBinding = RowRoundBinding.inflate(_inflater, parent, false)
+        val binding: RowRoundMatchesBinding = RowRoundMatchesBinding.inflate(_inflater, parent, false)
         return ViewHolder(binding)
     }
 
@@ -42,7 +42,7 @@ class RoundsAdapter(context: Context?, roundList: List<Round?>) :
         return _roundList.size
     }
 
-    inner class ViewHolder internal constructor(binding: RowRoundBinding) : RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder internal constructor(binding: RowRoundMatchesBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnClickListener {
 
         val root: View = binding.root

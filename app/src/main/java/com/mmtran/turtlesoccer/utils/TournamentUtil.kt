@@ -27,7 +27,8 @@ object TournamentUtil {
         processHosts(tournament, nationList, teamList)
         processFinalStandings(tournament, nationList, teamList)
         processAwards(tournament, nationList, teamList)
-        processStages(tournament, nationList, teamList)
+        processMatches(tournament, nationList, teamList)
+        RankingUtil.processRankings(tournament)
         tournament.doneProcessing = true
     }
 
@@ -253,18 +254,19 @@ object TournamentUtil {
         }
     }
 
-    private fun processStages(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    private fun processMatches(tournament: Tournament?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (tournament?.campaigns == null) return
 
         for (campaign: Campaign? in tournament.campaigns!!) {
             if (campaign?.leagues != null && campaign.multipleLeagues!!) {
-                MatchUtil.processLeagueCampaign(tournament, campaign, nationList, teamList)
+                MatchUtil.processLeagueMatches(tournament, campaign, nationList, teamList)
             }
             if (campaign?.stages != null && !campaign.multipleLeagues!!) {
                 for (stage: Stage? in campaign.stages!!) {
-                    MatchUtil.processStage(tournament, stage, nationList, teamList)
+                    MatchUtil.processStageMatches(tournament, campaign, stage, nationList, teamList)
                 }
+                campaign.roundRankings = campaign.roundRankings!!.reversed()
             }
         }
     }
