@@ -673,6 +673,10 @@ class Match: Serializable {
     private fun isLeg1AwayDisqualifiedEmphasizedName(): Boolean {
         return disqualifiedMatch!! && (!awayDisqualified!! || homeDisqualified!!)
     }
+
+    fun isMatchValidScore(): Boolean {
+        return !cancelledMatch!! && !walkoverMatch!! && !byeMatch!!  && !postponedMatch!!
+    }
 }
 
 class Group: Serializable {

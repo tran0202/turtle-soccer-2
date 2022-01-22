@@ -4,6 +4,7 @@ import java.io.Serializable
 
 const val FINAL = "Final"
 const val THIRD_PLACE = "Third-place"
+const val SEMI_FINALS = "Semi-finals"
 
 class RoundRanking: Serializable {
 
@@ -16,6 +17,10 @@ class RoundRanking: Serializable {
     constructor(name: String?) {
         this.name = name
     }
+    constructor(name: String?, processed: Boolean?) {
+        this.name = name
+        this.processed = processed
+    }
 
     fun showRoundRankingName(): Boolean {
         return processed!! && name != FINAL && name != THIRD_PLACE
@@ -26,6 +31,7 @@ class PositionPool: Serializable {
 
     var position: Int? = null
     var pools: List<Pool?>? = emptyList()
+    var hidePositionPoolDivider: Boolean? = false
 
     constructor()
     constructor(position: Int?) {
@@ -69,6 +75,18 @@ class Pool: Serializable {
             newRankings = newRankings.plus(newRanking)
         }
         return Pool(this.gf, this.ga, this.pts, newRankings)
+    }
+}
+
+class KnockoutRankingList {
+
+    var eliminated: List<Ranking?>? = emptyList()
+    var advanced: List<Ranking?>? = emptyList()
+
+    constructor()
+    constructor(eliminated: List<Ranking?>?, advanced: List<Ranking?>?) {
+        this.eliminated = eliminated
+        this.advanced = advanced
     }
 }
 

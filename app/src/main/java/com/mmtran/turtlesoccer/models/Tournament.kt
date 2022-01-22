@@ -712,4 +712,10 @@ class Tournament: Serializable {
         if (currentCampaign == null || currentCampaign!!.id == null) return false
         return id!! != currentCampaign!!.id
     }
+
+    fun getFinalTournament(): Campaign? {
+        if (campaigns == null) return null
+        val finalCampaign = campaigns!!.filter { it!!.id == this.id }
+        return if (finalCampaign.isNotEmpty() && finalCampaign.size == 1) finalCampaign[0] else null
+    }
 }

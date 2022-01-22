@@ -7,7 +7,7 @@ import com.mmtran.turtlesoccer.models.*
 
 object RankingUtil {
 
-    private fun newRanking(team: Team?): Ranking {
+    fun newRanking(team: Team?): Ranking {
         return Ranking(null, team, 0,0,0,0,0,0,0,0)
     }
 
@@ -43,35 +43,35 @@ object RankingUtil {
         val homeRanking = group.rankings!!.find { it!!.team!!.name.equals(match.homeTeam!!.name) }
         val awayRanking = group.rankings!!.find { it!!.team!!.name.equals(match.awayTeam!!.name) }
         if (homeRanking == null || awayRanking == null) return
-        accumulateRankings(tournament, homeRanking, awayRanking, match)
+        accumulateRankings(tournament, tournament.pointsForWin, homeRanking, awayRanking, match)
     }
 
-    private fun accumulateRankings(tournament: Tournament?, homeRanking: Ranking?, awayRanking: Ranking?, match: Match?) {
-        if (tournament == null || homeRanking == null || awayRanking == null || match == null) return
+    fun accumulateRankings(tournament: Tournament?, pointsForWin: Int?, homeRanking: Ranking?, awayRanking: Ranking?, match: Match?) {
+        if (tournament == null || pointsForWin == null || homeRanking == null || awayRanking == null || match == null) return
 
         homeRanking.mp = homeRanking.mp?.plus(1)
         awayRanking.mp = awayRanking.mp?.plus(1)
         when {
-            match.homeScore!! > match.awayScore!! -> {
+            match.homeScore()!! > match.awayScore()!! -> {
                 homeRanking.w = homeRanking.w?.plus(1)
-                homeRanking.pts = homeRanking.pts?.plus(tournament.pointsForWin!!)
+                homeRanking.pts = homeRanking.pts?.plus(pointsForWin)
                 awayRanking.l = awayRanking.l?.plus(1)
             }
-            match.homeScore!! < match.awayScore!! -> {
+            match.homeScore()!! < match.awayScore()!! -> {
                 homeRanking.l = homeRanking.l?.plus(1)
                 awayRanking.w = awayRanking.w?.plus(1)
-                awayRanking.pts = awayRanking.pts?.plus(tournament.pointsForWin!!)
+                awayRanking.pts = awayRanking.pts?.plus(pointsForWin)
             }
             else -> when {
                 match.isExtraTimeMatch() && match.homeExtraScore!! > match.awayExtraScore!! -> {
                     homeRanking.w = homeRanking.w?.plus(1)
-                    homeRanking.pts = homeRanking.pts?.plus(tournament.pointsForWin!!)
+                    homeRanking.pts = homeRanking.pts?.plus(pointsForWin)
                     awayRanking.l = awayRanking.l?.plus(1)
                 }
                 match.isExtraTimeMatch() && match.homeExtraScore!! < match.awayExtraScore!! -> {
                     homeRanking.l = homeRanking.l?.plus(1)
                     awayRanking.w = awayRanking.w?.plus(1)
-                    awayRanking.pts = awayRanking.pts?.plus(tournament.pointsForWin!!)
+                    awayRanking.pts = awayRanking.pts?.plus(pointsForWin)
                 }
                 else -> {
                     homeRanking.d = homeRanking.d?.plus(1)
@@ -81,15 +81,16 @@ object RankingUtil {
                 }
             }
         }
-        homeRanking.gf = homeRanking.gf?.plus(match.homeScore!!)
-        homeRanking.ga = homeRanking.ga?.plus(match.awayScore!!)
+        homeRanking.gf = homeRanking.gf?.plus(match.homeScore()!!)
+        homeRanking.ga = homeRanking.ga?.plus(match.awayScore()!!)
         if (match.isExtraTimeMatch()) {
             homeRanking.gf = homeRanking.gf?.plus(match.homeExtraScore!!)
             homeRanking.ga = homeRanking.ga?.plus(match.awayExtraScore!!)
         }
         homeRanking.gd = homeRanking.gf!! - homeRanking.ga!!
-        awayRanking.gf = awayRanking.gf?.plus(match.awayScore!!)
-        awayRanking.ga = awayRanking.ga?.plus(match.homeScore!!)
+
+        awayRanking.gf = awayRanking.gf?.plus(match.awayScore()!!)
+        awayRanking.ga = awayRanking.ga?.plus(match.homeScore()!!)
         if (match.isExtraTimeMatch()) {
             awayRanking.gf = awayRanking.gf?.plus(match.awayExtraScore!!)
             awayRanking.ga = awayRanking.ga?.plus(match.homeExtraScore!!)
@@ -100,11 +101,11 @@ object RankingUtil {
     fun sortGroupRankings(tournament: Tournament?, group: Group?) {
         if (tournament == null || group?.rankings == null) return
 
-        group.pools = sortRankings(tournament, group.rankings)
+        group.pools = sortRankings(group.rankings, 1)
     }
 
-    private fun sortRankings(tournament: Tournament?, rankings: List<Ranking?>?, firstPosition: Int = 1): List<Pool?> {
-        if (tournament == null || rankings == null) return emptyList()
+    fun sortRankings(rankings: List<Ranking?>?, firstPosition: Int): List<Pool?> {
+        if (rankings == null) return emptyList()
 
         val comparatorRanking = ComparatorRanking()
         val rankingList = rankings.sortedWith(comparatorRanking).reversed()
@@ -229,7 +230,7 @@ object RankingUtil {
         if (tournament == null || roundRanking == null || rankingList == null || rankingList.isEmpty()) return
 
         val firstPosition = if (eliminateCount != null) eliminateCount + 1 else 1
-        val poolList = sortRankings(tournament, rankingList, firstPosition)
+        val poolList = sortRankings(rankingList, firstPosition)
         roundRanking.positionPools!![0]!!.pools = poolList
         roundRanking.processed = true
     }
@@ -239,52 +240,23 @@ object RankingUtil {
         for (round: Round? in stage.rounds!!) {
             if (round == null) break
             val roundRanking = initRoundRankings(campaign, round.name)
-            val thirdPlaceRanking = if (round.name == "Semi-finals") initRoundRankings(campaign, "Third-place") else null
+            val thirdPlaceRanking = if (round.name == SEMI_FINALS) initRoundRankings(campaign, THIRD_PLACE) else null
             val nextRoundRanking = initRoundRankings(campaign, round.nextRound)
             val rankingList = roundRanking.positionPools!![0]!!.getRankingList()
-            var eliminatedRankingList: List<Ranking?>? = emptyList()
-            var advancedRankingList: List<Ranking?>? = emptyList()
-            for (match: Match? in round.matches!!) {
-                if (match == null) break
-                val homeRanking: Ranking? = rankingList!!.find { it!!.team!!.name == match.homeTeam!!.name }
-                val awayRanking: Ranking? = rankingList.find { it!!.team!!.name == match.awayTeam!!.name }
-                if (homeRanking == null || awayRanking == null) break
-                accumulateRankings(tournament, homeRanking, awayRanking, match)
-                if (match.getTeamNameWin() == homeRanking.team!!.name) {
-                    eliminatedRankingList = eliminatedRankingList!!.plus(awayRanking)
-                    advancedRankingList = advancedRankingList!!.plus(homeRanking)
-                    if (round.name == "Third-place") {
-                        homeRanking.position = 3
-                        awayRanking.position = 4
-                    }
-                    if (round.name == "Final") {
-                        homeRanking.position = 1
-                        awayRanking.position = 2
-                    }
-                }
-                if (match.getTeamNameWin() == awayRanking.team!!.name) {
-                    eliminatedRankingList = eliminatedRankingList!!.plus(homeRanking)
-                    advancedRankingList = advancedRankingList!!.plus(awayRanking)
-                    if (round.name == "Third-place") {
-                        homeRanking.position = 4
-                        awayRanking.position = 3
-                    }
-                    if (round.name == "Final") {
-                        homeRanking.position = 2
-                        awayRanking.position = 1
-                    }
-                }
-            }
+            val knockoutRankingList = executeKnockoutRound(tournament, rankingList, round)
+            val eliminatedRankingList: List<Ranking?>? = knockoutRankingList!!.eliminated
+            val advancedRankingList: List<Ranking?>? = knockoutRankingList.advanced
             when (round.name) {
-                "Final" -> {
+                FINAL -> {
+                    copyPoolPosition(roundRanking)
+                    roundRanking.positionPools!![0]!!.hidePositionPoolDivider = true
+                    roundRanking.processed = true
+                }
+                THIRD_PLACE -> {
                     copyPoolPosition(roundRanking)
                     roundRanking.processed = true
                 }
-                "Third-place" -> {
-                    copyPoolPosition(roundRanking)
-                    roundRanking.processed = true
-                }
-                "Semi-finals" -> {
+                SEMI_FINALS -> {
                     thirdPlaceRanking!!.positionPools!![0]!!.pools = createPoolList(eliminatedRankingList!!)
                     if (nextRoundRanking.positionPools!!.isNotEmpty()) {
                         nextRoundRanking.positionPools!![0]!!.pools = createPoolList(advancedRankingList!!)
@@ -300,6 +272,45 @@ object RankingUtil {
         }
     }
 
+    private fun executeKnockoutRound(tournament: Tournament?, rankingList: List<Ranking?>?, round: Round?): KnockoutRankingList? {
+        if (tournament == null || round == null) return null
+
+        var eliminatedRankingList: List<Ranking?>? = emptyList()
+        var advancedRankingList: List<Ranking?>? = emptyList()
+        for (match: Match? in round.matches!!) {
+            if (match == null) break
+            val homeRanking: Ranking? = rankingList!!.find { it!!.team!!.name == match.homeTeam!!.name }
+            val awayRanking: Ranking? = rankingList.find { it!!.team!!.name == match.awayTeam!!.name }
+            if (homeRanking == null || awayRanking == null) break
+            accumulateRankings(tournament, tournament.pointsForWin, homeRanking, awayRanking, match)
+            if (match.getTeamNameWin() == homeRanking.team!!.name) {
+                eliminatedRankingList = eliminatedRankingList!!.plus(awayRanking)
+                advancedRankingList = advancedRankingList!!.plus(homeRanking)
+                if (round.name == THIRD_PLACE) {
+                    homeRanking.position = 3
+                    awayRanking.position = 4
+                }
+                if (round.name == FINAL) {
+                    homeRanking.position = 1
+                    awayRanking.position = 2
+                }
+            }
+            if (match.getTeamNameWin() == awayRanking.team!!.name) {
+                eliminatedRankingList = eliminatedRankingList!!.plus(homeRanking)
+                advancedRankingList = advancedRankingList!!.plus(awayRanking)
+                if (round.name == THIRD_PLACE) {
+                    homeRanking.position = 4
+                    awayRanking.position = 3
+                }
+                if (round.name == FINAL) {
+                    homeRanking.position = 2
+                    awayRanking.position = 1
+                }
+            }
+        }
+        return KnockoutRankingList(eliminatedRankingList, advancedRankingList)
+    }
+
     private fun copyPoolPosition(roundRanking: RoundRanking?) {
         if (roundRanking?.positionPools == null || roundRanking.positionPools!!.isEmpty()
             || roundRanking.positionPools!![0]?.pools == null) return
@@ -311,8 +322,90 @@ object RankingUtil {
     }
 
     private fun processLeagueRankings(tournament: Tournament?, campaign: Campaign?, league: League?) {
-        if (tournament == null || campaign == null || league == null) return
-        campaign.roundRankings = campaign.roundRankings!!.plus(RoundRanking(league.name))
+        if (tournament == null || campaign == null || league?.stages == null) return
+
+        val isTopLeague = campaign.roundRankings!!.isEmpty()
+        if (isTopLeague) {
+            campaign.roundRankings = campaign.roundRankings!!.plus(RoundRanking(FINAL))
+            campaign.roundRankings = campaign.roundRankings!!.plus(RoundRanking(THIRD_PLACE))
+        }
+
+        val roundRanking = RoundRanking(league.name)
+        campaign.roundRankings = campaign.roundRankings!!.plus(roundRanking)
+        for (stage: Stage? in league.stages!!) {
+            if (stage?.groups == null) break
+            if (stage.isRoundRobin()) {
+                for (group: Group? in stage.groups!!) {
+                    if (group?.pools == null) break
+                    for (pool: Pool? in group.pools!!) {
+                        if (pool?.rankings == null) break
+                        var positionPool = roundRanking.positionPools!!.find { it!!.position == pool.position }
+                        if (positionPool == null) {
+                            positionPool = PositionPool(pool.position)
+                            roundRanking.positionPools = roundRanking.positionPools!!.plus(positionPool)
+                        }
+                        positionPool.pools = positionPool.pools!!.plus(pool.copyPool())
+                    }
+                }
+                var standingCount = league.standingCount?.plus(1)
+                for (positionPool: PositionPool? in roundRanking.positionPools!!) {
+                    if (positionPool?.pools == null) break
+                    val rankingList = positionPool.getRankingList()
+                    positionPool.pools = sortRankings(rankingList, standingCount!!)
+                    standingCount += rankingList!!.size
+                }
+                roundRanking.processed = roundRanking.positionPools!!.isNotEmpty()
+            }
+            if (stage.isKnockout() && isTopLeague) {
+                processLeagueFinalRankings(tournament, campaign, league, stage)
+            }
+        }
+    }
+
+    private fun processLeagueFinalRankings(tournament: Tournament?, campaign: Campaign?, league: League?, stage: Stage?) {
+        if (tournament == null || campaign == null || league == null || stage?.rounds == null) return
+
+        val finalRoundRanking = campaign.roundRankings!!.find { it!!.name == FINAL }
+        val finalPositionPool = PositionPool()
+        finalRoundRanking!!.positionPools = finalRoundRanking.positionPools!!.plus(finalPositionPool)
+        
+        val thirdPlaceRoundRanking = campaign.roundRankings!!.find { it!!.name == THIRD_PLACE }
+        val thirdPlacePositionPool = PositionPool()
+        thirdPlaceRoundRanking!!.positionPools = thirdPlaceRoundRanking.positionPools!!.plus(thirdPlacePositionPool)
+
+        for (round: Round? in stage.rounds!!) {
+            if (round?.matches == null) break
+            when (round.name) {
+                SEMI_FINALS -> {
+                    val topLeagueRoundRanking = campaign.roundRankings!!.find { it!!.name == league.name }
+                    val topLeagueFirstPositionPool = topLeagueRoundRanking!!.positionPools!!.find { it!!.position == 1 }
+                    val knockoutRankingList = executeKnockoutRound(tournament, topLeagueFirstPositionPool!!.getRankingList(), round)
+                    val eliminatedRankingList: List<Ranking?>? = knockoutRankingList!!.eliminated
+                    val advancedRankingList: List<Ranking?>? = knockoutRankingList.advanced
+                    thirdPlacePositionPool.pools = createPoolList(eliminatedRankingList)
+                    finalPositionPool.pools = createPoolList(advancedRankingList)
+                    topLeagueRoundRanking.positionPools = topLeagueRoundRanking.positionPools!!.filter { it!!.position != 1 }
+                }
+                THIRD_PLACE -> {
+                    val knockoutRankingList = executeKnockoutRound(tournament, thirdPlacePositionPool.getRankingList(), round)
+                    val eliminatedRankingList: List<Ranking?>? = knockoutRankingList!!.eliminated
+                    val advancedRankingList: List<Ranking?>? = knockoutRankingList.advanced
+                    thirdPlacePositionPool.pools = createPoolList(advancedRankingList!!.plus(eliminatedRankingList!!.toTypedArray()))
+                    copyPoolPosition(thirdPlaceRoundRanking)
+                    thirdPlaceRoundRanking.processed = true
+                }
+                FINAL -> {
+                    val knockoutRankingList = executeKnockoutRound(tournament, finalPositionPool.getRankingList(), round)
+                    val eliminatedRankingList: List<Ranking?>? = knockoutRankingList!!.eliminated
+                    val advancedRankingList: List<Ranking?>? = knockoutRankingList.advanced
+                    finalPositionPool.pools = createPoolList(advancedRankingList!!.plus(eliminatedRankingList!!.toTypedArray()))
+                    copyPoolPosition(finalRoundRanking)
+                    finalPositionPool.hidePositionPoolDivider = true
+                    finalRoundRanking.processed = true
+                }
+                else -> {}
+            }
+        }
     }
 
     fun renderNumber(context: Context?, field: Int?, textView: TextView, gdField: Boolean = false) {

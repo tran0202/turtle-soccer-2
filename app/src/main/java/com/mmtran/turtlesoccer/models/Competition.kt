@@ -60,6 +60,7 @@ class Competition: Serializable {
     var timeStamp: String? = null
 
     var tournamentList: List<Tournament?>? = emptyList()
+    var pools: List<Pool?>? = emptyList()
 
     constructor()
     constructor(id: String?, name: String?, color: String?, teamTypeId: String?,

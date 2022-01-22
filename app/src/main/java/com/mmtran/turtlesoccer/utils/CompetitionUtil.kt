@@ -27,6 +27,8 @@ object CompetitionUtil {
 
         competition.tournamentList = competition.tournamentList!!.reversed()
         processTournamentList(competition.tournamentList!!)
+
+        processCompetitionRankings(competition, competition.tournamentList!!, nationList, teamList)
     }
 
     private fun getChampion(competition: Competition?, nationList: List<Nation?>?, teamList: List<Team?>?) {
@@ -110,6 +112,87 @@ object CompetitionUtil {
             }
             previousTournament = tournamentList[i]!!
         }
+    }
+
+    private fun processCompetitionRankings(competition: Competition?, tournamentList: List<Tournament?>?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+
+        if (competition == null || tournamentList.isNullOrEmpty()) return
+
+        var rankingList: List<Ranking?>? = emptyList()
+        for (tournament: Tournament? in tournamentList) {
+
+            if (tournament == null) continue
+            val campaign = tournament.getFinalTournament() ?: continue
+            if (campaign.multipleLeagues!! && campaign.leagues != null) {
+                for (league: League? in campaign.leagues!!) {
+                    if (league?.stages == null) break
+                    for (stage: Stage? in league.stages!!) {
+                        if (stage?.groups == null) break
+                        for (group: Group? in stage.groups!!) {
+                            if (group?.matchdays == null) break
+                            for (matchday: Matchday? in group.matchdays!!) {
+                                if (matchday?.matches == null) break
+                                rankingList = accumulateMatchesRankings(tournament, rankingList, matchday.matches, nationList, teamList)
+                            }
+                        }
+                    }
+                }
+            }
+            if (!campaign.multipleLeagues!! && campaign.stages != null) {
+                for (stage: Stage? in campaign.stages!!) {
+                    if (stage == null) break
+                    if (stage.isRoundRobin()) {
+                        if (stage.groups == null) break
+                        for (group: Group? in stage.groups!!) {
+                            if (!stage.multipleMatchdays!!) {
+                                if (group?.matches == null) break
+                                rankingList = accumulateMatchesRankings(tournament, rankingList, group.matches, nationList, teamList)
+                            } else {
+                                if (group?.matchdays == null) break
+                                for (matchday: Matchday? in group.matchdays!!) {
+                                    if (matchday?.matches == null) break
+                                    rankingList = accumulateMatchesRankings(tournament, rankingList, matchday.matches, nationList, teamList)
+                                }
+                            }
+                        }
+                    }
+                    if (stage.isKnockout()) {
+                        if (stage.rounds == null) break
+                        for (round: Round? in stage.rounds!!) {
+                            if (round?.matches == null) break
+                            rankingList = accumulateMatchesRankings(tournament, rankingList, round.matches, nationList, teamList)
+                        }
+                    }
+                }
+            }
+        }
+        competition.pools = RankingUtil.sortRankings(rankingList, 1)
+    }
+
+    private fun accumulateMatchesRankings(tournament: Tournament?, rankings: List<Ranking?>?,
+                                          matches: List<Match?>?, nationList: List<Nation?>?, teamList: List<Team?>?): List<Ranking?>? {
+
+        if (tournament == null || matches.isNullOrEmpty()) return rankings
+
+        var rankingList = rankings
+        for (match: Match? in matches) {
+            if (match == null || !match.isMatchValidScore()) continue
+            MatchUtil.processMatch(match, nationList, teamList)
+            val homeTeam = if (match.homeTeam!!.parentTeam == null) match.homeTeam else match.homeTeam!!.parentTeam
+            val awayTeam = if (match.awayTeam!!.parentTeam == null) match.awayTeam else match.awayTeam!!.parentTeam
+            var homeRanking = rankingList!!.find { it!!.team!!.name.equals(homeTeam!!.name) }
+            var awayRanking = rankingList.find { it!!.team!!.name.equals(awayTeam!!.name) }
+            if (homeRanking == null) {
+                homeRanking = RankingUtil.newRanking(homeTeam)
+                rankingList = rankingList.plus(homeRanking)
+            }
+            if (awayRanking == null) {
+                awayRanking = RankingUtil.newRanking(awayTeam)
+                rankingList = rankingList.plus(awayRanking)
+            }
+            RankingUtil.accumulateRankings(tournament, 3, homeRanking, awayRanking, match)
+        }
+        return rankingList
     }
 
     fun renderTeamCount(competition: Competition?): String {

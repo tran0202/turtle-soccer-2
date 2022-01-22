@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.mmtran.turtlesoccer.adapters.PoolsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentCompAllTimeStandingsBinding
 import com.mmtran.turtlesoccer.models.CompAllTimeStandingsViewModel
 import com.mmtran.turtlesoccer.models.Competition
@@ -16,6 +19,7 @@ class CompAllTimeStandingsFragment(comp: Competition?) : Fragment() {
     private var competition: Competition? = comp
 
     private var binding: FragmentCompAllTimeStandingsBinding? = null
+    private var poolsAdapter: PoolsAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,14 +37,10 @@ class CompAllTimeStandingsFragment(comp: Competition?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        compAllTimeStandingsViewModel!!.competition.observe(
-            viewLifecycleOwner,
-            { _: Competition? ->
-                competitionObserver()
-            })
-    }
-
-    private fun competitionObserver() {
+        val recyclerView: RecyclerView = binding!!.poolList
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
+        poolsAdapter = PoolsAdapter(requireContext(), competition!!.pools!!)
+        recyclerView.adapter = poolsAdapter
 
     }
 

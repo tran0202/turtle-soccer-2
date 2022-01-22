@@ -32,7 +32,7 @@
 
             <TableRow>
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/round_rankings_list"
+                    android:id="@+id/round_ranking_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </TableRow>

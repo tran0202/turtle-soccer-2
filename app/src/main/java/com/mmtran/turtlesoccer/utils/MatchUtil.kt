@@ -55,7 +55,18 @@ object MatchUtil {
                     }
                 }
                 if (stage.isKnockout()) {
-                    campaign.stages = campaign.stages!!.plus(Stage(stage.name!!, stage.type!!))
+                    val stage1 = Stage(stage.name!!, stage.type!!)
+                    campaign.stages = campaign.stages!!.plus(stage1)
+                    for (round: Round? in stage.rounds!!) {
+                        if (round?.matches == null) break
+                        for (match: Match? in round.matches!!) {
+                            processMatch(match, nationList, teamList)
+                        }
+                        stage1.rounds = stage1.rounds!!.plus(round)
+                        val path = Path("", true)
+                        round.paths = round.paths!!.plus(path)
+                        path.matchdayList = createMatchdayList(round.matches, "")
+                    }
                 }
             }
         }
@@ -177,34 +188,16 @@ object MatchUtil {
         }
     }
 
-    private fun processMatch(match: Match?, nationList: List<Nation?>?, teamList: List<Team?>?) {
+    fun processMatch(match: Match?, nationList: List<Nation?>?, teamList: List<Team?>?) {
 
         if (match == null) return
 
-        var team = TeamUtil.getTeam(match.homeTeam?.id, nationList, teamList)
-        if (team != null) {
-            match.homeTeam = team
-        }
-        team = TeamUtil.getTeam(match.awayTeam?.id, nationList, teamList)
-        if (team != null) {
-            match.awayTeam = team
-        }
-        team = TeamUtil.getTeam(match.leg2HomeTeam?.id, nationList, teamList)
-        if (team != null) {
-            match.leg2HomeTeam = team
-        }
-        team = TeamUtil.getTeam(match.leg2AwayTeam?.id, nationList, teamList)
-        if (team != null) {
-            match.leg2AwayTeam = team
-        }
-        team = TeamUtil.getTeam(match.replayHomeTeam?.id, nationList, teamList)
-        if (team != null) {
-            match.replayHomeTeam = team
-        }
-        team = TeamUtil.getTeam(match.replayAwayTeam?.id, nationList, teamList)
-        if (team != null) {
-            match.replayAwayTeam = team
-        }
+        match.homeTeam = TeamUtil.processTeam(match.homeTeam, nationList, teamList)
+        match.awayTeam = TeamUtil.processTeam(match.awayTeam, nationList, teamList)
+        match.leg2HomeTeam = TeamUtil.processTeam(match.leg2HomeTeam, nationList, teamList)
+        match.leg2AwayTeam = TeamUtil.processTeam(match.leg2AwayTeam, nationList, teamList)
+        match.replayHomeTeam = TeamUtil.processTeam(match.replayHomeTeam, nationList, teamList)
+        match.replayAwayTeam = TeamUtil.processTeam(match.replayAwayTeam, nationList, teamList)
     }
 
     private fun createMatchdayList(matches: List<Match?>?, leagueName: String?): List<Matchday?>? {

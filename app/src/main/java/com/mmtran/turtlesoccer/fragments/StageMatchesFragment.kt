@@ -37,7 +37,7 @@ class StageMatchesFragment(stage: Stage? = Stage()) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding!!.roundMatchesList
+        val recyclerView: RecyclerView = binding!!.roundMatchList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
         roundMatchesAdapter = RoundMatchesAdapter(requireContext(), _stage!!.rounds!!)
         recyclerView.adapter = roundMatchesAdapter

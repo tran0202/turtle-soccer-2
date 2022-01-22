@@ -28,6 +28,7 @@ class PositionPoolsAdapter(context: Context?, positionPoolList: List<PositionPoo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val positionPool: PositionPool = _positionPoolList[position]!!
+        holder.positionPoolDividerView.visibility = if (positionPool.hidePositionPoolDivider!!) View.GONE else View.VISIBLE
 
         val recyclerView: RecyclerView = holder.poolListRecyclerView
         recyclerView.layoutManager = GridLayoutManager(_context, 1)
@@ -43,6 +44,7 @@ class PositionPoolsAdapter(context: Context?, positionPoolList: List<PositionPoo
         View.OnClickListener {
 
         val root: View = binding.root
+        val positionPoolDividerView: View = binding.positionPoolDivider
         var poolListRecyclerView: RecyclerView = binding.poolList
 
         override fun onClick(view: View) {

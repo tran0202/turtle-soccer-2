@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mmtran.turtlesoccer.adapters.RoundMatchesAdapter
 import com.mmtran.turtlesoccer.adapters.RoundRankingsAdapter
 import com.mmtran.turtlesoccer.databinding.FragmentTourFinalStandingsBinding
 import com.mmtran.turtlesoccer.models.*
@@ -37,7 +36,7 @@ class TourFinalStandingsFragment(tour: Tournament?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = binding!!.roundRankingsList
+        val recyclerView: RecyclerView = binding!!.roundRankingList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
         roundRankingsAdapter = RoundRankingsAdapter(requireContext(), tournament!!.currentCampaign!!.roundRankings!!)
         recyclerView.adapter = roundRankingsAdapter
