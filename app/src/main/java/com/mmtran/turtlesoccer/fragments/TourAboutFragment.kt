@@ -48,7 +48,9 @@ class TourAboutFragment(tour: Tournament?) : Fragment(), CampaignsAdapter.ItemCl
 
         firebaseStorageLoader = FirebaseStorageLoader(requireContext())
 
-        firebaseStorageLoader!!.loadImage(activity, binding!!.tournamentLogo, tournament!!.tournamentLogo())
+        if (tournament!!.tournamentLogo().isNotEmpty()) {
+            firebaseStorageLoader!!.loadImage(activity, binding!!.tournamentLogo, tournament!!.tournamentLogo())
+        }
 
         binding!!.tournamentName.text = tournament!!.tournamentName()
 
@@ -191,51 +193,51 @@ class TourAboutFragment(tour: Tournament?) : Fragment(), CampaignsAdapter.ItemCl
         CommonUtil.renderLabelField(context, finalAttendance, binding!!.finalAttendance, R.string.final_attendance_label)
 
         val topScorerLabels = TournamentUtil.getTopScorerLabels(tournament!!)
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentGoldenBoot()!!, binding!!.goldenBoot, topScorerLabels[0], topScorerLabels[1])
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentSilverBoot()!!, binding!!.silverBoot, topScorerLabels[2], topScorerLabels[3])
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentBronzeBoot()!!, binding!!.bronzeBoot, topScorerLabels[4], topScorerLabels[5])
-        if (tournament!!.tournamentGoldenBoot()!!.isEmpty()) {
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentGoldenBoot(), binding!!.goldenBoot, topScorerLabels[0], topScorerLabels[1])
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentSilverBoot(), binding!!.silverBoot, topScorerLabels[2], topScorerLabels[3])
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentBronzeBoot(), binding!!.bronzeBoot, topScorerLabels[4], topScorerLabels[5])
+        if (tournament!!.tournamentGoldenBoot()?.isEmpty() == true) {
             binding!!.bronzeBootDivider.visibility = View.GONE
         }
 
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentFinalTopScorer()!!, binding!!.finalTopScorer,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentFinalTopScorer(), binding!!.finalTopScorer,
             R.string.final_top_scorer_label, R.string.final_top_scorers_label)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentFinalTopScorer()!!, binding!!.finalTopScorerDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentFinalTopScorer(), binding!!.finalTopScorerDivider)
 
-        CommonUtil.renderGoldenBall(context, tournament!!.tournamentGoldenBall()!!, TournamentUtil.getGoldenBallLabel(tournament!!),
+        CommonUtil.renderGoldenBall(context, tournament!!.tournamentGoldenBall(), TournamentUtil.getGoldenBallLabel(tournament!!),
             binding!!.goldenBall, binding!!.silverBall, binding!!.bronzeBall)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentGoldenBall()!!, binding!!.goldenBallDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentGoldenBall(), binding!!.goldenBallDivider)
 
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentFinalBestPlayer()!!, binding!!.finalBestPlayer,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentFinalBestPlayer(), binding!!.finalBestPlayer,
             R.string.final_best_player_label, R.string.final_best_players_label)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentFinalBestPlayer()!!, binding!!.finalBestPlayerDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentFinalBestPlayer(), binding!!.finalBestPlayerDivider)
 
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentBestYoungPlayer()!!, binding!!.bestYoungPlayer,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentBestYoungPlayer(), binding!!.bestYoungPlayer,
             R.string.best_young_player_label, R.string.best_young_players_label)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentBestYoungPlayer()!!, binding!!.bestYoungPlayerDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentBestYoungPlayer(), binding!!.bestYoungPlayerDivider)
 
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentFinalBestYoungPlayer()!!, binding!!.finalBestYoungPlayer,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentFinalBestYoungPlayer(), binding!!.finalBestYoungPlayer,
             R.string.final_best_young_player_label, R.string.final_best_young_players_label)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentFinalBestYoungPlayer()!!, binding!!.finalBestYoungPlayerDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentFinalBestYoungPlayer(), binding!!.finalBestYoungPlayerDivider)
 
         val goldenGloveLabels = TournamentUtil.getGoldenGloveLabel(tournament!!)
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentGoldenGlove()!!, binding!!.goldenGlove,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentGoldenGlove(), binding!!.goldenGlove,
             goldenGloveLabels[0], goldenGloveLabels[1])
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentGoldenGlove()!!, binding!!.goldenGloveDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentGoldenGlove(), binding!!.goldenGloveDivider)
 
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentBestForward()!!, binding!!.bestForward,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentBestForward(), binding!!.bestForward,
             R.string.best_forward_label, R.string.best_forwards_label)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentBestForward()!!, binding!!.bestForwardDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentBestForward(), binding!!.bestForwardDivider)
 
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentMidfielder()!!, binding!!.bestMidfielder,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentMidfielder(), binding!!.bestMidfielder,
             R.string.best_midfielder_label, R.string.best_midfielders_label)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentMidfielder()!!, binding!!.bestMidfielderDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentMidfielder(), binding!!.bestMidfielderDivider)
 
-        CommonUtil.renderPlayerList(context, tournament!!.tournamentBestDefender()!!, binding!!.bestDefender,
+        CommonUtil.renderPlayerList(context, tournament!!.tournamentBestDefender(), binding!!.bestDefender,
             R.string.best_defender_label, R.string.best_defenders_label)
-        CommonUtil.renderPlayerDivider(tournament!!.tournamentBestDefender()!!, binding!!.bestDefenderDivider)
+        CommonUtil.renderPlayerDivider(tournament!!.tournamentBestDefender(), binding!!.bestDefenderDivider)
 
-        CommonUtil.renderTeamList(context, tournament!!.tournamentFairPlayTeam()!!, binding!!.fairPlay,
+        CommonUtil.renderTeamList(context, tournament!!.tournamentFairPlayTeam(), binding!!.fairPlay,
             R.string.fair_play_label, R.string.fair_play_label)
     }
 

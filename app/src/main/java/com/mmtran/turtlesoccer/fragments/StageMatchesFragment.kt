@@ -16,7 +16,7 @@ import com.mmtran.turtlesoccer.models.StageViewModel
 class StageMatchesFragment(stage: Stage? = Stage()) : Fragment() {
 
     private var stageViewModel: StageViewModel? = null
-    private var _stage: Stage? = stage
+    private var _stage: Stage? = stage ?: Stage()
 
     private var binding: FragmentStageMatchesBinding? = null
     private var roundMatchesAdapter: RoundMatchesAdapter? = null
@@ -27,7 +27,7 @@ class StageMatchesFragment(stage: Stage? = Stage()) : Fragment() {
     ): View {
 
         stageViewModel = ViewModelProvider(this).get(modelClass = StageViewModel::class.java)
-        stageViewModel!!.setStage( if (_stage != null) _stage!! else Stage())
+        stageViewModel!!.setStage(_stage!!)
 
         binding = FragmentStageMatchesBinding.inflate(inflater, container, false)
 

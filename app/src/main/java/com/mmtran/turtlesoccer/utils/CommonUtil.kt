@@ -347,15 +347,17 @@ object CommonUtil {
 
     fun renderDate(unformatted: String?): String? {
 
+        if (unformatted == null || unformatted.isEmpty()) return null
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val outputFormat = SimpleDateFormat("EEEE, MMMM d, yyyy", Locale.US)
-        val date: Date? = inputFormat.parse(unformatted!!)
+        val date: Date? = inputFormat.parse(unformatted)
 
         return outputFormat.format(date!!)
     }
 
     fun renderShortDate(unformatted: String?): String? {
 
+        if (unformatted == null || unformatted.isEmpty()) return null
         val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val outputFormat = SimpleDateFormat("MMM d", Locale.US)
         val date: Date? = inputFormat.parse(unformatted!!)

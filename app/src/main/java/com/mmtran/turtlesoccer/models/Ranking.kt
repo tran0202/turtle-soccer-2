@@ -5,6 +5,7 @@ import java.io.Serializable
 const val FINAL = "Final"
 const val THIRD_PLACE = "Third-place"
 const val SEMI_FINALS = "Semi-finals"
+const val FINAL_ROUND = "Final Round"
 
 class RoundRanking: Serializable {
 
@@ -23,7 +24,7 @@ class RoundRanking: Serializable {
     }
 
     fun showRoundRankingName(): Boolean {
-        return processed!! && name != FINAL && name != THIRD_PLACE
+        return processed!! && name != FINAL && name != THIRD_PLACE && name != FINAL_ROUND
     }
 }
 

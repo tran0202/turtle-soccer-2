@@ -924,6 +924,7 @@ class Campaign: Serializable {
     }
 
     fun getRoundRobinStages(): List<Stage?> {
-        return stages!!.filter { it!!.isRoundRobin() }
+        if (stages.isNullOrEmpty()) return emptyList()
+        return stages!!.filter { it != null && it.isRoundRobin() }
     }
 }

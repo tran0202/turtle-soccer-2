@@ -46,7 +46,8 @@ class CompetitionsFragment : Fragment(), CompetitionsAdapter.ItemClickListener {
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        competition = if (arguments != null) arguments!!.getSerializable(EXTRA_COMPETITION) as Competition else null
+        competition = if (arguments != null && arguments!!.getSerializable(EXTRA_COMPETITION) != null)
+            arguments!!.getSerializable(EXTRA_COMPETITION) as Competition else null
 
         binding = FragmentCompetitionsBinding.inflate(inflater, container, false)
 

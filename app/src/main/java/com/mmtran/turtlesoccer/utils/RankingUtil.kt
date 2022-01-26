@@ -47,7 +47,8 @@ object RankingUtil {
     }
 
     fun accumulateRankings(tournament: Tournament?, pointsForWin: Int?, homeRanking: Ranking?, awayRanking: Ranking?, match: Match?) {
-        if (tournament == null || pointsForWin == null || homeRanking == null || awayRanking == null || match == null) return
+        if (tournament == null || pointsForWin == null || homeRanking == null || awayRanking == null
+            || match?.homeScore() == null || match.awayScore() == null) return
 
         homeRanking.mp = homeRanking.mp?.plus(1)
         awayRanking.mp = awayRanking.mp?.plus(1)
@@ -177,8 +178,31 @@ object RankingUtil {
     private fun processRoundRobinRankings(tournament: Tournament?, campaign: Campaign?, stage: Stage?) {
         if (tournament == null || campaign?.roundRankings == null || stage?.groups == null) return
 
+        if (stage.championshipRound!!) {
+            processChampionshipRoundRankings(tournament, campaign, stage)
+            return
+        }
         eliminateRoundRobinRankings(tournament, campaign, stage)
         advanceRoundRobinRankings(tournament, campaign, stage)
+    }
+
+    private fun processChampionshipRoundRankings(tournament: Tournament?, campaign: Campaign?, stage: Stage?) {
+        if (tournament == null || campaign?.roundRankings == null || stage?.groups == null) return
+
+        val roundRanking = initRoundRankings(campaign, stage.name)
+        val poolList = stage.groups!![0]!!.pools
+        roundRanking.positionPools!![0]!!.pools = poolList
+        sortRoundRankings(tournament, roundRanking, roundRanking.positionPools!![0]!!.getRankingList(), stage.eliminateCount)
+        highlightChampionshipRoundRankings(roundRanking.positionPools!![0]?.pools!!)
+        roundRanking.positionPools!![0]!!.hidePositionPoolDivider = true
+    }
+
+    fun highlightChampionshipRoundRankings(poolList: List<Pool?>?) {
+        if (poolList == null) return
+        for (pool: Pool? in poolList) {
+            if (pool == null) break
+            pool.highlighted = true
+        }
     }
 
     private fun eliminateRoundRobinRankings(tournament: Tournament?, campaign: Campaign?, stage: Stage?) {
@@ -368,7 +392,7 @@ object RankingUtil {
         val finalRoundRanking = campaign.roundRankings!!.find { it!!.name == FINAL }
         val finalPositionPool = PositionPool()
         finalRoundRanking!!.positionPools = finalRoundRanking.positionPools!!.plus(finalPositionPool)
-        
+
         val thirdPlaceRoundRanking = campaign.roundRankings!!.find { it!!.name == THIRD_PLACE }
         val thirdPlacePositionPool = PositionPool()
         thirdPlaceRoundRanking!!.positionPools = thirdPlaceRoundRanking.positionPools!!.plus(thirdPlacePositionPool)

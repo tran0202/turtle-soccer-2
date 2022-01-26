@@ -106,7 +106,7 @@ object MatchUtil {
         if (!stage.multipleMatchdays!!) {
             var matches: List<Match?>? = emptyList()
             for (group: Group? in stage.groups!!) {
-                if (group == null) break
+                if (group?.matches == null) break
                 RankingUtil.initGroupRankings(group, nationList, teamList)
                 group.hideGroupName = stage.hideGroupName()
                 for (match: Match? in group.matches!!) {
@@ -117,6 +117,9 @@ object MatchUtil {
                     RankingUtil.accumulateGroupRankings(tournament, group, match)
                 }
                 RankingUtil.sortGroupRankings(tournament, group)
+                if (stage.championshipRound!!) {
+                    RankingUtil.highlightChampionshipRoundRankings(group.pools)
+                }
             }
             stage.rounds = emptyList()
             stage.rounds = stage.rounds!!.plus(Round("", true))
@@ -387,7 +390,13 @@ object MatchUtil {
     fun renderGroupName(match: Match?, binding: FragmentMatchBinding) {
 
         if (match == null) return
-        renderField(match.groupName, binding.groupName)
+
+        if (match.groupName == "Final Round") {
+            binding.groupName.visibility = View.GONE
+        } else {
+            binding.groupName.visibility = View.VISIBLE
+            renderField(match.groupName, binding.groupName)
+        }
     }
 
     fun renderLeg1City(match: Match?, binding: FragmentMatchBinding) {

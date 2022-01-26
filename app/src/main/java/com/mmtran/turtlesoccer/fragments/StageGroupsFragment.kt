@@ -16,7 +16,7 @@ import com.mmtran.turtlesoccer.models.StageViewModel
 class StageGroupsFragment(stage: Stage? = Stage()) : Fragment() {
 
     private var stageViewModel: StageViewModel? = null
-    private var _stage: Stage? = stage
+    private var _stage: Stage? = stage ?: Stage()
 
     private var binding: FragmentStageGroupsBinding? = null
     private var groupsAdapter: GroupsAdapter? = null
@@ -27,7 +27,7 @@ class StageGroupsFragment(stage: Stage? = Stage()) : Fragment() {
     ): View {
 
         stageViewModel = ViewModelProvider(this).get(modelClass = StageViewModel::class.java)
-        stageViewModel!!.setStage( if (_stage != null) _stage!! else Stage())
+        stageViewModel!!.setStage(_stage!!)
 
         binding = FragmentStageGroupsBinding.inflate(inflater, container, false)
 
@@ -39,7 +39,7 @@ class StageGroupsFragment(stage: Stage? = Stage()) : Fragment() {
 
         val recyclerView: RecyclerView = binding!!.groupList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-        groupsAdapter = GroupsAdapter(requireContext(), _stage!!.groups!!)
+        groupsAdapter = GroupsAdapter(requireContext(), if (_stage!!.groups != null) _stage!!.groups!! else emptyList())
         recyclerView.adapter = groupsAdapter
     }
 
