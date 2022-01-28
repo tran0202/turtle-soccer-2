@@ -60,7 +60,14 @@ class PoolsAdapter(context: Context?, poolList: List<Pool?>) :
                     view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.silver))
                 }
             }
-            3 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.bronze))
+            3 -> {
+                if (pool.advancement!!.auto != null && pool.advancement!!.auto!!.any { it == 3 }) {
+                    view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.advanced_next_round_striped))
+                }
+                if (pool.highlighted!!) {
+                    view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.bronze))
+                }
+            }
             4 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.sky_blue))
             else -> {}
         }

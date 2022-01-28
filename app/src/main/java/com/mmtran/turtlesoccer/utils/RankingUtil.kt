@@ -288,6 +288,7 @@ object RankingUtil {
             when (round.name) {
                 FINAL, FINAL_PLAYOFF -> {
                     copyPoolPosition(roundRanking)
+                    processSpecialRoundRankings(tournament, roundRanking)
                     roundRanking.positionPools!![0]!!.hidePositionPoolDivider = true
                     roundRanking.processed = true
                 }
@@ -358,6 +359,19 @@ object RankingUtil {
             pool.position = if (pool.rankings.isNullOrEmpty()) null else pool.rankings!![0]!!.position
             pool.highlighted = true
         }
+    }
+
+    private fun processSpecialRoundRankings(tournament: Tournament?, roundRanking: RoundRanking?) {
+        if (tournament == null || roundRanking?.positionPools == null || roundRanking.positionPools!!.isEmpty()
+            || roundRanking.positionPools!![0]?.pools == null) return
+
+        if (tournament.id == "COPA1922") {
+            val poolList = roundRanking.positionPools!![0]?.pools
+            val uruguayPool = poolList!!.find { it!!.rankings!![0]!!.team!!.id == "URU" }
+            uruguayPool!!.position = 3
+            roundRanking.positionPools!![0]?.pools = poolList.sortedBy { pool -> pool!!.position }
+        }
+        return
     }
 
     private fun processLeagueRankings(tournament: Tournament?, campaign: Campaign?, league: League?) {
