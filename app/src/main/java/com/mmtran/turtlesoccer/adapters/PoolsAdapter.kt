@@ -41,10 +41,25 @@ class PoolsAdapter(context: Context?, poolList: List<Pool?>) :
         recyclerView.adapter = rankingsAdapter
     }
 
-    private fun setRankingBackground(view: View, pool: Pool) {
+    private fun setRankingBackground(view: View, pool: Pool?) {
+        if (pool == null) return
         when (pool.position) {
-            1 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.gold))
-            2 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.silver))
+            1 -> {
+                if (pool.advancement!!.auto != null && pool.advancement!!.auto!!.any { it == 1 }) {
+                    view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.advanced_next_round_striped))
+                }
+                if (pool.highlighted!!) {
+                    view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.gold))
+                }
+            }
+            2 -> {
+                if (pool.advancement!!.auto != null && pool.advancement!!.auto!!.any { it == 2 }) {
+                    view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.advanced_next_round_striped))
+                }
+                if (pool.highlighted!!) {
+                    view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.silver))
+                }
+            }
             3 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.bronze))
             4 -> if (pool.highlighted!!) view.setBackgroundColor(ContextCompat.getColor(_context!!, R.color.sky_blue))
             else -> {}

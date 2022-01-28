@@ -28,7 +28,7 @@ class RoundMatchesAdapter(context: Context?, roundList: List<Round?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val round: Round = _roundList[position]!!
+        val round: Round = _roundList[position] ?: return
         holder.roundNameTextView.visibility = if (round.hideRoundName!!) View.GONE else View.VISIBLE
         holder.roundNameTextView.text = round.name
 

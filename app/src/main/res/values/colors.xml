@@ -30,4 +30,15 @@
     <color name="unl_leagueB">#ac16e1</color>
     <color name="unl_leagueC">#009e4d</color>
     <color name="unl_leagueD">#f39205</color>
+    <color name="advanced_next_round_striped">#e3fae3</color>
+    <color name="advanced_wild_card_striped">#bbf3ff</color>
+    <color name="advanced_wild_card_extra_striped">#ffffbb</color>
+    <color name="advanced_playoff_striped">#bbf3ff</color>
+    <color name="advanced_third_place_striped">#bbf3ff</color>
+    <color name="transferred_striped">#bbf3ff</color>
+    <color name="qualification_winner_striped">#bbf3bb</color>
+    <color name="promotion_striped">#bbf3bb</color>
+    <color name="relegation_striped">#ffe2e2</color>
+    <color name="gray_striped">#eaecf0</color>
+    <color name="light_blue_striped">#eaf4ff</color>
 </resources>

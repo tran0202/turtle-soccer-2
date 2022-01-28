@@ -28,7 +28,7 @@ class GroupsAdapter(context: Context?, groupList: List<Group?>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val group: Group = _groupList[position]!!
+        val group: Group = _groupList[position] ?: return
         holder.groupNameTextView.visibility = if (group.hideGroupName!!) View.GONE else View.VISIBLE
         holder.groupNameTextView.text = group.name
 

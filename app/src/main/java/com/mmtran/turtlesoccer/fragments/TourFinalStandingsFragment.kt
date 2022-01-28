@@ -36,9 +36,11 @@ class TourFinalStandingsFragment(tour: Tournament?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val currentCampaign = tournament!!.currentCampaign ?: return
+
         val recyclerView: RecyclerView = binding!!.roundRankingList
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-        roundRankingsAdapter = RoundRankingsAdapter(requireContext(), tournament!!.currentCampaign!!.roundRankings!!)
+        roundRankingsAdapter = RoundRankingsAdapter(requireContext(), currentCampaign.roundRankings!!)
         recyclerView.adapter = roundRankingsAdapter
     }
 

@@ -6,6 +6,7 @@ const val FINAL = "Final"
 const val THIRD_PLACE = "Third-place"
 const val SEMI_FINALS = "Semi-finals"
 const val FINAL_ROUND = "Final Round"
+const val FINAL_PLAYOFF = "Final Playoff"
 
 class RoundRanking: Serializable {
 
@@ -24,7 +25,7 @@ class RoundRanking: Serializable {
     }
 
     fun showRoundRankingName(): Boolean {
-        return processed!! && name != FINAL && name != THIRD_PLACE && name != FINAL_ROUND
+        return processed!! && name != FINAL && name != THIRD_PLACE && name != FINAL_ROUND && name != FINAL_PLAYOFF
     }
 }
 
@@ -60,6 +61,7 @@ class Pool: Serializable {
     var pts: Int? = null
     var rankings: List<Ranking?>? = emptyList()
     var highlighted: Boolean? = false
+    var advancement: Advancement? = Advancement()
 
     constructor()
     constructor(gf: Int?, ga: Int?, pts: Int?, rankings: List<Ranking?>?) {

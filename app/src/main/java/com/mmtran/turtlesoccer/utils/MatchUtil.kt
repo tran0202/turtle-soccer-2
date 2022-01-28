@@ -118,7 +118,7 @@ object MatchUtil {
                 }
                 RankingUtil.sortGroupRankings(tournament, group)
                 if (stage.championshipRound!!) {
-                    RankingUtil.highlightChampionshipRoundRankings(group.pools)
+                    RankingUtil.highlightRoundRankings(group.pools)
                 }
             }
             stage.rounds = emptyList()
@@ -170,6 +170,7 @@ object MatchUtil {
         for (round: Round? in stage.rounds!!) {
             if (round == null) break
             if (!round.multiplePaths!!) {
+                if (round.matches == null) break
                 for (match: Match? in round.matches!!) {
                     if (match == null) break
                     processMatch(match, nationList, teamList)

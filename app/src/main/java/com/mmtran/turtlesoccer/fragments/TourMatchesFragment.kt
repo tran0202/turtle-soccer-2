@@ -37,14 +37,16 @@ class TourMatchesFragment(tour: Tournament?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val currentCampaign = tournament!!.currentCampaign ?: return
+
         val stageMatchesViewPager: ViewPager2 = binding!!.stageMatchesViewPager
         val stageMatchesPagerAdapter: StageMatchesPagerAdapter = StageMatchesPagerAdapter.newInstance(childFragmentManager, lifecycle)
-        stageMatchesPagerAdapter.setCampaign(tournament!!.currentCampaign!!)
+        stageMatchesPagerAdapter.setCampaign(currentCampaign)
         stageMatchesViewPager.adapter = stageMatchesPagerAdapter
 
         TabLayoutMediator(binding!!.stageTabLayout, stageMatchesViewPager) {
                 tab: TabLayout.Tab, position: Int ->
-            tab.text = if (tournament!!.currentCampaign!!.stages!![position] != null) tournament!!.currentCampaign!!.stages!![position]!!.name else ""
+            tab.text = if (currentCampaign.stages!![position] != null) currentCampaign.stages!![position]!!.name else ""
         }.attach()
     }
 

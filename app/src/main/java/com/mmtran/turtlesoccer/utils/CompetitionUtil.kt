@@ -176,8 +176,8 @@ object CompetitionUtil {
 
         var rankingList = rankings
         for (match: Match? in matches) {
-            if (match?.homeTeam == null || match.awayTeam == null || !match.isMatchValidScore()) continue
             MatchUtil.processMatch(match, nationList, teamList)
+            if (match?.homeTeam == null || match.awayTeam == null || !match.isMatchValidScore()) continue
             val homeTeam = if (match.homeTeam!!.parentTeam == null) match.homeTeam else match.homeTeam!!.parentTeam
             val awayTeam = if (match.awayTeam!!.parentTeam == null) match.awayTeam else match.awayTeam!!.parentTeam
             var homeRanking = rankingList!!.find { it!!.team!!.name.equals(homeTeam!!.name) }

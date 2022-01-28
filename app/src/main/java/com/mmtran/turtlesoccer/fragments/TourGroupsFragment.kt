@@ -40,7 +40,8 @@ class TourGroupsFragment(tour: Tournament?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val currentCampaign: Campaign = tournament!!.currentCampaign!!
+        val currentCampaign = tournament!!.currentCampaign ?: return
+
         val roundRobinStages = if (!currentCampaign.multipleLeagues!!) currentCampaign.getRoundRobinStages() else currentCampaign.leagueStages!!
         if (roundRobinStages.isEmpty()) return
         if (roundRobinStages.size == 1) {
